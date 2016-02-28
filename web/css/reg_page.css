@@ -1,0 +1,21 @@
+table{
+    padding:1%;
+}
+table th,td{
+    padding: 5px;
+}
+table th{
+    text-align: left;
+}
+input[type=text],
+input[type=password],
+select
+{
+    width: 100%;
+    border-radius: 5px;
+}
+input[type=submit]
+{
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+}

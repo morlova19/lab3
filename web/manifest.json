@@ -1,0 +1,9 @@
+{
+  "name": "Task manager",
+  "icons": [{
+    "src": "images/icon.png",
+    "sizes": "100x100",
+    "type": "image/png"
+  }],
+  "gcm_sender_id": "116026171976"
+}
