@@ -8,8 +8,7 @@ import utils.TransferObject;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TaskDAO {
     private static DataSource ds = DAOFactory.getDataSource();
@@ -87,10 +86,13 @@ public class TaskDAO {
             stat.executeUpdate();
 
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         finally {
             try {
-                conn.close();
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -150,8 +152,7 @@ public class TaskDAO {
         }
         return tasks;
     }
-    public static Task getTask(int empid, int t_id) {
-
+    public Task getTask(int empid, int t_id) {
         Task task = null;
         Connection conn = null;
         ResultSet rs = null;
@@ -185,7 +186,7 @@ public class TaskDAO {
         }
         return task;
     }
-    public static Subtask getSubtask(int empid, int t_id,int stid) {
+    public Subtask getSubtask(int t_id,int stid) {
 
         Subtask task = null;
         Connection conn = null;
@@ -194,10 +195,9 @@ public class TaskDAO {
             conn = ds.getConnection();
 
             PreparedStatement stat = conn.prepareStatement("SELECT ST_ID,NAME,COMPLETED,STDESC,STDATE,CONTACTS FROM SUBTASK " +
-                    "WHERE EMPID = ? AND T_ID=? AND ST_ID=? ");
-            stat.setInt(1,empid);
-            stat.setInt(2,t_id);
-            stat.setInt(3,stid);
+                    "WHERE  T_ID=? AND ST_ID=? ");
+            stat.setInt(1,t_id);
+            stat.setInt(2,stid);
             rs = stat.executeQuery();
             while (rs.next())
             {
@@ -377,5 +377,126 @@ public class TaskDAO {
             }
         }
         return task;
+    }
+    public static void copmleteTask(int empid,int taskid) {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET COMPLETED=TRUE WHERE EMPID = ? AND T_ID=?");
+            stat.setInt(1,empid);
+            stat.setInt(2,taskid);
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    public static void copmleteSubtask(int taskid,int subtaskid) {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE SUBTASK SET COMPLETED=TRUE WHERE ST_ID = ? AND T_ID=?");
+            stat.setInt(1,subtaskid);
+            stat.setInt(2,taskid);
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    public static void delayTask(int empid,int taskid, java.util.Date date) {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET TDATE=? WHERE EMPID = ? AND T_ID=?");
+            Timestamp timestamp = new Timestamp(date.getTime());
+            stat.setTimestamp(1,timestamp);
+            stat.setInt(2,empid);
+            stat.setInt(3,taskid);
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    public static void delaySubtask(int taskid,int subtaskid, java.util.Date date) {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE SUBTASK SET STDATE=? WHERE ST_ID = ? AND T_ID=?");
+            Timestamp timestamp = new Timestamp(date.getTime());
+            stat.setTimestamp(1,timestamp);
+            stat.setInt(2,subtaskid);
+            stat.setInt(3,taskid);
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    public String getTaskName(int empid, int taskid){
+        String name = "";
+        Connection conn = null;
+        ResultSet rs = null;
+        try {
+            conn = ds.getConnection();
+
+            PreparedStatement stat = conn.prepareStatement("SELECT NAME FROM TASK " +
+                    "WHERE EMPID = ? AND T_ID=? ");
+            stat.setInt(1,empid);
+            stat.setInt(2,taskid);
+            rs = stat.executeQuery();
+            rs.next();
+            name= rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return name;
+        }
+        finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+                return name;
+            } catch (SQLException e) {
+               e.printStackTrace();
+            }
+        }
+        return name;
+
     }
 }

@@ -7,6 +7,7 @@ import utils.EncryptionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,24 +49,10 @@ public class LoginServlet extends HttpServlet{
         if(EmpDAO.login(login,encrypted_pass) /*login.equals("qwerty")*/)
         {
             Employee emp = EmpDAO.getEmp(login);
-           /* Employee emp = new Employee(login);
-            emp.setID(1);
-            Employee emp1 = new Employee("qwerty2");
-            emp1.setID(2);
-            emp1.setFname("Ivan");
-            emp1.setLname("Ivanov");
-
-            Employee emp2 = new Employee("qwerty1");
-            emp2.setID(3);
-            emp2.setFname("Ivan");
-            emp2.setLname("Petrov");
-            List<Employee> emps = new ArrayList<>();
-            emps.add(emp1);
-            emps.add(emp2);
-            emp.setEmps(emps);*/
             req.getSession().setAttribute("emp",emp);
+            Cookie username = new Cookie("username", String.valueOf(emp.getID()));
+            resp.addCookie(username);
             req.getSession().setAttribute("username",emp.getID());
-            //req.getSession().setAttribute("userid",EmpDAO.getEmp_ID(login));
             resp.sendRedirect("my/tasks.jsp?type=cur");
         }
         else {

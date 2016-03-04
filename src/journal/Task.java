@@ -4,13 +4,17 @@ import utils.TransferObject;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * A task that will be executed at a specified time.
  * The task has 4 parameters such as name, description, date of execution, contacts.
  */
-public class Task implements Serializable{
+public class Task implements Serializable {
     /**
      * Name of the task.
      */
@@ -34,7 +38,8 @@ public class Task implements Serializable{
 
     private Boolean completed;
 
-    private List<Subtask> subtasks;
+
+    private Map<Integer,Subtask> subtasks_map;
     /**
      * Creates a task with the given parameters.
      * @param data object that contains parameters of the task.
@@ -46,7 +51,8 @@ public class Task implements Serializable{
         this.date = data.getDate();
         this.contacts = data.getContacts();
         this.completed = data.getCompleted();
-        subtasks = TaskDAO.getSubtasks(ID);
+        subtasks_map = new HashMap<>();
+        setSubtasks(TaskDAO.getSubtasks(ID));
     }
     /**
      * Gets name of the task.
@@ -66,14 +72,14 @@ public class Task implements Serializable{
      *  Gets date of execution of the task.
      * @return date of execution.
      */
-    public  Date getDate() {
+    public Date getDate() {
         return date;
     }
     /**
      * Gets contacts.
      * @return contacts.
      */
-    public  String getContacts() {
+    public String getContacts() {
         return contacts;
     }
     /**
@@ -100,7 +106,7 @@ public class Task implements Serializable{
     }
 
     @Override
-    public  String toString() {
+    public String toString() {
         StringBuilder s = new StringBuilder();
         s.append("NAME: ")
                 .append(this.name)
@@ -112,7 +118,7 @@ public class Task implements Serializable{
     }
 
     public List<Subtask> getSubtasks() {
-        return subtasks;
+        return subtasks_map.values().stream().collect(Collectors.toList());
     }
 
     public void setCompleted(Boolean completed) {
@@ -124,7 +130,10 @@ public class Task implements Serializable{
     }
 
     public void setSubtasks(List<Subtask> subtasks) {
-        this.subtasks = subtasks;
+        if(!subtasks_map.isEmpty()) {
+            subtasks_map.clear();
+        }
+        subtasks.stream().forEach(subtask -> subtasks_map.put(subtask.getID(),subtask));
     }
 
     public void setName(String name) {
@@ -139,4 +148,7 @@ public class Task implements Serializable{
         this.contacts = contacts;
     }
 
+    public Map<Integer, Subtask> getSubtasks_map() {
+        return subtasks_map;
+    }
 }

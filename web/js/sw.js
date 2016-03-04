@@ -4,7 +4,9 @@ registration.pushManager.getSubscription()
     .then(function(subscription) {
         SOME_API_ENDPOINT += subscription.endpoint;
     });
-;
+var empid = -1;
+var taskid = -1;
+var subtaskid = -1;
 self.addEventListener('push', function(event) {
     event.waitUntil(
         fetch(SOME_API_ENDPOINT).then(function(response) {
@@ -26,10 +28,15 @@ self.addEventListener('push', function(event) {
 
                 var title = data.name;
                 var message = data.description;
-
+                var data1 = {
+                    empid: data.empid,
+                    taskid : data.taskid,
+                    subtaskid : data.subtaskid,
+                };
                 return self.registration.showNotification(title, {
                     body: message,
-                    icon: 'images/icon.png'
+                    icon: 'http://localhost:8081/lab3_war_exploded/images/icon.png',
+                    data:data1
                 });
             });
         }).catch(function(err) {
@@ -39,12 +46,45 @@ self.addEventListener('push', function(event) {
             var notificationTag = 'notification-error';
             return self.registration.showNotification(title, {
                 body: message,
-                icon: icon,
-                tag: notificationTag
+                icon: icon
             });
         })
     );
 });
 self.addEventListener('notificationclick', function(event) {
-
+    console.log("ffffff", event.notification);
+    console.log('Notification click: tag ', event.notification.tag);
+    event.notification.close();
+    var empid = event.notification.data.empid;
+    var taskid = event.notification.data.taskid;
+    var subtaskid = event.notification.data.subtaskid;
+    var url;
+    if(empid==-1 && taskid==-1 && subtaskid==-1)
+    {
+        url ='http://localhost:8081/lab3_war_exploded/start.jsp';
+    }
+    else {
+        if (subtaskid == -1) {
+            url = 'http://localhost:8081/lab3_war_exploded/complete_task.jsp?empid=' + empid + '&taskid=' + taskid;
+        }
+        else {
+            url = 'http://localhost:8081/lab3_war_exploded/complete_subtask.jsp?empid=' + empid + '&taskid=' + taskid + '&stid=' + subtaskid;
+        }
+    }
+    event.waitUntil(
+        clients.matchAll({
+                type: 'window'
+            })
+            .then(function(windowClients) {
+                for (var i = 0; i < windowClients.length; i++) {
+                    var client = windowClients[i];
+                    if (client.url === url && 'focus' in client) {
+                        return client.focus();
+                    }
+                }
+                if (clients.openWindow) {
+                    return clients.openWindow(url);
+                }
+            })
+    );
 });

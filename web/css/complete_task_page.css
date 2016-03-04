@@ -1,0 +1,31 @@
+input[type=text],textarea{
+    width: 100%;
+
+}
+
+table th{
+    text-align: left;
+}
+table td:last-child{
+    text-align: right;
+}
+input[type=submit]{
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+#emp-table{
+    float: left;
+    width: 30%;
+    padding-top: 0;
+    height: 100%;
+}
+#task-table{
+    margin-left: 30%;
+    height: 100%;
+}
+label{
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

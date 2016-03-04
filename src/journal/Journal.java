@@ -1,43 +1,31 @@
 package journal;
 
-
 import utils.TransferObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Part of taskmgr.
  */
 public class Journal implements Serializable {
-    /**
-     * List of current tasks.
-     */
-    private List<Task> tasks = new CopyOnWriteArrayList<>();
-    /**
-     * List of completed tasks.
-     */
+
+    private Map<Integer,Task> tasks_map = new HashMap<>();
 
     public Task getTask(int id) {
 
-        for(Task t: tasks) {
-            if(t.getID() == id) {
-                return t;
-            }
-        }
-       return null;
+       return tasks_map.get(id);
     }
     /**
      * Adds task in list.
      * @param newTask new task.
      */
     public void addTask(Task newTask) {
-        if(tasks != null) {
-            tasks.add(newTask);
+        if(tasks_map != null) {
+            tasks_map.put(newTask.getID(),newTask);
         }
     }
     /**
@@ -45,14 +33,7 @@ public class Journal implements Serializable {
      * @param id identifier of task that will be deleted.
      */
     public void deleteTask(int id) {
-        for(Task t: tasks)
-        {
-            if(t.getID() == id)
-            {
-                tasks.remove(t);
-                return;
-            }
-        }
+        tasks_map.remove(id);
     }
     /**
      * Delays task.
@@ -60,11 +41,7 @@ public class Journal implements Serializable {
      * @param newDate new date of task.
      */
     public void delayTask(int id, Date newDate) {
-       /* Task t = currentTasks
-                .stream()
-                .filter(task -> task.getID() == id)
-                .findFirst().get();
-        t.setDate(newDate);*/
+        tasks_map.get(id).setDate(newDate);
     }
 
     /**
@@ -73,16 +50,8 @@ public class Journal implements Serializable {
      * @param task completed task.
      */
     public void setCompleted(Task task) {
-        for(Task t: tasks)
-        {
-            if(t.getID() == task.getID())
-            {
-                t.setCompleted(true);
-                return;
-            }
-        }
-        /*currentTasks.remove(task);
-        completedTasks.add(task);*/
+
+        tasks_map.get(task.getID()).setCompleted(true);
     }
 
     /**
@@ -90,21 +59,20 @@ public class Journal implements Serializable {
      * @return current tasks.
      */
     public List<Task> getCurrentTasks() {
-        CopyOnWriteArrayList<Task> list = new CopyOnWriteArrayList<Task>();
-        if(!tasks.isEmpty()) {
-            tasks.stream().forEach(task -> {
-                if(task!=null) {
-                    if (!task.getCompleted()) {
-                        list.add(task);
-                    }
-                }
-            });
+        if(!tasks_map.isEmpty()) {
+            return tasks_map.values().stream().filter(task -> !task.getCompleted()).collect(Collectors.toList());
         }
-        return list;
+
+        return new ArrayList<>();
     }
 
     public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+        if(!tasks_map.isEmpty())
+        {
+            tasks_map.clear();
+        }
+        tasks.stream().forEach(task -> tasks_map.put(task.getID(),task));
+        //this.tasks = tasks;
     }
 
     /**
@@ -119,111 +87,82 @@ public class Journal implements Serializable {
      * @return completed tasks.
      */
     public List<Task> getCompletedTasks() {
-        CopyOnWriteArrayList<Task> list = new CopyOnWriteArrayList<Task>();
-        tasks.stream().forEach(task -> {
-            if (task.getCompleted()) {
-                list.add(task);
-            }
-        });
-        return list;
+        if(!tasks_map.isEmpty()) {
+            return tasks_map.values().stream().filter(Task::getCompleted).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
-    /**
-     * Sets list of completed tasks.
-     * @param completedTasks completed tasks.
-     */
-   /* public void setCompletedTasks(CopyOnWriteArrayList<Task> completedTasks) {
-       this.completedTasks = completedTasks;
 
-    }*/
 
     /**
      * Checks if there are among the current problems already completed tasks.
      * If finds such tasks, makes them completed.
      */
     public void reload() {
-        if(!tasks.isEmpty())
+        if(!tasks_map.isEmpty())
         {
-            for (Task t: tasks)
-            {
+            tasks_map.values().stream().forEach(t -> {
                 long delta = t.getDate().getTime() - Calendar.getInstance().getTimeInMillis();
                 if(delta <= 0) {
                     t.setCompleted(true);
                 }
-            }
+            });
+
 
         }
     }
     public List<Task> getTasks()
     {
-        return tasks;
+        return  tasks_map.values().stream().collect(Collectors.toList());
     }
 
 
     public void addSubtask(int t_id, Subtask stask) {
-        Task t = getTask(t_id);
+
+        Task t = tasks_map.get(t_id);
         if(t != null)
         {
-          t.getSubtasks().add(stask);
+            t.getSubtasks_map().put(stask.getID(),stask);
+         // t.getSubtasks().add(stask);
         }
     }
 
 
     public void deleteSubtask(Integer t_id, Integer st_id) {
-        Task t = getTask(t_id);
+
+        Task t = tasks_map.get(t_id);
         if(t != null)
         {
-            List<Subtask> list = t.getSubtasks();
-            if(list != null){
-                for(Subtask st: list)
-                {
-                    if(st.getID() == st_id)
-                    {
-                        list.remove(st);
-                        return;
-                    }
-                }
-            }
+            t.getSubtasks_map().remove(st_id);
+
         }
     }
 
     public List getCurrentSubtasks(Integer t_id) {
 
-        Task task = getTask(t_id);
+        Task task = tasks_map.get(t_id);
 
         List<Subtask> list = null;
         if(task != null)
         {
-            list = new ArrayList<>();
-
-            final List<Subtask> finalList = list;
-            task.getSubtasks().stream().forEach(task1 -> {
-                if (!task1.getCompleted()) {
-                    finalList.add(task1);
-                }
-            });
+            return task.getSubtasks().stream().filter(subtask -> !subtask.getCompleted()).collect(Collectors.toList());
 
         }
-        return list;
+        return new CopyOnWriteArrayList<>();
     }
 
 
     public List getCompletedSubtasks(Integer t_id) {
-        Task task = getTask(t_id);
 
-        List<Subtask> list = null;
+        Task task = tasks_map.get(t_id);
+
         if(task != null)
         {
-            list = new ArrayList<>();
+            return task.getSubtasks().stream().filter(Subtask::getCompleted).collect(Collectors.toList());
 
-            final List<Subtask> finalList = list;
-            task.getSubtasks().stream().forEach(task1 -> {
-                if (task1.getCompleted()) {
-                    finalList.add(task1);
-                }
-            });
 
         }
-        return list;
+        return new CopyOnWriteArrayList<>();
     }
 
 
@@ -245,64 +184,68 @@ public class Journal implements Serializable {
     }
 
     public void updateTask(int t_id, TransferObject to) {
-        tasks.stream().forEach(task -> {
-            if(task.getID() == t_id)
-            {
-                task.setName(to.getName());
-                task.setDate(to.getDate());
-                task.setDescription(to.getDescription());
-                task.setContacts(to.getContacts());
-            }
-        });
+        Task task = tasks_map.get(t_id);
+        if(!task.getName().equals(to.getName())){
+            task.setName(to.getName());
+        }
+        if(task.getDate().compareTo(to.getDate())!=0){
+            task.setDate(to.getDate());
+        }
+        if(!task.getDescription().equals(to.getDescription())){
+            task.setDescription(to.getDescription());
+        }
+        if(!task.getContacts().equals(to.getContacts())){
+            task.setContacts(to.getContacts());
+        }
+       tasks_map.replace(t_id,task);
+
 
     }
 
 
     public void updateSubtask(int t_id, int st_id, TransferObject to) {
-        Task t = getTask(t_id);
+
+        Task t = tasks_map.get(t_id);
 
         if(t != null){
-            t.getSubtasks().stream().forEach(subtask -> {
-                if(subtask.getID() == st_id)
-                {
-                    subtask.setName(to.getName());
-                    subtask.setDate(to.getDate());
-                    subtask.setDescription(to.getDescription());
-                    subtask.setContacts(to.getContacts());
-                }
-            });
+          Subtask task=  t.getSubtasks_map().get(st_id);
+            if(!task.getName().equals(to.getName())){
+                task.setName(to.getName());
+            }
+            if(task.getDate().compareTo(to.getDate())!=0){
+                task.setDate(to.getDate());
+            }
+            if(!task.getDescription().equals(to.getDescription())){
+                task.setDescription(to.getDescription());
+            }
+            if(!task.getContacts().equals(to.getContacts())){
+                task.setContacts(to.getContacts());
+            }
+            t.getSubtasks_map().replace(st_id,task);
+
         }
     }
-    public Subtask getSubtask(int t_id,int st_id){
-        Task t = getTask(t_id);
+    public Subtask getSubtask(int t_id, int st_id){
+
+        Task t = tasks_map.get(t_id);
 
         if(t != null){
-           List<Subtask> list = t.getSubtasks();
-            if(list != null)
-            {
-                for(Subtask st: list){
-                    if(st.getID()==st_id)
-                    {
-                        return st;
-                    }
-                }
-            }
+            return t.getSubtasks_map().get(st_id);
+
         }
         return null;
     }
 
     public List searchTasks(String param) {
         List<Task> t = null;
-        if(tasks != null && !tasks.isEmpty())
+        if(tasks_map != null && !tasks_map.isEmpty())
         {
-            t = new ArrayList<>();
-            for(Task task:tasks){
-                if (task.getName().toLowerCase().contains(param.toLowerCase())){
-                    t.add(task);
-                }
-            }
-            return t;
+            return tasks_map.values().stream().filter(task -> task.getName().toLowerCase().contains(param.toLowerCase())).collect(Collectors.toList());
         }
         return null;
+    }
+
+    public Map<Integer, Task> getTasks_map() {
+        return tasks_map;
     }
 }

@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <th>Contacts</th>
-            <td><textarea name="desc" rows="7"></textarea></td>
+            <td><textarea name="contacts" rows="7" ></textarea></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="OK"/></td>

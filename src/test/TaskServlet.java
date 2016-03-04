@@ -1,6 +1,7 @@
 package test;
 
 
+import DAO.TaskDAO;
 import emp.Employee;
 import jm.JournalManager;
 import journal.Subtask;
@@ -17,13 +18,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@WebServlet(urlPatterns = {"/my/newtask","/my/deletetask","/my/newsubtask","/my/deletesubtask","/my/savetask","/my/savesubtask"})
+@WebServlet(urlPatterns = {"/my/newtask","/my/deletetask",
+        "/my/newsubtask","/my/deletesubtask",
+        "/my/savetask","/my/savesubtask","/completetask","/completesubtask"})
 public class TaskServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
-
+        System.out.println(path);
         switch (path){
             case "/my/deletetask":
                 deleteTask(req,resp);
@@ -43,9 +46,59 @@ public class TaskServlet extends HttpServlet{
             case "/my/savesubtask":
                 saveSubtask(req,resp);
                 break;
+            case "/completetask":
+                completeTask(req,resp);
+                break;
+            case "/completesubtask":
+                completeSubtask(req,resp);
+                break;
         }
 
     }
+
+    private void completeSubtask(HttpServletRequest req, HttpServletResponse resp) {
+        Integer taskid = Integer.parseInt(req.getParameter("taskid"));
+        Integer subtaskid = Integer.parseInt(req.getParameter("subtaskid"));
+        String action = req.getParameter("action").toLowerCase();
+        if(action.equals("delay"))
+        {
+            String date = req.getParameter("newdate");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            try {
+                TaskDAO.delaySubtask(taskid,subtaskid,sdf.parse(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(action.equals("finish"))
+        {
+            TaskDAO.copmleteSubtask(taskid,subtaskid);
+        }
+    }
+
+    private void completeTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer empid = Integer.parseInt(req.getParameter("empid"));
+        Integer taskid = Integer.parseInt(req.getParameter("taskid"));
+        String action = req.getParameter("action").toLowerCase();
+        if(action.equals("delay"))
+        {
+            String date = req.getParameter("newdate");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            try {
+                TaskDAO.delayTask(empid,taskid,sdf.parse(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(action.equals("finish"))
+        {
+            TaskDAO.copmleteTask(empid,taskid);
+        }
+
+
+
+    }
+
     private void newTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
         JournalManager jm = emp.getJournalManager();

@@ -298,13 +298,6 @@ public class EmpDAO {
                     }
                 } while (rs.next());
             }
-          /*  while(rs.next())
-            {
-               if(!rs.getString(1).equalsIgnoreCase(login)){
-                   isUnique = true;
-               }
-            }*/
-
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -374,5 +367,37 @@ public class EmpDAO {
             }
         }
         return emp;
+    }
+
+    public String getEmpName(int empid){
+        Connection conn = null;
+        ResultSet rs = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("SELECT FNAME ||' '|| LNAME FROM EMP WHERE EMPID=?");
+            st.setInt(1,empid);
+
+            rs = st.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+            else {
+                return "";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "";
+        }
+        finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
