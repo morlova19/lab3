@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet{
         String login = req.getParameter("username");
         String encrypted_pass = EncryptionUtil.encrypt(pass);
 
-        if(EmpDAO.login(login,encrypted_pass) /*login.equals("qwerty")*/)
+        if(EmpDAO.login(login,encrypted_pass))
         {
             Employee emp = EmpDAO.getEmp(login);
             req.getSession().setAttribute("emp",emp);

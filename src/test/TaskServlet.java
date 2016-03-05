@@ -56,7 +56,7 @@ public class TaskServlet extends HttpServlet{
 
     }
 
-    private void completeSubtask(HttpServletRequest req, HttpServletResponse resp) {
+    private void completeSubtask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("taskid"));
         Integer subtaskid = Integer.parseInt(req.getParameter("subtaskid"));
         String action = req.getParameter("action").toLowerCase();
@@ -65,14 +65,36 @@ public class TaskServlet extends HttpServlet{
             String date = req.getParameter("newdate");
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
             try {
-                TaskDAO.delaySubtask(taskid,subtaskid,sdf.parse(date));
+                Date parse_date = sdf.parse(date);
+                TaskDAO.delaySubtask(taskid,subtaskid, parse_date);
+
+                if(req.getSession().getAttribute("emp") != null)
+                {
+                    Employee emp = (Employee) req.getSession().getAttribute("emp");
+                    JournalManager jm = emp.getJournalManager();
+                    jm.delaySubtask(taskid, subtaskid,parse_date);
+                    resp.sendRedirect("my/tasks.jsp?type=cur");
+                }
+                else {
+                    resp.sendRedirect("start.jsp");
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
         else if(action.equals("finish"))
         {
-            TaskDAO.copmleteSubtask(taskid,subtaskid);
+            TaskDAO.completeSubtask(taskid,subtaskid);
+            if(req.getSession().getAttribute("emp") != null)
+            {
+                Employee emp = (Employee) req.getSession().getAttribute("emp");
+                JournalManager jm = emp.getJournalManager();
+                jm.completeSubtask(taskid,subtaskid);
+                resp.sendRedirect("my/tasks.jsp?type=cur");
+            }
+            else {
+                resp.sendRedirect("start.jsp");
+            }
         }
     }
 
@@ -80,25 +102,47 @@ public class TaskServlet extends HttpServlet{
         Integer empid = Integer.parseInt(req.getParameter("empid"));
         Integer taskid = Integer.parseInt(req.getParameter("taskid"));
         String action = req.getParameter("action").toLowerCase();
+
+
         if(action.equals("delay"))
         {
             String date = req.getParameter("newdate");
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
             try {
                 TaskDAO.delayTask(empid,taskid,sdf.parse(date));
+                if(req.getSession().getAttribute("emp") != null)
+                {
+                    Employee emp = (Employee) req.getSession().getAttribute("emp");
+                    JournalManager jm = emp.getJournalManager();
+                    jm.delay(taskid,sdf.parse(date));
+                    resp.sendRedirect("my/tasks.jsp?type=cur");
+                }
+                else {
+                    resp.sendRedirect("start.jsp");
+                }
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+
         }
         else if(action.equals("finish"))
         {
-            TaskDAO.copmleteTask(empid,taskid);
+            TaskDAO.completeTask(empid,taskid);
+            if(req.getSession().getAttribute("emp") != null)
+            {
+                Employee emp = (Employee) req.getSession().getAttribute("emp");
+                JournalManager jm = emp.getJournalManager();
+                jm.complete(taskid);
+                resp.sendRedirect("my/tasks.jsp?type=cur");
+            }
+            else {
+                resp.sendRedirect("start.jsp");
+            }
         }
 
-
-
     }
-
     private void newTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
         JournalManager jm = emp.getJournalManager();
@@ -116,8 +160,7 @@ public class TaskServlet extends HttpServlet{
         to.setContacts(req.getParameter("contacts"));
         jm.add(new Task(to));
         resp.sendRedirect("tasks.jsp?type=cur");
-        //resp.sendRedirect("success.jsp?ttype=Task" );
-      //  resp.sendRedirect(req.getHeader("referer"));
+
     }
     private void saveTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");

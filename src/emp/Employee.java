@@ -16,16 +16,9 @@ public class Employee implements Serializable{
     private JournalManager journalManager;
     private List<Employee> emps;
 
-   /* public Employee(String login) {
-        this.login = login;
-        journalManager = new JournalManager(login);
-        emps = new ArrayList<>();
-       // emps = EmpDAO.getEmps(ID);
-    }*/
     public Employee(int id) {
         this.ID = id;
         journalManager = new JournalManager(ID);
-       // emps = new ArrayList<>();
          emps = EmpDAO.getEmps(ID);
     }
 
@@ -49,6 +42,7 @@ public class Employee implements Serializable{
     {
         return fname + " " + lname;
     }
+
     public String getEmpName(int id)
     {
         if(emps != null && !emps.isEmpty())
@@ -64,13 +58,7 @@ public class Employee implements Serializable{
     public Employee getEmp(int id){
         if(emps != null && !emps.isEmpty())
         {
-            for(Employee e: emps)
-            {
-                if(e.getID()==id){
-                    return e;
-                }
-            }
-            //emps.stream().filter(employee -> employee.getID()==id).findFirst().get();
+            return emps.stream().filter(employee -> employee.getID()==id).findFirst().get();
         }
         return null;
     }

@@ -168,12 +168,16 @@ public class Journal implements Serializable {
 
 
     public void completeSubtask(Integer t_id, Integer st_id)  {
-
+        Task t = tasks_map.get(t_id);
+        if(t != null)
+        {
+            t.getSubtasks().get(st_id).setCompleted(true);
+        }
     }
 
 
     public List getSubtasks(Integer t_id) {
-        Task task = getTask(t_id);
+        Task task  = tasks_map.get(t_id);
 
         if(task != null)
         {
@@ -247,5 +251,15 @@ public class Journal implements Serializable {
 
     public Map<Integer, Task> getTasks_map() {
         return tasks_map;
+    }
+
+    public void delaySubtask(int taskid, int stid, Date newDate) {
+        Task t = tasks_map.get(taskid);
+
+        if(t != null){
+             t.getSubtasks_map().get(stid).setDate(newDate);
+
+        }
+
     }
 }

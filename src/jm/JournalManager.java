@@ -15,7 +15,6 @@ import java.util.List;
  */
 
 public class JournalManager implements IJournalManager, Serializable {
-    private String login;
     private Integer emp_id;
     /**
      * Journal of tasks.
@@ -24,10 +23,6 @@ public class JournalManager implements IJournalManager, Serializable {
     /**
      * Creates journal manager and fills fields.
      */
-    public JournalManager(String user) {
-        this.login = user;
-        loadJournal();
-    }
     public JournalManager(Integer emp_id) {
         this.emp_id = emp_id;
         loadJournal();
@@ -88,6 +83,11 @@ public class JournalManager implements IJournalManager, Serializable {
     }
 
     @Override
+    public void delaySubtask(int taskid, int stid, Date newDate) {
+        journal.delaySubtask(taskid,stid,newDate);
+    }
+
+    @Override
     public List getCurrentSubtasks(Integer t_id) {
         return journal.getCurrentSubtasks(t_id);
     }
@@ -115,7 +115,7 @@ public class JournalManager implements IJournalManager, Serializable {
 
     public void complete(int id)  {
         journal.setCompleted(journal.getTask(id));
-        TaskDAO.updateTask(emp_id,journal.getTask(id));
+       // TaskDAO.updateTask(emp_id,journal.getTask(id));
     }
 
     /**

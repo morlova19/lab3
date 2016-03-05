@@ -1,12 +1,9 @@
 console.log('Started', self);
-var SOME_API_ENDPOINT = 'http://localhost:8081/lab3_war_exploded/PushServlet?endpoint='
+var SOME_API_ENDPOINT = 'http://localhost:8081/lab3_war_exploded/PushServlet?endpoint=';
 registration.pushManager.getSubscription()
     .then(function(subscription) {
         SOME_API_ENDPOINT += subscription.endpoint;
     });
-var empid = -1;
-var taskid = -1;
-var subtaskid = -1;
 self.addEventListener('push', function(event) {
     event.waitUntil(
         fetch(SOME_API_ENDPOINT).then(function(response) {
@@ -31,7 +28,7 @@ self.addEventListener('push', function(event) {
                 var data1 = {
                     empid: data.empid,
                     taskid : data.taskid,
-                    subtaskid : data.subtaskid,
+                    subtaskid : data.subtaskid
                 };
                 return self.registration.showNotification(title, {
                     body: message,
@@ -43,7 +40,6 @@ self.addEventListener('push', function(event) {
             var title = 'An error occurred';
             var message = 'We were unable to get the information for this push message';
             var icon = 'images/icon.png';
-            var notificationTag = 'notification-error';
             return self.registration.showNotification(title, {
                 body: message,
                 icon: icon
@@ -58,17 +54,17 @@ self.addEventListener('notificationclick', function(event) {
     var empid = event.notification.data.empid;
     var taskid = event.notification.data.taskid;
     var subtaskid = event.notification.data.subtaskid;
-    var url;
+    var url = 'http://localhost:8081/lab3_war_exploded/';
     if(empid==-1 && taskid==-1 && subtaskid==-1)
     {
-        url ='http://localhost:8081/lab3_war_exploded/start.jsp';
+        url += 'start.jsp';
     }
     else {
         if (subtaskid == -1) {
-            url = 'http://localhost:8081/lab3_war_exploded/complete_task.jsp?empid=' + empid + '&taskid=' + taskid;
+            url += 'complete_task.jsp?empid=' + empid + '&taskid=' + taskid;
         }
         else {
-            url = 'http://localhost:8081/lab3_war_exploded/complete_subtask.jsp?empid=' + empid + '&taskid=' + taskid + '&stid=' + subtaskid;
+            url += 'complete_subtask.jsp?empid=' + empid + '&taskid=' + taskid + '&stid=' + subtaskid;
         }
     }
     event.waitUntil(

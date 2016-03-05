@@ -15,9 +15,7 @@ public class EncryptionUtil {
             messageDigest.update(str.getBytes("UTF-8"));
             byte[] messageDigestMD5 = messageDigest.digest();
             encrypted_pass = Base64.getEncoder().encodeToString(messageDigestMD5);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return encrypted_pass;

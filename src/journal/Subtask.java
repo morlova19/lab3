@@ -29,7 +29,6 @@ public class Subtask {
 
     private boolean completed;
 
-
     /**
      * Creates a task with the given parameters.
      * @param data object that contains parameters of the task.
@@ -41,7 +40,7 @@ public class Subtask {
         this.date = data.getDate();
         this.contacts = data.getContacts();
         this.completed = data.getCompleted();
-        this.ID=data.getId();
+        this.ID = data.getId();
     }
     /**
      * Gets name of the task.
@@ -92,18 +91,6 @@ public class Subtask {
      */
     public  int getID() {
         return ID;
-    }
-
-    @Override
-    public synchronized String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append("NAME: ")
-                .append(this.name)
-                .append("\nDESCRIPTION: ")
-                .append(this.description)
-                .append("\nCONTACTS: ")
-                .append(this.contacts);
-        return s.toString();
     }
 
     public boolean getCompleted() {

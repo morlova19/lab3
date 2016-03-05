@@ -29,12 +29,8 @@ public class RegistrationServlet extends HttpServlet {
         emp.setJob(job);
 
         int empid = EmpDAO.checkEmp(emp);
-        System.out.println("+==================================");
-        System.out.println(empid);
-       // req.getSession().setAttribute("error",null);
         if (empid != -1) {
             boolean isUniqueLogin = EmpDAO.checkLogin(login);
-            System.out.println(isUniqueLogin);
             if(isUniqueLogin){
                 EmpDAO.registration(empid,login,EncryptionUtil.encrypt(pass));
                 resp.sendRedirect("start.jsp");

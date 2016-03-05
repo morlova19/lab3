@@ -14,10 +14,9 @@ import java.util.List;
 public class EmpDAO {
     private static DataSource ds = DAOFactory.getDataSource();
     public EmpDAO() {}
-
     public static boolean login(String login, String pass) {
         Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs ;
         boolean b = false;
         try {
             conn = ds.getConnection();
@@ -30,12 +29,7 @@ public class EmpDAO {
                 rs.next();
                 String l = rs.getString(1);
                 String p = rs.getString(2);
-                if(l.equals(login) && p.equals(pass)) {
-                    b= true;
-                }
-                else {
-                    b= false;
-                }
+                b = l.equals(login) && p.equals(pass);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,78 +49,9 @@ public class EmpDAO {
         }
 
     }
-    public static int getEmp_ID(String login) {
+    public static List<Employee> getEmps(Integer mgr_id) {
         Connection conn = null;
-        ResultSet rs = null;
-        try {
-            conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("SELECT EMPID FROM EMP WHERE LOGIN = ?)");
-            stat.setString(1,login);
-            rs = stat.executeQuery();
-            if( rs.next())
-            {
-                return rs.getInt(1);
-            }
-            else {
-                return -1;
-            }
-
-
-        } catch (SQLException e) {
-            return -1;
-        }
-        finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                return -1;
-            }
-        }
-    }
-
-    public static void registration(EmpTransferObject emp) {
-        Connection conn = null;
-        ResultSet rs = null;
-        try {
-            conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("SELECT EMPID FROM EMP WHERE FNAME=? AND LNAME=? AND JOB=? AND DEPTID=(SELECT DEPTID FROM DEPT WHERE DNAME=?)");
-            st.setString(1,emp.getFname());
-            st.setString(2,emp.getLname());
-            st.setString(3,emp.getJob());
-            st.setString(4,emp.getDept());
-            rs = st.executeQuery();
-            int emp_id = 0;
-            if(rs != null)
-            {
-                rs.next();
-                emp_id = rs.getInt(1);
-            }
-
-            st = conn.prepareStatement("UPDATE EMP SET LOGIN=?, PASS=? WHERE EMPID=?)");
-            st.setString(1,emp.getLogin());
-            st.setString(2,emp.getPass());
-            st.setInt(3,emp_id);
-
-            st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                conn.close();
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
-            }
-        }
-    }
-    public static List<Employee> getEmps(Integer mgr_id)
-    {
-        Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs;
        List<Employee> emps = null;
         try {
             conn = ds.getConnection();
@@ -161,7 +86,7 @@ public class EmpDAO {
     public  List<String> getDepts(){
         List<String> list = new ArrayList<>();
         Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             conn = ds.getConnection();
 
@@ -190,7 +115,7 @@ public class EmpDAO {
     public static List<String> getJobs(String dname){
         List<String> list = new ArrayList<>();
         Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             conn = ds.getConnection();
 
@@ -239,7 +164,9 @@ public class EmpDAO {
         }
         finally {
             try {
-                conn.close();
+                if (conn != null) {
+                    conn.close();
+                }
                 return list;
             } catch (SQLException e) {
                 return list;
@@ -248,7 +175,7 @@ public class EmpDAO {
     }
     public static int checkEmp(EmpTransferObject emp){
         Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT EMPID FROM EMP WHERE FNAME=? AND LNAME=? AND JOB=? AND DEPTID=(SELECT DEPTID FROM DEPT WHERE DNAME=?) AND LOGIN IS NULL");
@@ -281,7 +208,7 @@ public class EmpDAO {
     }
     public static boolean checkLogin(String login){
         Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs;
         boolean isUnique=false;
         try {
             conn = ds.getConnection();
@@ -330,7 +257,9 @@ public class EmpDAO {
         }
         finally {
             try {
-                conn.close();
+                if (conn != null) {
+                    conn.close();
+                }
 
             } catch (SQLException e) {
 
@@ -340,7 +269,7 @@ public class EmpDAO {
     }
     public static Employee getEmp(String login){
         Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs;
         Employee emp = null;
         try {
             conn = ds.getConnection();
@@ -360,7 +289,9 @@ public class EmpDAO {
         }
         finally {
             try {
-                conn.close();
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
 
@@ -368,10 +299,9 @@ public class EmpDAO {
         }
         return emp;
     }
-
     public String getEmpName(int empid){
         Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT FNAME ||' '|| LNAME FROM EMP WHERE EMPID=?");
