@@ -31,21 +31,13 @@ public class EmpDAO {
                 String p = rs.getString(2);
                 b = l.equals(login) && p.equals(pass);
             }
+            return b;
         } catch (SQLException e) {
             e.printStackTrace();
-            return b;
+            return false;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-                return b;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return b;
-
-            }
+           closeConnection(conn);
         }
 
     }
@@ -67,21 +59,15 @@ public class EmpDAO {
                 emps.add(emp);
                 //emp.setLogin(login);
             }
+            return emps;
         } catch (SQLException e) {
             e.printStackTrace();
             return emps;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            }
+            closeConnection(conn);
         }
-        return emps;
+
     }
     public  List<String> getDepts(){
         List<String> list = new ArrayList<>();
@@ -95,23 +81,16 @@ public class EmpDAO {
             while (rs.next()){
                 list.add(rs.getString(1));
             }
-
+            return list;
         } catch (SQLException e) {
             return list;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-
-                return list;
-            } catch (SQLException e) {
-
-                return list;
-            }
+            closeConnection(conn);
         }
     }
+
+
     public static List<String> getJobs(String dname){
         List<String> list = new ArrayList<>();
         Connection conn = null;
@@ -125,6 +104,7 @@ public class EmpDAO {
             while (rs.next()){
                 list.add(rs.getString(1));
             }
+            return list;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -132,16 +112,7 @@ public class EmpDAO {
             return list;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-
-                return list;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return list;
-            }
+           closeConnection(conn);
         }
     }
     public static List<String> getEmps(String dname, String job){
@@ -158,19 +129,14 @@ public class EmpDAO {
             while (rs.next()){
                 list.add(rs.getString(1));
             }
+            return list;
 
         } catch (SQLException e) {
             return list;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-                return list;
-            } catch (SQLException e) {
-                return list;
-            }
+           closeConnection(conn);
+
         }
     }
     public static int checkEmp(EmpTransferObject emp){
@@ -196,14 +162,7 @@ public class EmpDAO {
             return -1;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
     }
     public static boolean checkLogin(String login){
@@ -225,26 +184,19 @@ public class EmpDAO {
                     }
                 } while (rs.next());
             }
+            return isUnique;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return isUnique ;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-                return isUnique;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return isUnique;
-            }
+            closeConnection(conn);
+
         }
     }
     public static void registration(Integer empid,String login,String pass){
         Connection conn = null;
-        ResultSet rs = null;
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("UPDATE EMP SET LOGIN=?, PASS=? WHERE EMPID=?");
@@ -256,15 +208,7 @@ public class EmpDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
     }
     public static Employee getEmp(String login){
@@ -288,14 +232,7 @@ public class EmpDAO {
             return emp;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            }
+            closeConnection(conn);
         }
         return emp;
     }
@@ -320,14 +257,18 @@ public class EmpDAO {
             return "";
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
+            closeConnection(conn);
+        }
+    }
+    private static void closeConnection(Connection conn) {
+        try {
+            if (conn != null) {
+                conn.close();
             }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
         }
     }
 }

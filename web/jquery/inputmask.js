@@ -412,7 +412,7 @@
 						max: 1
 					};
 				}
-				//test definition => {fn: RegExp/function, cardinality: int, optionality: bool, newBlockMarker: bool, casing: null/upper/lower, def: definitionSymbol, placeholder: placeholder, mask: real maskDefinition}
+				//servlets definition => {fn: RegExp/function, cardinality: int, optionality: bool, newBlockMarker: bool, casing: null/upper/lower, def: definitionSymbol, placeholder: placeholder, mask: real maskDefinition}
 				function insertTestDefinition(mtoken, element, position) {
 					var maskdef = opts.definitions[element];
 					position = position !== undefined ? position : mtoken.matches.length;

@@ -13,15 +13,14 @@
 
 </head>
 <body>
-<c:out value="${cookie.username.value}"/>
 <c:if test="${!empty sessionScope.username}">
     <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="type" value="${param.type}"/>
-    <form style="margin: 0">
+    <form id="search-form">
         <div id="search-block">
-            <input type="text"  name="search" placeholder="Search tasks...">
+            <input type="text"  id='search-input' name="search" placeholder="Search my tasks...">
             <input type="submit" value="Search" />
-            <label>${emp.login} |</label>
+            <label>${emp.name} |</label>
             <a href="logout">Log out</a>
         </div>
     </form>
@@ -63,7 +62,7 @@
                 </div>
                 <div id="table-container">
                             <c:choose>
-                                <c:when test="${!empty search}">
+                                <c:when test="${!empty search.trim()}">
                                     <c:set var="tasks" value="${emp.journalManager.searchTasks(search)}"/>
                                     <c:choose>
                                         <c:when test="${empty tasks}">

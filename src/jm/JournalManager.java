@@ -115,9 +115,7 @@ public class JournalManager implements IJournalManager, Serializable {
 
     public void complete(int id)  {
         journal.setCompleted(journal.getTask(id));
-       // TaskDAO.updateTask(emp_id,journal.getTask(id));
     }
-
     /**
      * Reads journal.
      * @return journal.

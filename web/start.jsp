@@ -23,7 +23,7 @@
             <td id="pass-error" class="error" hidden>Please enter password</td>
         </tr>
         <tr>
-            <c:if test="${!empty param.username  && param.username == 'error'}" scope="session" var="q">
+            <c:if test="${!empty cookie.username.value  && cookie.username.value == 'error'}" scope="session" var="q">
                 <td class="error" colspan="2">
                     <c:out value="Incorrect login or password"/>
                 </td>

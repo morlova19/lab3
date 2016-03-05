@@ -1,4 +1,4 @@
-package test;
+package servlets;
 
 import DAO.TaskDAO;
 import com.google.gson.Gson;

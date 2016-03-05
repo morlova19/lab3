@@ -14,7 +14,7 @@ public class RegIdDAO {
 
     public static void addRegId(String regId,int emp_id){
         Connection conn = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             conn = ds.getConnection();
             PreparedStatement stat = conn.prepareStatement("SELECT id,registration_id,empid FROM registration_id WHERE registration_id=?");
@@ -37,16 +37,21 @@ public class RegIdDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
         finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            }
+            closeConnection(conn);
         }
 
+    }
+
+    private static void closeConnection(Connection conn) {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
     }
 }

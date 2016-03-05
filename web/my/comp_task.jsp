@@ -42,7 +42,7 @@
 <div id="menu-container">
     <form action="deletesubtask" method="post">
         <div class="actions">
-            <input type="image" src="../css/delete.png" alt="Submit" width="25" height="25" id="delete-submit">
+            <li><input type="submit"  value="DELETE" id="delete-submit"></li>
             <label>
                 | Sorted by
                 <select id="sort">

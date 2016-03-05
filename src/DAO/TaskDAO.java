@@ -35,16 +35,21 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
+            closeConnection(conn);
         }
     }
+
+    private static void closeConnection(Connection conn) {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
     public static void addSubtask(int t_id, Subtask task) {
         Connection conn = null;
         try {
@@ -150,13 +155,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
         return tasks;
     }
@@ -187,12 +186,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                assert conn != null;
-                conn.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+            closeConnection(conn);
         }
         return task;
     }
@@ -220,23 +214,18 @@ public class TaskDAO {
                 to.setContacts(rs.getString(6));
                 task = new Subtask(to);
             }
+            return task;
         } catch (SQLException e) {
             e.printStackTrace();
+            return task;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+          closeConnection(conn);
         }
-        return task;
+
     }
     public static void updateTask(int empid,Task task) {
         Connection conn = null;
-        ResultSet rs = null;
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("UPDATE TASK SET NAME = ?,TDESC = ?,TDATE = ?,CONTACTS = ?,COMPLETED = ? WHERE T_ID=? AND EMPID=?");
@@ -253,14 +242,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                assert conn != null;
-                conn.close();
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
     }
     public static void updateSubtask(int t_id,Subtask task) {
@@ -281,14 +263,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                assert conn != null;
-                conn.close();
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
-            }
+           closeConnection(conn);
         }
     }
     public static List<Subtask> getSubtasks(Integer t_id){
@@ -297,7 +272,6 @@ public class TaskDAO {
         ResultSet rs;
         try {
             conn = ds.getConnection();
-
             PreparedStatement stat = conn.prepareStatement("SELECT ST_ID,NAME,COMPLETED,STDESC,STDATE,CONTACTS FROM SUBTASK " +
                     "WHERE T_ID = ? ");
             stat.setInt(1,t_id);
@@ -317,12 +291,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                assert conn != null;
-                conn.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+           closeConnection(conn);
         }
         return tasks;
     }
@@ -352,12 +321,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                assert conn != null;
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+           closeConnection(conn);
         }
         return task;
     }
@@ -386,13 +350,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                assert conn != null;
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
+           closeConnection(conn);
         }
         return task;
     }
@@ -409,13 +367,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+           closeConnection(conn);
         }
     }
     public static void completeSubtask(int taskid, int subtaskid) {
@@ -431,12 +383,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                assert conn != null;
-                conn.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+           closeConnection(conn);
         }
     }
     public static void delayTask(int empid,int taskid, java.util.Date date) {
@@ -454,13 +401,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+           closeConnection(conn);
         }
     }
     public static void delaySubtask(int taskid,int subtaskid, java.util.Date date) {
@@ -478,13 +419,7 @@ public class TaskDAO {
             e.printStackTrace();
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+           closeConnection(conn);
         }
     }
     public String getTaskName(int empid, int taskid){
@@ -506,14 +441,7 @@ public class TaskDAO {
             return name;
         }
         finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-                return name;
-            } catch (SQLException e) {
-               e.printStackTrace();
-            }
+           closeConnection(conn);
         }
         return name;
 

@@ -36,12 +36,23 @@ $(document).ready(function(){
         }
     });
 
+    $('#search-form').submit(function() {
+        var search = $.trim($('#search-input').val()).length;
+        console.log(search);
+        if(username!=0 )
+        {
+            return true;
+        }
+        else {
+           alert('Please enter text for search tasks.');
+            return false;
+        }
+    });
     $('#auth-form').submit(function(){
         var username = $.trim($('#username').val()).length;
         var pass = $.trim($('#pass').val()).length;
         if(username!=0 && pass != 0)
         {
-            console.log($('#username').val());
             return true;
         }
         else {

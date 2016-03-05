@@ -2,6 +2,9 @@ body{
     margin: 0;
     display: block;
 }
+form#search-form{
+    margin: 0;
+}
 div#search-block {
     text-align: right;
     padding-top: 1%;
@@ -89,10 +92,9 @@ div#sort-delete input[type=submit]
 {
     float: left;
     background-color: transparent;
-
     padding: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
     border: thin;
+    border-right: 1px solid black;
 }
 div#sort-delete input[type=submit]:hover{
     text-decoration: underline;
@@ -135,17 +137,17 @@ ul#sort-delete-list {
 }
 
 ul#sort-delete-list li {
+
     float: left;
     text-align: center;
     vertical-align: middle;
-    border-right: 1px black solid;
     padding-left: 5px;
     padding-top: 2px;
 }
 
 ul#sort-delete-list li select,input{
     display: inline-block;
-
+    padding: 4px 4px 4px 4px;
 }
 ul#sort-delete-list li label{
 

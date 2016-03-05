@@ -1,4 +1,4 @@
-package test;
+package servlets;
 
 
 import DAO.TaskDAO;
@@ -26,7 +26,6 @@ public class TaskServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
-        System.out.println(path);
         switch (path){
             case "/my/deletetask":
                 deleteTask(req,resp);
@@ -103,7 +102,6 @@ public class TaskServlet extends HttpServlet{
         Integer taskid = Integer.parseInt(req.getParameter("taskid"));
         String action = req.getParameter("action").toLowerCase();
 
-
         if(action.equals("delay"))
         {
             String date = req.getParameter("newdate");
@@ -124,7 +122,6 @@ public class TaskServlet extends HttpServlet{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
 
         }
         else if(action.equals("finish"))

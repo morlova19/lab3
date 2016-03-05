@@ -17,7 +17,7 @@
     <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="type" value="${param.type}"/>
     <div id="main">
-        <form style="margin: 0" action="../my/tasks.jsp">
+        <form id="search-form" action="../my/tasks.jsp">
             <div id="search-block">
                 <input type="text"  name="search" placeholder="Search my tasks...">
                 <input type="submit" value="Search" />
