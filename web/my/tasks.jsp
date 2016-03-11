@@ -151,6 +151,6 @@
     Please <a href="../start.jsp">Sign in</a>
     or <a href="../registration.jsp">Sign up</a>
 </c:if>
-<script src="../js/main.js"></script>
+<script src="../js/reg_service_worker.js"></script>
 </body>
 </html>
