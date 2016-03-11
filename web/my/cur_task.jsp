@@ -65,7 +65,6 @@
             </ul>
             <a href="newsubtask.jsp?taskid=${taskid}">+ New subtask</a>
             <br/>
-            <br/>
             <label id="message" hidden>You don't have subtasks.</label>
         </div>
 

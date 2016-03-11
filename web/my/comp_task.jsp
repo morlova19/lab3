@@ -19,23 +19,23 @@
         <table>
             <tr>
                 <th>ID</th>
-                <td><input type="text" value="${taskid}" readonly name="taskid"/></td>
+                <td><input type="text" value="${taskid}" readonly/></td>
             </tr>
             <tr>
                 <th>Name</th>
-                <td><input name="name" type="text" value="${task.name}" readonly/></td>
+                <td><input  type="text" value="${task.name}" readonly/></td>
             </tr>
             <tr>
                 <th>Description</th>
-                <td><textarea name="desc" rows="7" readonly>${task.description}</textarea></td>
+                <td><textarea  rows="7" readonly>${task.description}</textarea></td>
             </tr>
             <tr>
                 <th>Date</th>
-                <td><input name="date" type="text" class="date-cell" placeholder="dd.mm.yyyy hh:mm" value="${formattedDate}" readonly/></td>
+                <td><input  type="text" class="date-cell" placeholder="dd.mm.yyyy hh:mm" value="${formattedDate}" readonly/></td>
             </tr>
             <tr>
                 <th>Contacts</th>
-                <td><textarea name="desc" rows="7" readonly>${task.contacts}</textarea></td>
+                <td><textarea  rows="7" readonly>${task.contacts}</textarea></td>
             </tr>
         </table>
 </div>
@@ -44,7 +44,7 @@
         <div class="actions">
             <li><input type="submit"  value="DELETE" id="delete-submit"></li>
             <label>
-                | Sorted by
+                Sort by
                 <select id="sort">
                     <option>Select parameter</option>
                     <option>Name</option>
@@ -52,7 +52,6 @@
                     <option>ID</option>
                 </select>
             </label>
-
         </div>
 
         <div class="table-container">

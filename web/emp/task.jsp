@@ -47,7 +47,6 @@
 </div>
 <div id="menu-container">
         <div class="actions">
-
             <ul id="sort-delete-list">
                 <li>Sort by
                     <select id="sort">
@@ -57,10 +56,10 @@
                         <option>ID</option>
                     </select></li>
             </ul>
-
+            <br/>
+            <br/>
             <label id="message" hidden>Employee doesn't have subtasks.</label>
         </div>
-
         <div class="table-container">
             <c:set var="type" value="${param.type}"/>
             <table id="tasks">
@@ -78,9 +77,6 @@
                 </c:forEach>
             </table>
         </div>
-</div>
-<div>
-
 </div>
 </body>
 </html>
