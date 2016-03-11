@@ -195,10 +195,10 @@ public class Journal implements Serializable {
         if(task.getDate().compareTo(to.getDate())!=0){
             task.setDate(to.getDate());
         }
-        if(!task.getDescription().equals(to.getDescription())){
+        if(task.getDescription() == null ||!task.getDescription().equals(to.getDescription())){
             task.setDescription(to.getDescription());
         }
-        if(!task.getContacts().equals(to.getContacts())){
+        if(task.getContacts() == null ||!task.getContacts().equals(to.getContacts())){
             task.setContacts(to.getContacts());
         }
        tasks_map.replace(t_id,task);
@@ -219,10 +219,10 @@ public class Journal implements Serializable {
             if(task.getDate().compareTo(to.getDate())!=0){
                 task.setDate(to.getDate());
             }
-            if(!task.getDescription().equals(to.getDescription())){
+            if(task.getDescription() == null ||!task.getDescription().equals(to.getDescription())){
                 task.setDescription(to.getDescription());
             }
-            if(!task.getContacts().equals(to.getContacts())){
+            if(task.getContacts() == null || !task.getContacts().equals(to.getContacts())){
                 task.setContacts(to.getContacts());
             }
             t.getSubtasks_map().replace(st_id,task);
@@ -241,7 +241,6 @@ public class Journal implements Serializable {
     }
 
     public List searchTasks(String param) {
-        List<Task> t = null;
         if(tasks_map != null && !tasks_map.isEmpty())
         {
             return tasks_map.values().stream().filter(task -> task.getName().toLowerCase().contains(param.toLowerCase())).collect(Collectors.toList());

@@ -42,7 +42,7 @@
             </tr>
             <tr>
                 <th>Contacts</th>
-                <td><textarea name="desc" rows="7">${task.contacts}</textarea></td>
+                <td><textarea name="contacts" rows="7">${task.contacts}</textarea></td>
             </tr>
             <tr>
                 <td colspan="2">

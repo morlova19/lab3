@@ -130,7 +130,8 @@ div#table-container table td{
 
 ul#sort-delete-list {
     list-style-type: none;
-    margin: 0;
+    margin-left: 20%;
+    margin-top:0;
     padding: 0;
     overflow: hidden;
     background-color: white;
