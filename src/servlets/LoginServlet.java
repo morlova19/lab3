@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+/**
+ * Servlet for authorization of employee.
+ */
 @WebServlet(urlPatterns = {"/login","/my/logout","/emp/logout"})
 public class LoginServlet extends HttpServlet{
     @Override

@@ -6,6 +6,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+/**
+ * Class for hashing password using SHA-256 algorithm.
+ */
 public class EncryptionUtil {
     public static String encrypt(String str)
     {

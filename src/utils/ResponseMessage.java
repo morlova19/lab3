@@ -1,5 +1,9 @@
 package utils;
 
+/**
+ * Message for sending to service worker as json object.
+ * Contains details of task or subtask about which need show push notification.
+ */
 public class ResponseMessage {
     private int empid;
     private int taskid;

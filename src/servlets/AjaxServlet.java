@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/jobs","/emps"})
+/**
+ * Servlet processes ajax request.
+ */
+@WebServlet(urlPatterns = {"/jobs"})
 public class AjaxServlet extends HttpServlet{
 
     @Override
@@ -22,15 +25,13 @@ public class AjaxServlet extends HttpServlet{
         String action = req.getServletPath();
         switch (action){
             case "/jobs":
-                makeAnswer1(req,resp);
-                break;
-            case "/emps":
                 makeAnswer(req,resp);
                 break;
+
         }
     }
 
-    private void makeAnswer1(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void makeAnswer(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         String dept = req.getParameter("dept");
 
@@ -45,19 +46,5 @@ public class AjaxServlet extends HttpServlet{
         }
     }
 
-    private void makeAnswer(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("application/json");
-        String dept = req.getParameter("dept");
-        String job = req.getParameter("job");
-        if(dept != null && job!=null)
-        {
-            Gson gson = new Gson();
-            List<String> jobs = EmpDAO.getEmps(dept,job);
-            PrintWriter pw = resp.getWriter();
-            pw.write(gson.toJson(jobs));
-            pw.close();
 
-        }
-
-    }
 }

@@ -3,19 +3,16 @@ package utils;
 
 import java.util.List;
 
+/**
+ * Message that was received from notification system.
+ * Create from json object.
+ * Contains details about identifiers of browsers of the empolyee and info about task and subtask.
+ */
 public class Message {
     private int empid;
     private int taskid;
     private int subtaskid;
     private List<String> regIds;
-    public void createMessage(int empid, int taskid){
-        this.empid = empid;
-        this.taskid = taskid;
-    }
-
-    public void setRegIds(List<String> regIds) {
-        this.regIds = regIds;
-    }
 
     public int getEmpid() {
         return empid;

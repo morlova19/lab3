@@ -21,13 +21,27 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Servlet for processing requests from notification system and service workers.
+ * Method doPost processes requests from notification system.
+ * Method doGet processes requests from service workers.
+ */
 @WebServlet(urlPatterns = "/PushServlet")
 public class PushServlet extends HttpServlet{
     Map<Integer, List<Message>> map = new ConcurrentHashMap<>();
+
+    /**
+     * Processes request from service workers.
+     * Gets list of tasks and subtasks for showing notification.
+     * @param req request object.
+     * @param resp response object.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       String endpoint = req.getParameter("endpoint");
-        System.out.println("endpoint" + endpoint);
+        String endpoint = req.getParameter("endpoint");
+
         if(endpoint != null) {
             String[] a = endpoint.split("/");
             endpoint = a[a.length-1];
@@ -42,14 +56,11 @@ public class PushServlet extends HttpServlet{
             {
                 for(Message m: msgs)
                 {
-                    System.out.println(m.getRegIds().contains(endpoint));
-                    System.out.println(endpoint);
                     if(m.getRegIds().contains(endpoint))
                     {
                         empid = m.getEmpid();
                         taskid = m.getTaskid();
                         subtaskid = m.getSubtaskid();
-                        System.out.println("qqqqqqqqqqqq");
 
                     }
                 }
@@ -58,13 +69,13 @@ public class PushServlet extends HttpServlet{
         if(subtaskid != -1)
         {
             if(empid != -1 && taskid != -1) {
-                System.out.println("subtask ");
+
                 ResponseMessage msg = new ResponseMessage();
                 TaskDAO dao = new TaskDAO();
                 Subtask t = dao.getSubtask(taskid,subtaskid);
                 msg.createMessage(empid,taskid,subtaskid,t.getName(),t.getDescription());
                 String str = gson.toJson(msg);
-                System.out.println(str);
+
                 List<Message> m =  map.get(empid);
                 for(Message m1:m){
                     if(m1.getEmpid()==empid && m1.getSubtaskid()==subtaskid && m1.getTaskid()==taskid){
@@ -78,7 +89,6 @@ public class PushServlet extends HttpServlet{
         }
         else {
             if(empid != -1 && taskid != -1) {
-                System.out.println("task ");
                 TaskDAO dao = new TaskDAO();
                 Task t = dao.getTask(empid, taskid);
                 ResponseMessage msg = new ResponseMessage();
@@ -90,7 +100,6 @@ public class PushServlet extends HttpServlet{
                         m.remove(m1);
                     }
                 }
-                System.out.println(str);
                 PrintWriter pw = resp.getWriter();
                 pw.print(str);
                 pw.close();
@@ -101,6 +110,14 @@ public class PushServlet extends HttpServlet{
 
     }
 
+    /**
+     * Processes request from notification system.
+     * Gets info about task for which need show notification
+     * and details of employee who will see this notification.
+     * Adds this information to map.
+     * @param req
+     * @param resp
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 

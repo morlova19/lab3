@@ -18,6 +18,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Servlet for working with tasks and subtasks.
+ * E.g., create new task, create new subtask, update existing task and subtask, delete task and subtask etc.
+ */
 @WebServlet(urlPatterns = {"/my/newtask","/my/deletetask",
         "/my/newsubtask","/my/deletesubtask",
         "/my/savetask","/my/savesubtask","/completetask","/completesubtask"})

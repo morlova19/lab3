@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet for registration identifier of browser and saving it to database.
+ */
 @WebServlet(urlPatterns = {"/my/regId"})
 public class RegIdServlet extends HttpServlet{
     @Override
