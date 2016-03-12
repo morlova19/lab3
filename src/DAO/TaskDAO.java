@@ -18,12 +18,19 @@ public class TaskDAO {
         try {
             conn = ds.getConnection();
 
-          /*  PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
-                    "NAME,COMPLETED,TDESC,TDATE,CONTACTS,EMP_ID) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?)");*/
-            PreparedStatement stat = conn.prepareStatement("INSERT INTO task(T_ID,NAME,COMPLETED,TDESC,TDATE,CONTACTS,EMPID) " +
-                    "VALUES (nextval('task_id_seq'),?,?,?,?,?,?)");
+            PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
+                    "NAME,COMPLETED,TDESC,TDATE,CONTACTS,EMPID) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?)");
+          /*  PreparedStatement stat = conn.prepareStatement("INSERT INTO task(T_ID,NAME,COMPLETED,TDESC,TDATE,CONTACTS,EMPID) " +
+                    "VALUES (nextval('task_id_seq'),?,?,?,?,?,?)");*/
             stat.setString(1,task.getName());
-            stat.setBoolean(2,task.getCompleted());
+            if(task.getCompleted())
+            {
+                stat.setString(2,"Y");
+               // stat.setBoolean(2,task.getCompleted());
+            }
+            else {
+                stat.setString(2,"N");
+            }
             stat.setString(3,task.getDescription());
             Timestamp timestamp = new Timestamp(task.getDate().getTime());
             stat.setTimestamp(4, timestamp);
@@ -55,12 +62,19 @@ public class TaskDAO {
         try {
             conn = ds.getConnection();
 
-          /*  PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
-                    "NAME,COMPLETED,TDESC,TDATE,CONTACTS,EMP_ID) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?)");*/
             PreparedStatement stat = conn.prepareStatement("INSERT INTO SUBTASK(ST_ID," +
-                    "NAME,COMPLETED,STDESC,STDATE,CONTACTS,T_ID) VALUES (NEXTVAL('subtask_id_seq'),?,?,?,?,?,?)");
+                    "NAME,COMPLETED,STDESC,STDATE,CONTACTS,T_ID) VALUES (SUBTASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?)");
+           /* PreparedStatement stat = conn.prepareStatement("INSERT INTO SUBTASK(ST_ID," +
+                    "NAME,COMPLETED,STDESC,STDATE,CONTACTS,T_ID) VALUES (NEXTVAL('subtask_id_seq'),?,?,?,?,?,?)");*/
             stat.setString(1,task.getName());
-            stat.setBoolean(2,task.getCompleted());
+            if(task.getCompleted())
+            {
+                stat.setString(2,"Y");
+            }
+            else {
+                stat.setString(2,"N");
+            }
+           // stat.setBoolean(2,task.getCompleted());
             stat.setString(3,task.getDescription());
             Timestamp timestamp = new Timestamp(task.getDate().getTime());
             stat.setTimestamp(4, timestamp);
@@ -145,7 +159,15 @@ public class TaskDAO {
                 TransferObject to = new TransferObject();
                 to.setId(rs.getInt(1));
                 to.setName(rs.getString(2));
-                to.setCompleted(rs.getBoolean(3));
+                if(rs.getString(3).equals("Y"))
+                {
+                    to.setCompleted(true);
+                    // stat.setBoolean(2,task.getCompleted());
+                }
+                else {
+                    to.setCompleted(false);
+                }
+               // to.setCompleted(rs.getBoolean(3));
                 to.setDescription(rs.getString(4));
                 to.setDate(rs.getTimestamp(5));
                 to.setContacts(rs.getString(6));
@@ -176,7 +198,15 @@ public class TaskDAO {
                 TransferObject to = new TransferObject();
                 to.setId(rs.getInt(1));
                 to.setName(rs.getString(2));
-                to.setCompleted(rs.getBoolean(3));
+                if(rs.getString(3).equals("Y"))
+                {
+                    to.setCompleted(true);
+                    // stat.setBoolean(2,task.getCompleted());
+                }
+                else {
+                    to.setCompleted(false);
+                }
+               // to.setCompleted(rs.getBoolean(3));
                 to.setDescription(rs.getString(4));
                 to.setDate(rs.getTimestamp(5));
                 to.setContacts(rs.getString(6));
@@ -208,7 +238,15 @@ public class TaskDAO {
                 TransferObject to = new TransferObject();
                 to.setId(rs.getInt(1));
                 to.setName(rs.getString(2));
-                to.setCompleted(rs.getBoolean(3));
+                if(rs.getString(3).equals("Y"))
+                {
+                    to.setCompleted(true);
+                    // stat.setBoolean(2,task.getCompleted());
+                }
+                else {
+                    to.setCompleted(false);
+                }
+                //to.setCompleted(rs.getBoolean(3));
                 to.setDescription(rs.getString(4));
                 to.setDate(rs.getTimestamp(5));
                 to.setContacts(rs.getString(6));
@@ -234,7 +272,15 @@ public class TaskDAO {
             Timestamp timestamp = new Timestamp(task.getDate().getTime());
             st.setTimestamp(3, timestamp);
             st.setString(4,task.getContacts());
-            st.setBoolean(5,task.getCompleted());
+            if(task.getCompleted())
+            {
+                st.setString(5,"Y");
+                // stat.setBoolean(2,task.getCompleted());
+            }
+            else {
+                st.setString(5,"N");
+            }
+           // st.setBoolean(5,task.getCompleted());
             st.setInt(6,task.getID());
             st.setInt(7,empid);
             st.executeUpdate();
@@ -255,7 +301,15 @@ public class TaskDAO {
             Timestamp timestamp = new Timestamp(task.getDate().getTime());
             st.setTimestamp(3, timestamp);
             st.setString(4,task.getContacts());
-            st.setBoolean(5,task.getCompleted());
+            if(task.getCompleted())
+            {
+                st.setString(5,"Y");
+                // stat.setBoolean(2,task.getCompleted());
+            }
+            else {
+                st.setString(5,"N");
+            }
+           // st.setBoolean(5,task.getCompleted());
             st.setInt(6,task.getID());
             st.setInt(7,t_id);
             st.executeUpdate();
@@ -302,16 +356,32 @@ public class TaskDAO {
         try {
             conn = ds.getConnection();
 
-            PreparedStatement stat = conn.prepareStatement("SELECT T_ID,NAME,COMPLETED,TDESC,TDATE,CONTACTS FROM TASK " +
-                    "WHERE EMPID = ? AND T_ID = currval('task_id_seq')");
+           /* PreparedStatement stat = conn.prepareStatement("SELECT T_ID,NAME,COMPLETED,TDESC,TDATE,CONTACTS FROM TASK " +
+                    "WHERE EMPID = ? AND T_ID = currval('task_id_seq')");*/
+            String query = "select TASK_ID_SEQ.currval from DUAL";
+            PreparedStatement stat = conn.prepareStatement(query);
+            rs = stat.executeQuery();
+            rs.next();
+            int last_id = rs.getInt(1);
+            stat = conn.prepareStatement("SELECT T_ID,NAME,COMPLETED,TDESC,TDATE,CONTACTS FROM TASK " +
+                    "WHERE EMPID = ? AND T_ID = ?");
             stat.setInt(1,emp_id);
+            stat.setInt(2,last_id);
             rs = stat.executeQuery();
             rs.next();
 
                 TransferObject to = new TransferObject();
                 to.setId(rs.getInt(1));
                 to.setName(rs.getString(2));
-                to.setCompleted(rs.getBoolean(3));
+            if(rs.getString(3).equals("Y"))
+            {
+                to.setCompleted(true);
+            }
+            else {
+                to.setCompleted(false);
+
+            }
+               // to.setCompleted(rs.getBoolean(3));
                 to.setDescription(rs.getString(4));
                 to.setDate(rs.getTimestamp(5));
                 to.setContacts(rs.getString(6));
@@ -331,16 +401,32 @@ public class TaskDAO {
         ResultSet rs;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("SELECT ST_ID,NAME,COMPLETED,STDESC,STDATE,CONTACTS FROM SUBTASK " +
-                    "WHERE T_ID = ? AND ST_ID = currval('subtask_id_seq')");
+            /*PreparedStatement stat = conn.prepareStatement("SELECT ST_ID,NAME,COMPLETED,STDESC,STDATE,CONTACTS FROM SUBTASK " +
+                    "WHERE T_ID = ? AND ST_ID = currval('subtask_id_seq')");*/
+            String query = "select TASK_ID_SEQ.currval from DUAL";
+            PreparedStatement stat = conn.prepareStatement(query);
+            rs = stat.executeQuery();
+            rs.next();
+            int last_id = rs.getInt(1);
+            stat = conn.prepareStatement("SELECT ST_ID,NAME,COMPLETED,STDESC,STDATE,CONTACTS FROM SUBTASK " +
+                    "WHERE T_ID = ? AND ST_ID = ?");
             stat.setInt(1,t_id);
+            stat.setInt(2,last_id);
             rs = stat.executeQuery();
             rs.next();
 
                 TransferObject to = new TransferObject();
                 to.setId(rs.getInt(1));
                 to.setName(rs.getString(2));
-                to.setCompleted(rs.getBoolean(3));
+            if(rs.getString(3).equals("Y"))
+            {
+                to.setCompleted(true);
+            }
+            else {
+                to.setCompleted(false);
+
+            }
+                //to.setCompleted(rs.getBoolean(3));
                 to.setDescription(rs.getString(4));
                 to.setDate(rs.getTimestamp(5));
                 to.setContacts(rs.getString(6));
@@ -358,9 +444,10 @@ public class TaskDAO {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET COMPLETED=TRUE WHERE EMPID = ? AND T_ID=?");
-            stat.setInt(1,empid);
-            stat.setInt(2,taskid);
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET COMPLETED=? WHERE EMPID = ? AND T_ID=?");
+            stat.setString(1,"Y");
+            stat.setInt(2,empid);
+            stat.setInt(3,taskid);
             stat.executeUpdate();
 
         } catch (SQLException e) {
@@ -374,9 +461,10 @@ public class TaskDAO {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE SUBTASK SET COMPLETED=TRUE WHERE ST_ID = ? AND T_ID=?");
-            stat.setInt(1,subtaskid);
-            stat.setInt(2,taskid);
+            PreparedStatement stat = conn.prepareStatement("UPDATE SUBTASK SET COMPLETED=? WHERE ST_ID = ? AND T_ID=?");
+            stat.setString(1,"Y");
+            stat.setInt(2,subtaskid);
+            stat.setInt(3,taskid);
             stat.executeUpdate();
 
         } catch (SQLException e) {

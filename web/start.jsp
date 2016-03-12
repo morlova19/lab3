@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="icon" href="images/icon.png" type="image/png">
     <link rel="stylesheet" type="text/css" href="./css/auth_page.css">
     <link rel="stylesheet" type="text/css" href="./css/1.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

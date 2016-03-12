@@ -17,11 +17,12 @@ public class RegIdDAO {
         ResultSet rs;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("SELECT id,registration_id,empid FROM registration_id WHERE registration_id=?");
+            PreparedStatement stat = conn.prepareStatement("SELECT ID,REGISTRATION_ID,EMPID FROM REGISTRATION_ID WHERE REGISTRATION_ID=?");
             stat.setString(1,regId);
             rs = stat.executeQuery();
             if(!rs.next()) {
-                stat = conn.prepareStatement("INSERT INTO registration_id(id,registration_id,empid) VALUES (nextval('reg_id_seq'),?,?)");
+               // stat = conn.prepareStatement("INSERT INTO registration_id(id,registration_id,empid) VALUES (nextval('reg_id_seq'),?,?)");
+                stat = conn.prepareStatement("INSERT INTO REGISTRATION_ID(ID,REGISTRATION_ID,EMPID) VALUES (REG_ID_SEQ.NEXTVAL,?,?)");
                 stat.setString(1, regId);
                 stat.setInt(2, emp_id);
                 stat.executeUpdate();
@@ -29,7 +30,7 @@ public class RegIdDAO {
             else {
                 if(rs.getInt(3)!=emp_id)
                 {
-                    stat = conn.prepareStatement("UPDATE  registration_id SET empid=? WHERE  id=?");
+                    stat = conn.prepareStatement("UPDATE  REGISTRATION_ID SET EMPID=? WHERE  ID=?");
                     stat.setInt(1, emp_id);
                     stat.setInt(2, rs.getInt(1));
                     stat.executeUpdate();

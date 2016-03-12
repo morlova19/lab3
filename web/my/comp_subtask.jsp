@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Subtask</title>
+    <link rel="icon" href="../images/icon.png" type="image/png">
 </head>
 <body>
 <c:set var="taskid" value="${param.taskid}"/>

@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Tasks</title>
+    <link rel="icon" href="../images/icon.png" type="image/png">
     <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" type="text/css" href="../css/tasks_page.css">
     <link rel="stylesheet" type="text/css" href="../css/1.css">
