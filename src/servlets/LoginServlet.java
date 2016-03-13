@@ -48,10 +48,12 @@ public class LoginServlet extends HttpServlet{
                 Employee emp = EmpDAO.getEmp(login);
                 req.getSession().setAttribute("emp", emp);
                 Cookie username = new Cookie("username", String.valueOf(emp.getID()));
-                System.out.println("username = " + String.valueOf(emp.getID()));
                 resp.addCookie(username);
+                Cookie u = new Cookie("user", "12345");
+                resp.addCookie(u);
 
                 req.getSession().setAttribute("username", emp.getID());
+
                 resp.sendRedirect("my/tasks.jsp?type=cur");
             } else {
                 Cookie username = new Cookie("username", "error");

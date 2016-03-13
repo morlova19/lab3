@@ -14,8 +14,9 @@
 
 </head>
 <body>
-<c:if test="${!empty sessionScope.username}">
-    <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
+<c:set var="username" value="${cookie.username.value}"/>
+<c:if test="${!empty username}">
+        <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="type" value="${param.type}"/>
     <form id="search-form">
         <div id="search-block">
@@ -148,7 +149,7 @@
         </div>
 
 </c:if>
-<c:if test="${empty sessionScope.username}">
+<c:if test="${empty username}">
     Please <a href="../start.jsp">Sign in</a>
     or <a href="../registration.jsp">Sign up</a>
 </c:if>

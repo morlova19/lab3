@@ -343,7 +343,7 @@ public class TaskDAO {
                 else {
                    to.setCompleted(false);
                 }
-                to.setCompleted(rs.getBoolean(3));
+                //to.setCompleted(rs.getBoolean(3));
                 to.setDescription(rs.getString(4));
                 to.setDate(rs.getTimestamp(5));
                 to.setContacts(rs.getString(6));

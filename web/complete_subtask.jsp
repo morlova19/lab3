@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <th>Task ID</th>
-            <td><input name="empid" type="text" id="taskid" readonly value="${param.taskid}"/></td>
+            <td><input name="taskid" type="text" id="taskid" readonly value="${param.taskid}"/></td>
 
         </tr>
         <tr>
