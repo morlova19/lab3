@@ -32,7 +32,7 @@
             </tr>
             <tr>
                 <th>Date</th>
-                <td><input name="date" type="text" class="date-cell" placeholder="dd.mm.yyyy hh:mm" value="${formattedDate}" readonly/></td>
+                <td><input name="date" type="text" class="date-cell"  value="${formattedDate}" readonly/></td>
             </tr>
             <tr>
                 <th>Contacts</th>

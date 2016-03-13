@@ -41,7 +41,7 @@
         </tr>
         <tr>
             <th>Date</th>
-            <td><input name="date" type="text" id=date class="date-cell" placeholder="dd.mm.yyyy hh:mm" value="${formattedDate}"/></td>
+            <td><input name="date" type="text" id=date class="date-cell" value="${formattedDate}"/></td>
             <td id="date-error" class="error" hidden>Please enter correct date</td>
         </tr>
         <tr>

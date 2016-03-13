@@ -335,6 +335,14 @@ public class TaskDAO {
                 TransferObject to = new TransferObject();
                 to.setId(rs.getInt(1));
                 to.setName(rs.getString(2));
+                if(rs.getString(3).equals("Y"))
+                {
+                    to.setCompleted(true);
+                    // stat.setBoolean(2,task.getCompleted());
+                }
+                else {
+                   to.setCompleted(false);
+                }
                 to.setCompleted(rs.getBoolean(3));
                 to.setDescription(rs.getString(4));
                 to.setDate(rs.getTimestamp(5));
@@ -403,7 +411,7 @@ public class TaskDAO {
             conn = ds.getConnection();
             /*PreparedStatement stat = conn.prepareStatement("SELECT ST_ID,NAME,COMPLETED,STDESC,STDATE,CONTACTS FROM SUBTASK " +
                     "WHERE T_ID = ? AND ST_ID = currval('subtask_id_seq')");*/
-            String query = "select TASK_ID_SEQ.currval from DUAL";
+            String query = "select SUBTASK_ID_SEQ.currval from DUAL";
             PreparedStatement stat = conn.prepareStatement(query);
             rs = stat.executeQuery();
             rs.next();
