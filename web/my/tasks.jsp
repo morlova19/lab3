@@ -14,7 +14,7 @@
 
 </head>
 <body>
-<c:set var="username" value="${cookie.username.value}"/>
+<c:set var="username" value="${sessionScope.username}"/>
 <c:if test="${!empty username}">
         <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="type" value="${param.type}"/>

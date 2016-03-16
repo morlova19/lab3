@@ -30,10 +30,9 @@ public class LoginServlet extends HttpServlet{
         }
     }
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Cookie username = new Cookie("username", null);
+
         req.getSession().setAttribute("emp",null);
         req.getSession().setAttribute("username",null);
-        resp.addCookie(username);
 
         resp.sendRedirect(req.getContextPath() + "/start.jsp");
     }
@@ -47,10 +46,6 @@ public class LoginServlet extends HttpServlet{
             if (EmpDAO.login(login, encrypted_pass)) {
                 Employee emp = EmpDAO.getEmp(login);
                 req.getSession().setAttribute("emp", emp);
-                Cookie username = new Cookie("username", String.valueOf(emp.getID()));
-                resp.addCookie(username);
-                Cookie u = new Cookie("user", "12345");
-                resp.addCookie(u);
 
                 req.getSession().setAttribute("username", emp.getID());
 
