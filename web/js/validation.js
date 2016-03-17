@@ -38,8 +38,8 @@ $(document).ready(function(){
 
     $('#search-form').submit(function() {
         var search = $.trim($('#search-input').val()).length;
-        console.log(search);
-        if(username!=0 )
+
+        if(search!=0 )
         {
             return true;
         }
