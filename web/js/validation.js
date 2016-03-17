@@ -214,7 +214,6 @@ $(document).ready(function(){
     }
     function maxSubtaskDate()
     {
-        var n = getIndex();
         var items = [];
         $('#tasks tbody  tr td:nth-child(4)').each(function(){
             var str1 = $.trim($(this).text());

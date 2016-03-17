@@ -74,6 +74,7 @@ public class TaskServlet extends HttpServlet{
                 if(req.getSession().getAttribute("emp") != null)
                 {
                     Employee emp = (Employee) req.getSession().getAttribute("emp");
+                    assert emp!=null;
                     JournalManager jm = emp.getJournalManager();
                     jm.delaySubtask(taskid, subtaskid,parse_date);
                     resp.sendRedirect("my/tasks.jsp?type=cur");
@@ -91,6 +92,7 @@ public class TaskServlet extends HttpServlet{
             if(req.getSession().getAttribute("emp") != null)
             {
                 Employee emp = (Employee) req.getSession().getAttribute("emp");
+                assert emp!=null;
                 JournalManager jm = emp.getJournalManager();
                 jm.completeSubtask(taskid,subtaskid);
                 resp.sendRedirect("my/tasks.jsp?type=cur");
@@ -115,6 +117,7 @@ public class TaskServlet extends HttpServlet{
                 if(req.getSession().getAttribute("emp") != null)
                 {
                     Employee emp = (Employee) req.getSession().getAttribute("emp");
+                    assert emp!=null;
                     JournalManager jm = emp.getJournalManager();
                     jm.delay(taskid,sdf.parse(date));
                     resp.sendRedirect("my/tasks.jsp?type=cur");
@@ -134,6 +137,7 @@ public class TaskServlet extends HttpServlet{
             if(req.getSession().getAttribute("emp") != null)
             {
                 Employee emp = (Employee) req.getSession().getAttribute("emp");
+                assert emp!=null;
                 JournalManager jm = emp.getJournalManager();
                 jm.complete(taskid);
                 resp.sendRedirect("my/tasks.jsp?type=cur");
@@ -146,6 +150,7 @@ public class TaskServlet extends HttpServlet{
     }
     private void newTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
+        assert emp!=null;
         JournalManager jm = emp.getJournalManager();
 
         TransferObject to = new TransferObject();
@@ -165,6 +170,7 @@ public class TaskServlet extends HttpServlet{
     }
     private void saveTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
+        assert emp!=null;
         JournalManager jm = emp.getJournalManager();
 
         TransferObject to = new TransferObject();
@@ -186,6 +192,7 @@ public class TaskServlet extends HttpServlet{
     }
     private void saveSubtask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
+        assert emp!=null;
         JournalManager jm = emp.getJournalManager();
 
         Integer st_id = Integer.parseInt(req.getParameter("stid"));
@@ -205,12 +212,11 @@ public class TaskServlet extends HttpServlet{
     }
     private void newSubtask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
+        assert emp!=null;
         JournalManager jm = emp.getJournalManager();
 
         Integer t_id = Integer.parseInt(req.getParameter("taskid"));
         TransferObject to = new TransferObject();
-       // Random r = new Random();
-        //to.setId(r.nextInt(50));
         to.setName(req.getParameter("name"));
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy hh:mm");
         to.setDescription(req.getParameter("desc"));
@@ -230,10 +236,11 @@ public class TaskServlet extends HttpServlet{
         else {
             resp.sendRedirect("cur_task.jsp?taskid=" + t_id);
         }
-       //resp.sendRedirect("success.jsp?ttype=Subtask");
+
     }
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
+        assert emp!=null;
         JournalManager jm = emp.getJournalManager();
 
         String[] ids = req.getParameterValues("id");
@@ -245,6 +252,7 @@ public class TaskServlet extends HttpServlet{
     }
     private void deleteSubtask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
+        assert emp!=null;
         JournalManager jm = emp.getJournalManager();
 
         String id = req.getParameter("taskid");
