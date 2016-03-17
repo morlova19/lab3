@@ -20,7 +20,7 @@
 <div class="task-form">
     <c:set var="task" value="${emp.journalManager.get(taskid)}"/>
     <fmt:formatDate value="${task.date}" type="both" dateStyle="medium" timeStyle="short" var="formattedDate"/>
-    <form method="post" action="savetask">
+    <form method="post" action="savetask" id="update-task-form">
         <table>
             <tr>
                 <th>ID</th>
@@ -29,6 +29,7 @@
             <tr>
                 <th>Name</th>
                 <td><input name="name" type="text" value="${task.name}"/></td>
+                <td id="name-error" class="error" hidden>Name should not be empty</td>
             </tr>
             <tr>
                 <th>Description</th>
@@ -36,7 +37,8 @@
             </tr>
             <tr>
                 <th>Date</th>
-                <td><input name="date" type="text" class="date-cell" placeholder="dd.mm.yyyy hh:mm" value="${formattedDate}"/></td>
+                <td><input name="date" type="text" class="date-cell"  value="${formattedDate}"/></td>
+                <td id="date-error" class="error" hidden>Please enter correct date</td>
             </tr>
             <tr>
                 <th>Contacts</th>
@@ -77,6 +79,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Date</th>
+                    <th>Completed</th>
                 </tr>
                 <c:forEach var="task" items="${emp.journalManager.getSubtasks(taskid)}">
                     <tr>
@@ -91,6 +94,7 @@
                         <td>
                             <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${task.date}"/>
                         </td>
+                        <td>${task.completed}</td>
                     </tr>
                 </c:forEach>
             </table>

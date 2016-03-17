@@ -160,7 +160,7 @@ $(document).ready(function(){
         var delta = task_date.getTime() - stask_date.getTime();
         var delta1 = stask_date.getTime() - Date.now();
 
-        if( delta <= 0 || delta1<=0) {
+        if( delta <= 0 && delta1<=0) {
 
             return false;
         }
@@ -169,4 +169,79 @@ $(document).ready(function(){
             return true;
         }
     }
+    $('#update-task-form').submit(function(){
+        var name = $('#name').val().length;
+
+        var date = $('.date-cell').val();
+
+        if(name!=0 && validNewDate(date))
+        {
+            return true;
+        }
+        else {
+            if(name==0) $('#name-error').show();
+            else $('#name-error').hide();
+
+            if(!validNewDate(date)) $('#date-error').show();
+            else $('#date-error').hide();
+            return false;
+        }
+    });
+    function validNewDate(date)
+    {
+        if(date.length==0)
+        {
+            return false;
+        }
+        var q = date.split(" ");
+        var d = q[0].split(".");
+        var t = q[1].split(":");
+
+        var ddd = new Date(d[2],d[1]-1,d[0],t[0],t[1],0,0);
+        var delta = ddd.getTime() - Date.now();
+        var max_stask_date = maxSubtaskDate();
+
+        var delta1 =  ddd.getTime() - max_stask_date ;
+        var r = delta > 0 && delta1>0;
+        if(r==true) {
+
+            return true;
+        }
+        else  {
+
+            return false;
+        }
+    }
+    function maxSubtaskDate()
+    {
+        var n = getIndex();
+        var items = [];
+        $('#tasks tbody  tr td:nth-child(4)').each(function(){
+            var str1 = $.trim($(this).text());
+
+            if(str1.length != 0)
+            {
+                A = parseDate(str1);
+                items.push(A);
+            }
+        });
+        var max = Math.max.apply(Math, items);
+        return max;
+    }
+    $('#update-subtask-form').submit(function(){
+        var name = $.trim($('#name').val()).length;
+        var date = $('#date').val();
+        if(name !=0 && validSubtaskDate(date))
+        {
+            return true;
+        }
+        else {
+            if(name==0) $('#name-error').show();
+            else $('#name-error').hide();
+
+            if(!validSubtaskDate(date)) $('#date-error').show();
+            else $('#date-error').hide();
+            return false;
+        }
+    });
 });

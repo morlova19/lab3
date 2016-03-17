@@ -5,7 +5,7 @@ body{
 div.task-form{
     float: left;
     height: 100%;
-    width: 30%;
+    width: 40%;
     border-right: 1px solid gray;
     padding-right: 2%;
 
@@ -44,7 +44,7 @@ div.table-container table td{
     border-bottom: 1px solid gray;
 }
 div#menu-container {
-    margin-left: 35%;
+    margin-left: 45%;
     width: 80%;
     margin-top: 0;
 }

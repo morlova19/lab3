@@ -68,7 +68,7 @@
                     <tr>
                         <td><input type="checkbox" value="${task.ID}" name="id"/></td>
                         <td>${task.ID}</td>
-                        <td><a href="cur_subtask.jsp?taskid=${taskid}&stid=${task.ID}">${task.name}</a> </td>
+                        <td><a href="comp_subtask.jsp?taskid=${taskid}&stid=${task.ID}">${task.name}</a> </td>
                         <td>
                             <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${task.date}"/>
                         </td>
