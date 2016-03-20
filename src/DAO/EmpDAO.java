@@ -115,30 +115,7 @@ public class EmpDAO {
            closeConnection(conn);
         }
     }
-    public static List<String> getEmps(String dname, String job){
-        List<String> list = new ArrayList<>();
-        Connection conn = null;
-        ResultSet rs = null;
-        try {
-            conn = ds.getConnection();
 
-            PreparedStatement stat = conn.prepareStatement("SELECT FNAME||' '||LNAME ename FROM emp WHERE deptid=(select deptid from dept where dname=?) AND JOB=? AND LOGIN IS NULL");
-            stat.setString(1,dname.toUpperCase());
-            stat.setString(2,job.toUpperCase());
-            rs = stat.executeQuery();
-            while (rs.next()){
-                list.add(rs.getString(1));
-            }
-            return list;
-
-        } catch (SQLException e) {
-            return list;
-        }
-        finally {
-           closeConnection(conn);
-
-        }
-    }
     public static int checkEmp(EmpTransferObject emp){
         Connection conn = null;
         ResultSet rs;
@@ -217,7 +194,7 @@ public class EmpDAO {
         Employee emp = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("SELECT EMPID,FNAME,LNAME FROM EMP WHERE LOGIN = ?");
+            PreparedStatement stat = conn.prepareStatement("SELECT EMP.EMPID,EMP.FNAME,EMP.LNAME,EMP.JOB,DEPT.DNAME FROM EMP,DEPT WHERE EMP.LOGIN = ? AND EMP.DEPTID=DEPT.DEPTID");
             stat.setString(1,login);
             rs = stat.executeQuery();
             if(rs.next())
@@ -226,6 +203,7 @@ public class EmpDAO {
                 emp.setFname(rs.getString(2));
                 emp.setLname(rs.getString(3));
                 emp.setLogin(login);
+                emp.setJob(rs.getString(4));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -271,4 +249,5 @@ public class EmpDAO {
             e.printStackTrace();
         }
     }
+
 }

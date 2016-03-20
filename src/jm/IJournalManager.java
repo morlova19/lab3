@@ -1,6 +1,5 @@
 package jm;
 
-import journal.Subtask;
 import journal.Task;
 import utils.TransferObject;
 
@@ -57,9 +56,9 @@ public interface IJournalManager extends Remote {
     Task get(int id)throws RemoteException;
 
 
-    void addSubtask(int t_id, Subtask stask);
+    void addSubtask(int t_id, Task stask);
     void deleteSubtask(Integer t_id, Integer st_id);
-    Subtask getSubtask(Integer t_id,Integer st_id);
+    Task getSubtask(Integer t_id,Integer st_id);
 
     void delaySubtask(int taskid,int stid, Date newDate);
     List getCurrentSubtasks(Integer t_id);

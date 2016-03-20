@@ -23,5 +23,6 @@
     <orderEntry type="library" name="jQuery-2.0.0" level="application" />
     <orderEntry type="library" name="javax.servlet:jstl:1.2" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.6.1" level="project" />
+    <orderEntry type="library" name="javax:javaee-api:6.0" level="application" />
   </component>
 </module>

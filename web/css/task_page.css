@@ -13,7 +13,7 @@ div.task-form{
 div.task-form table{
     width: 100%;
 }
-div.task-form table textarea,input[type=text]{
+div.task-form table textarea,input[type=text],select{
     width: 100%;
 }
 div.task-form table th{
@@ -23,20 +23,19 @@ div.task-form table th{
 div.task-form table tr:last-child{
     text-align: right;
 }
-div.table-container table{
+div#table-container table{
     border-collapse: collapse;
-    width: 70%;
-    padding-left: 5%;
+    width: 90%;
+    margin-left: 2%;
+    margin-right: 2%;
 
 }
-div.table-container table th{
-    background-color: darkblue;
+div#table-container table thead th{
+    background-color: #0000cc;
     color: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
+    padding: 10px 50px;
 }
-div.table-container table td{
+div#table-container table td{
     background-color: #f2f2f2;
     text-align: center;
     padding-top: 10px;
@@ -51,39 +50,31 @@ div#menu-container {
 div.actions{
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 70%;
+    width: 90%;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 div.actions a{
 float: right;
+
 }
 div.actions a:hover{
     color: red;
 }
-ul#sort-delete-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: white;
-    float: left;
-}
 
-ul#sort-delete-list li {
-    float: left;
-    text-align: center;
-    vertical-align: middle;
-    padding-left: 5px;
-    padding-top: 2px;
-}
-
-ul#sort-delete-list li input{
-    background-color: transparent;
-    border: none;
-    border-right: 1px solid black;
+.delete-button{
+    width: 28px;
+    height: 28px;
+    background: url(../images/ic_action_remove.png) no-repeat;
+    border: transparent;
 
 }
-ul#sort-delete-list li input:hover{
-   text-decoration: underline;
-    border: none;
-    border-right: 1px solid black;
+.copy-button{
+    width: 28px;
+    height: 28px;
+    background: url(../images/ic_action_copy.png) no-repeat;
+    border: transparent;
+}
+.last-cell form{
+    display: inline;
 }

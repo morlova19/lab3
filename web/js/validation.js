@@ -87,27 +87,42 @@ $(document).ready(function(){
         }
     }
 
-    $('#newtask-form').submit(function(){
-        var name = $('#name').val().length;
-        var date = $('.date-cell').val();
-        if(name!=0 && validDate(date))
-        {
-            return true;
+    $('#newtask-form').submit(function() {
+        var name = $.trim($('#name').val()).length;
+        var date = $('#tdate').val();
+        var isSubtask = $('#pt_id').length;
+        if (isSubtask == 0) {
+
+            if (name != 0 && validDate(date)) {
+                return true;
+            }
+            else {
+                if (name == 0) $('#name-error').show();
+                else $('#name-error').hide();
+
+                if (!validDate(date)) $('#date-error').show();
+                else $('#date-error').hide();
+                return false;
+            }
         }
         else {
-            if(name==0) $('#name-error').show();
-            else $('#name-error').hide();
+            if(name !=0 && validSubtaskDate(date))
+            {
+                return true;
+            }
+            else {
+                if(name==0) $('#name-error').show();
+                else $('#name-error').hide();
 
-            if(!validDate(date)) $('#date-error').show();
-            else $('#date-error').hide();
-            return false;
+                if(!validSubtaskDate(date)) $('#date-error').show();
+                else $('#date-error').hide();
+                return false;
+            }
         }
+
     });
 
-    $('#delete-form').submit(function(){
-        var checked_count = $('#tasks td input[type=checkbox]').filter(":checked").length;
-        if(checked_count > 0)
-        {
+    $('.delete-form').submit(function(){
             if(confirm('Are you sure?'))
             {
                 return true;
@@ -116,16 +131,11 @@ $(document).ready(function(){
                 return false;
             }
 
-        }
-        else {
-            alert('Please select task to delete');
-            return false;
-        }
     });
 
     $('#newsubtask-form').submit(function(){
         var name = $.trim($('#name').val()).length;
-        var date = $('#date').val();
+        var date = $('#tdate').val();
         if(name !=0 && validSubtaskDate(date))
         {
             return true;
@@ -170,22 +180,45 @@ $(document).ready(function(){
         }
     }
     $('#update-task-form').submit(function(){
-        var name = $('#name').val().length;
+        var isSubtask = $('#pt_id').length;
 
-        var date = $('.date-cell').val();
-
-        if(name!=0 && validNewDate(date))
+        var name = $.trim($('#name').val()).length;
+        var date = $('#tdate').val();
+        if(isSubtask!=0)
         {
-            return true;
+            if(name!=0 && validNewDate(date) && validSubtaskDate(date))
+            {
+                return true;
+            }
+            else {
+                if(name==0) $('#name-error').show();
+                else $('#name-error').hide();
+
+                if(!validNewDate(date) || !validSubtaskDate(date)) $('#date-error').show();
+                else $('#date-error').hide();
+
+                return false;
+            }
         }
         else {
-            if(name==0) $('#name-error').show();
-            else $('#name-error').hide();
 
-            if(!validNewDate(date)) $('#date-error').show();
-            else $('#date-error').hide();
-            return false;
+            if(name!=0 && validNewDate(date))
+            {
+                return true;
+            }
+            else {
+                if(name==0) $('#name-error').show();
+                else $('#name-error').hide();
+
+                if(!validNewDate(date)) $('#date-error').show();
+                else $('#date-error').hide();
+                return false;
+            }
         }
+
+
+
+
     });
     function validNewDate(date)
     {
@@ -215,7 +248,7 @@ $(document).ready(function(){
     function maxSubtaskDate()
     {
         var items = [];
-        $('#tasks tbody  tr td:nth-child(4)').each(function(){
+        $('#tasks tbody  tr td:nth-child(3)').each(function(){
             var str1 = $.trim($(this).text());
 
             if(str1.length != 0)
@@ -243,4 +276,14 @@ $(document).ready(function(){
             return false;
         }
     });
+    function parseDate(date){
+
+        var q = date.split(" ");
+
+        var d = q[0].split(".");
+
+        var t = q[1].split(":");
+        var ddd = new Date(d[2],d[1]-1,d[0],t[0],t[1],0,0);
+        return ddd.getTime();
+    }
 });

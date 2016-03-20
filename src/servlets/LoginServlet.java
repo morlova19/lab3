@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Servlet for authorization of employee.
  */
-@WebServlet(urlPatterns = {"/login","/my/logout","/emp/logout"})
+@WebServlet(urlPatterns = {"/login","/my/logout","/emp/logout","/logout"})
 public class LoginServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet{
 
                 req.getSession().setAttribute("username", emp.getID());
 
-                resp.sendRedirect("my/tasks.jsp?type=cur");
+                resp.sendRedirect("tasks.jsp?type=my");
             } else {
                 Cookie username = new Cookie("username", "error");
                 resp.addCookie(username);
@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet{
             }
         }
         else {
-            resp.sendRedirect("my/tasks.jsp?type=cur");
+            resp.sendRedirect("tasks.jsp?type=my");
         }
 
     }
@@ -70,6 +70,9 @@ public class LoginServlet extends HttpServlet{
                 logout(req,resp);
                 break;
             case "/emp/logout":
+                logout(req,resp);
+                break;
+            case "/logout":
                 logout(req,resp);
                 break;
 

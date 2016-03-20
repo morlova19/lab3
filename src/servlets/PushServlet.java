@@ -2,7 +2,6 @@ package servlets;
 
 import DAO.TaskDAO;
 import com.google.gson.Gson;
-import journal.Subtask;
 import journal.Task;
 import utils.Message;
 import utils.ResponseMessage;
@@ -72,7 +71,7 @@ public class PushServlet extends HttpServlet{
 
                 ResponseMessage msg = new ResponseMessage();
                 TaskDAO dao = new TaskDAO();
-                Subtask t = dao.getSubtask(taskid,subtaskid);
+                Task t = dao.getSubtask(taskid,subtaskid);
                 msg.createMessage(empid,taskid,subtaskid,t.getName(),t.getDescription());
                 String str = gson.toJson(msg);
 
@@ -89,8 +88,8 @@ public class PushServlet extends HttpServlet{
         }
         else {
             if(empid != -1 && taskid != -1) {
-                TaskDAO dao = new TaskDAO();
-                Task t = dao.getTask(empid, taskid);
+
+                Task t = TaskDAO.getTask(taskid);
                 ResponseMessage msg = new ResponseMessage();
                 msg.createMessage(empid,taskid,subtaskid,t.getName(),t.getDescription());
                 String str = gson.toJson(msg);

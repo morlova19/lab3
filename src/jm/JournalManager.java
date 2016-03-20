@@ -1,9 +1,8 @@
 package jm;
 
 import DAO.TaskDAO;
-import journal.Subtask;
 import journal.Task;
-import journal.Journal;
+import utils.Constants;
 import utils.TransferObject;
 
 import java.io.Serializable;
@@ -16,136 +15,129 @@ import java.util.List;
 
 public class JournalManager implements IJournalManager, Serializable {
     private Integer emp_id;
-    /**
-     * Journal of tasks.
-     */
-    private Journal journal;
+
     /**
      * Creates journal manager and fills fields.
      */
     public JournalManager(Integer emp_id) {
         this.emp_id = emp_id;
-        loadJournal();
+
     }
-    /**
-     * Loads journal.
-     */
-    public void loadJournal()  {
-        journal = readJournal();
-    }
+
 
     public  void add(Task task)  {
         if(task != null) {
-            TaskDAO.addTask(emp_id,task);
-            journal.addTask(TaskDAO.getLastTask(emp_id));
+            TaskDAO.addTask(task);
+
         }
     }
     public  void delete(int id)  {
-        journal.deleteTask(id);
-        TaskDAO.deleteTask(emp_id,id);
+
+        TaskDAO.deleteTask(id);
     }
 
     @Override
     public List getCurrentTasks() {
-        return journal.getCurrentTasks();
+
+        return TaskDAO.getCurrentTasks(emp_id);
+
     }
 
     @Override
     public List getCompletedTasks() {
-        return journal.getCompletedTasks();
+        return TaskDAO.getTasks(emp_id, Constants.COMPLETED);
     }
 
     @Override
     public List getTasks() {
-        return journal.getTasks();
+        return TaskDAO.getTasks(emp_id);
     }
 
     public Task get(int id) {
-        return journal.getTask(id);
+        return TaskDAO.getTask(id);
     }
 
     @Override
-    public void addSubtask(int t_id, Subtask stask) {
-        TaskDAO.addSubtask(t_id,stask);
-        journal.addSubtask(t_id,TaskDAO.getLastSubtask(t_id));
+    public void addSubtask(int t_id, Task stask) {
+        TaskDAO.addSubtask(stask);
+
 
     }
 
     @Override
     public void deleteSubtask(Integer t_id, Integer st_id) {
-        journal.deleteSubtask(t_id,st_id);
+
         TaskDAO.deleteSubtask(t_id,st_id);
     }
 
     @Override
-    public Subtask getSubtask(Integer t_id,Integer st_id) {
-        return journal.getSubtask(t_id,st_id);
+    public Task getSubtask(Integer t_id,Integer st_id) {
+        return TaskDAO.getSubtask(t_id,st_id);
     }
 
     @Override
     public void delaySubtask(int taskid, int stid, Date newDate) {
-        journal.delaySubtask(taskid,stid,newDate);
+       //TODO:
     }
 
     @Override
     public List getCurrentSubtasks(Integer t_id) {
-        return journal.getCurrentSubtasks(t_id);
+        return TaskDAO.getCurrentSubtasks(t_id);
     }
 
     @Override
     public List getCompletedSubtasks(Integer t_id) {
-        return journal.getCompletedSubtasks(t_id);
+        return TaskDAO.getCompletedSubtasks(t_id);
+
     }
 
 
     @Override
     public void completeSubtask(Integer t_id, Integer st_id)  {
-        journal.completeSubtask(t_id,st_id);
+
+        TaskDAO.completeSubtask(t_id,st_id);
     }
 
     @Override
     public List getSubtasks(Integer t_id) {
-        return journal.getSubtasks(t_id);
+        return TaskDAO.getSubtasks(t_id);
     }
 
     public void delay(int id, Date newDate) {
-        journal.delayTask(id, newDate);
-        TaskDAO.updateTask(emp_id,journal.getTask(id));
+       //TODO
     }
 
     public void complete(int id)  {
-        journal.setCompleted(journal.getTask(id));
+        TaskDAO.completeTask(id);
     }
-    /**
-     * Reads journal.
-     * @return journal.
-     */
-    public Journal readJournal()  {
-        Journal journal = new Journal();
-        List<Task> tasks = TaskDAO.getTasks(emp_id);
-        journal.setTasks(tasks);
-        return journal;
+    public void cancel(int id)  {
+        TaskDAO.cancelTask(id);
     }
+
     public List getTasks(String str)
     {
-        return journal.getTasks();
+        return TaskDAO.findTasks(str);
     }
 
     @Override
     public void updateTask(int t_id,TransferObject to) {
-        journal.updateTask(t_id, to);
-        TaskDAO.updateTask(emp_id,journal.getTask(t_id));
+
+        TaskDAO.updateTask(to);
     }
 
     @Override
     public void updateSubtask(int t_id, int st_id, TransferObject to) {
-       journal.updateSubtask(t_id, st_id, to);
-        TaskDAO.updateSubtask(t_id,journal.getSubtask(t_id,st_id));
+
+        TaskDAO.updateTask(to);
     }
 
     @Override
     public List searchTasks(String param) {
 
-        return journal.searchTasks(param);
+        return TaskDAO.findTasks(param);
+    }
+    public List getEmpsTasks()
+    {
+        return TaskDAO.getEmpsTasks(emp_id);
     }
 }

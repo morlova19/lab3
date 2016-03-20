@@ -11,7 +11,16 @@ public class TransferObject {
     private Date date;
     private String contacts;
     private int id;
-    private boolean completed;
+    private String status;
+    private int cr_id;
+
+    private int ex_id;
+
+    private int pt_id;
+
+    private int priority;
+
+    private Date crdate;
 
     public void setName(String name) {
         this.name = name;
@@ -53,11 +62,51 @@ public class TransferObject {
         return id;
     }
 
-    public boolean getCompleted() {
-        return completed;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getCr_id() {
+        return cr_id;
+    }
+
+    public void setCr_id(int cr_id) {
+        this.cr_id = cr_id;
+    }
+
+    public int getEx_id() {
+        return ex_id;
+    }
+
+    public void setEx_id(int ex_id) {
+        this.ex_id = ex_id;
+    }
+
+    public int getPt_id() {
+        return pt_id;
+    }
+
+    public void setPt_id(int pt_id) {
+        this.pt_id = pt_id;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public Date getCrdate() {
+        return crdate;
+    }
+
+    public void setCrdate(Date crdate) {
+        this.crdate = crdate;
     }
 }

@@ -7,19 +7,23 @@ import jm.JournalManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Employee implements Serializable{
     private Integer ID;
     private String login;
     private String fname;
     private String lname;
+    private String job;
+    private int dept;
     private JournalManager journalManager;
     private List<Employee> emps;
+    private Map<Integer,Employee> emps_map;
 
     public Employee(int id) {
         this.ID = id;
         journalManager = new JournalManager(ID);
-         emps = EmpDAO.getEmps(ID);
+        emps = EmpDAO.getEmps(ID);
     }
 
     public void setFname(String fname) {
@@ -77,5 +81,23 @@ public class Employee implements Serializable{
 
     public String getLogin() {
         return login;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getJob() {
+        return job;
+    }
+    public String getName(int empid)
+    {
+        if(empid==this.ID)
+        {
+            return "Me";
+        }
+        else {
+            return getEmp(empid).getName();
+        }
     }
 }
