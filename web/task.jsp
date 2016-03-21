@@ -30,8 +30,9 @@
             <c:when test="${isCompleted==true}">
                 <c:if test="${param.pt_id != null}">
                     <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
-                    <label for="pt_id">Parent task ID</label>
-                    <input type="text" readonly value="${task.pt_id}" name="pt_id" id="pt_id"/>
+                    <label for="pt_id">Parent task</label>
+                    <input id="pt_id" readonly value="${task.name}"/>
+                    <input type="text" readonly value="${task.pt_id}" name="pt_id" hidden/>
 
                     <label for="task-date">Parent task date</label>
                     <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
@@ -82,8 +83,9 @@
             <form method="post" action="savetask" id="update-task-form">
                 <c:if test="${param.pt_id != null}">
                     <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
-                    <label for="pt_id">Parent task ID</label>
-                    <input type="text" readonly value="${task.pt_id}" name="pt_id" id="pt_id"/>
+                    <label for="pt_id">Parent task</label>
+                    <input id="pt_id" readonly value="${task.name}"/>
+                    <input type="text" readonly value="${task.pt_id}" name="pt_id" hidden/>
 
                     <label for="task-date">Parent task date</label>
                     <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
@@ -225,7 +227,9 @@
                         </select>
                     </c:otherwise>
                 </c:choose>
+                <c:if test="${emp.ID==task.cr_id}">
                 <input type="submit" value="Save" name="update"/>
+                </c:if>
                 </form>
                 <c:if test="${emp.ID==task.ex_id}">
                     <form action="completetask" method="post" class="last-cell">
@@ -245,7 +249,7 @@
 <div id="menu-container">
     <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
         <div class="actions">
-            <c:if test="${isCompleted!=true || b==true}" >
+            <c:if test="${isCompleted!=true && b==true}" >
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
             </c:if>
             <br/>

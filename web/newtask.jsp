@@ -25,10 +25,11 @@
 
         <c:if test="${!empty param.pt_id}">
             <c:set var="pt" value="${emp.journalManager.get(param.pt_id)}"/>
-            <fmt:formatDate value="${pt.date}" type="both" dateStyle="medium" timeStyle="short" var="formattedDate"/>
+            <fmt:formatDate value="${pt.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate"/>
 
             <label for="pt_id">Parent task</label>
-            <input name="pt_id" type="text" id="pt_id" readonly value="${param.pt_id}"/>
+            <input type="text" id="pt_id" readonly value="${pt.name}"/>
+            <input name="pt_id" type="text" readonly value="${param.pt_id}" hidden/>
 
             <label for="task-date">Parent task date</label>
             <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate}"/>
