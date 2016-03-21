@@ -1,15 +1,58 @@
-input[type=text],textarea,select{
+div.task-form{
+    float: left;
+    height: 100%;
+    width: 30%;
+    padding-right: 2%;
+
+}
+div.task-form form label{
+    font-size: large;
+    font-weight: bold;
+}
+div.task-form form label.error{
+
+    font-size: medium;
+    color: red;
+    font-weight: normal;
+}
+div.task-form form input[type=text] {
     width: 100%;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
+}
+div.task-form form select {
+    width: 100%;
+    padding: 6px 10px;
+    margin-bottom: 8px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 
 }
-table th{
-    text-align: left;
-}
-table td:last-child{
-    text-align: right;
-}
-input[type=submit]{
-    padding-top: 5px;
-    padding-bottom: 5px;
 
+div.task-form textarea{
+    width: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    margin-bottom: 8px;
 }
+div.task-form form input[type=submit]
+{
+    float: right;
+    background-color: #0000cc;
+    color: white;
+    padding: 14px 20px;
+    margin-top: 8px;
+    margin-right: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+

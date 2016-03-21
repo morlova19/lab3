@@ -24,7 +24,7 @@ import java.util.Date;
  */
 @WebServlet(urlPatterns = {"/newtask","/deletetask",
         "/newsubtask","/deletesubtask",
-        "/savetask","/savesubtask","/completetask","/completesubtask","/copytask"})
+        "/savetask","/savesubtask","/completetask","/completesubtask","/copytask","/updatedate","/updatename"})
 public class TaskServlet extends HttpServlet{
 
     @Override
@@ -58,8 +58,36 @@ public class TaskServlet extends HttpServlet{
             case "/copytask":
                 copy(req,resp);
                 break;
+            case "/updatedate":
+                updatedate(req,resp);
+                break;
+            case "/updatename":
+                updatename(req,resp);
+                break;
         }
 
+    }
+
+    private void updatename(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer taskid = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        TaskDAO.updateName(taskid,name);
+        resp.sendRedirect(req.getHeader("referer"));
+    }
+
+    private void updatedate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        System.out.println("qqqqqqq");
+        Integer taskid = Integer.parseInt(req.getParameter("id"));
+        String date = req.getParameter("date");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        try {
+            Date parse_date = sdf.parse(date);
+            TaskDAO.updateDate(taskid,parse_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        resp.sendRedirect(req.getHeader("referer"));
     }
 
     private void copy(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -122,7 +150,7 @@ public class TaskServlet extends HttpServlet{
             String date = req.getParameter("newdate");
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
             try {
-               // TaskDAO.delayTask(empid,taskid,sdf.parse(date));
+               // TaskDAO.updateDate(empid,taskid,sdf.parse(date));
                 if(req.getSession().getAttribute("emp") != null)
                 {
                     Employee emp = (Employee) req.getSession().getAttribute("emp");

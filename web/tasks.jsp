@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="css/tasks_page.css">
     <link rel="stylesheet" type="text/css" href="css/1.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="jquery/inputmask.js"></script>
+    <script src="jquery/jquery.inputmask.js"></script>
+    <script src="jquery/inputmask.date.extensions.js"></script>
     <script src="jquery/jquery.tablesorter.js"></script>
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <script src="js/validation.js"></script>
@@ -133,10 +136,10 @@
                                         <c:set var="b" value="${username == t.ex_id}" scope="page"/>
                                         <tr>
                                             <td>${t.ID}</td>
-                                            <td>
+                                            <td class="cell-date">
                                                 <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
                                             </td>
-                                            <td><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
+                                            <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                             <td>${t.fullStatus}</td>
                                             <td class="last-cell">
                                             <form action="deletetask" class="delete-form"  method="post">

@@ -11,12 +11,10 @@
     <script src="jquery/inputmask.js"></script>
     <script src="jquery/jquery.inputmask.js"></script>
     <script src="jquery/inputmask.date.extensions.js"></script>
-
     <script src="jquery/jquery.tablesorter.js"></script>
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <script src="js/1.js"></script>
     <script src="js/validation.js"></script>
-
 
 </head>
 <body>
@@ -25,37 +23,87 @@
 <c:set var="taskid" value="${param.taskid}"/>
 <div class="task-form">
     <c:set var="task" value="${emp.journalManager.get(taskid)}"/>
-    <fmt:formatDate value="${task.date}" type="both" dateStyle="medium" timeStyle="short" var="formattedDate"/>
+    <fmt:formatDate value="${task.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate"/>
     <c:set var="isCompleted" value="${task.status==constants.COMPLETED || task.status==constants.CANCELLED}" scope="session"/>
     <c:set var="isEditable" value="${task.cr_id==emp.ID}" scope="page"/>
-    <form method="post" action="savetask" id="update-task-form">
-        <table>
-            <c:if test="${param.pt_id != null}">
-                <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" type="both" dateStyle="medium" timeStyle="short" var="formattedDate1"/>
-                <tr>
-                    <th>Parent task ID</th>
-                    <td><input type="text" readonly value="${task.pt_id}" name="pt_id" id="pt_id"/></td>
-                </tr>
-                <tr>
-                    <th>Parent task date</th>
-                    <td><input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/></td>
-                </tr>
-            </c:if>
-            <tr>
-                <th>Executor</th>
-                <td>
-                    <c:if test="${isCompleted==true || emp.ID!=task.cr_id}">
-                            <c:if test="${emp.ID==task.ex_id}">
-                                <input type="text" readonly value="Me" />
-                            </c:if>
+        <c:choose>
+            <c:when test="${isCompleted==true}">
+                <c:if test="${param.pt_id != null}">
+                    <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
+                    <label for="pt_id">Parent task ID</label>
+                    <input type="text" readonly value="${task.pt_id}" name="pt_id" id="pt_id"/>
+
+                    <label for="task-date">Parent task date</label>
+                    <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
+                </c:if>
+                <label for="exec">Executor</label>
+                <c:if test="${emp.ID==task.ex_id}">
+                    <input type="text" readonly value="Me" id="exec"/>
+                </c:if>
+                <c:forEach items="${emp.emps}" var="e">
+                    <c:if test="${e.ID==task.ex_id}">
+                        <input type="text" readonly value="${e.name}" id="exec" />
+                    </c:if>
+                </c:forEach>
+                <label for="creator">Creator</label>
+                <input type="text" id="creator" readonly value="${emp.getName(task.cr_id)}"/>
+
+                <label for="taskid">ID</label>
+                <input id="taskid" type="text" value="${taskid}" readonly name="taskid"/>
+                <label for="name">Name</label>
+                <input name="name" id="name" type="text" value="${task.name}" readonly/>
+
+                <label for="desc">Description</label>
+                <textarea name="desc" id="desc" rows="5" readonly>${task.description}</textarea>
+                <label for="tdate">Date</label>
+                <input readonly name="date" type="text" class="date-cell"  id="tdate" value="${formattedDate}"/>
+
+                <label for="contacts">Contacts</label>
+                <textarea name="contacts" id="contacts" rows="5" readonly>${task.contacts}</textarea>
+
+
+                <label for="priority">Priority</label>
+                    <c:if test="${task.priority == constants.LOW}">
+                        <input id="priority" type="text" value="Low" readonly/>
+                    </c:if>
+                    <c:if test="${task.priority == constants.MEDIUM}">
+                        <input id="priority" type="text" value="Medium" readonly/>
+                    </c:if>
+                    <c:if test="${task.priority == constants.HIGH}">
+                        <input id="priority" type="text" value="High" readonly/>
+                    </c:if>
+
+                <label for="status">Status</label>
+                <input id="status" name="status" type="text" value="${task.fullStatus}" readonly/>
+
+            </c:when>
+
+            <c:otherwise>
+            <form method="post" action="savetask" id="update-task-form">
+                <c:if test="${param.pt_id != null}">
+                    <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
+                    <label for="pt_id">Parent task ID</label>
+                    <input type="text" readonly value="${task.pt_id}" name="pt_id" id="pt_id"/>
+
+                    <label for="task-date">Parent task date</label>
+                    <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
+                </c:if>
+                <label for="exec">Executor</label>
+                <c:choose>
+                    <c:when test="${emp.ID!=task.cr_id}">
+                        <c:if test="${emp.ID==task.ex_id}">
+                            <input type="text" readonly value="Me" id="exec"/>
+                        </c:if>
+                        <c:if test="${emp.ID!=task.ex_id}">
                             <c:forEach items="${emp.emps}" var="e">
                                 <c:if test="${e.ID==task.ex_id}">
-                                    <input type="text" readonly value="${e.name}" />
+                                    <input type="text" readonly value="${e.name}" id="exec" />
                                 </c:if>
                             </c:forEach>
-                    </c:if>
-                    <c:if test="${isCompleted!=true && emp.ID==task.cr_id}">
-                        <select name="ex_id">
+                        </c:if>
+                    </c:when>
+                    <c:otherwise>
+                        <select name="ex_id" id="exec">
                             <c:if test="${emp.ID==task.ex_id}">
                                 <option value="${emp.ID}" selected>Me</option>
                             </c:if>
@@ -72,86 +120,40 @@
                                 </c:if>
                             </c:forEach>
                         </select>
-                    </c:if>
-                </td>
-            </tr>
-            <tr>
-                <th>Creator</th>
-                <td><input type="text" readonly value="${emp.getName(task.cr_id)}"/></td>
-            </tr>
-            <tr>
-                <th>ID</th>
-                <td><input type="text" value="${taskid}" readonly name="taskid"/></td>
-            </tr>
-            <tr>
-                <th>Name</th>
-            <c:if test="${isCompleted!=true &&  emp.ID==task.cr_id}">
-                <td><input name="name" id="name" type="text" value="${task.name}"/></td>
+                    </c:otherwise>
+                </c:choose>
 
-             </c:if>
-            <c:if test="${isCompleted==true || emp.ID!=task.cr_id}">
-             <td><input name="name" type="text" value="${task.name}" readonly/></td>
-            </c:if>
-            </tr>
-            <c:if test="${isCompleted!=true &&  emp.ID==task.cr_id}">
-               <tr>
-                   <td></td>
-                   <td id="name-error" class="error" hidden >Name should not be empty</td>
-               </tr>
-            </c:if>
-            <tr>
-                <th>Description</th>
-                <c:if test="${isCompleted!=true}">
-                    <td><textarea name="desc" rows="7">${task.description}</textarea></td>
-                </c:if>
-                <c:if test="${isCompleted==true}">
-                    <td><textarea name="desc" rows="7" readonly>${task.description}</textarea></td>
-                </c:if>
+                <label for="creator">Creator</label>
+                <input type="text" id="creator" readonly value="${emp.getName(task.cr_id)}"/>
 
-            </tr>
-            <tr>
-                <th>Date</th>
-                <c:if test="${isCompleted!=true}">
-                    <td><input name="date" type="text" class="date-cell"  id="tdate" value="${formattedDate}"/></td>
-                </c:if>
-                <c:if test="${isCompleted==true}">
-                    <td><input name="date" type="text" class="date-cell"  value="${formattedDate}" readonly/></td>
-                </c:if>
-            </tr>
-            <c:if test="${isCompleted!=true}">
-               <tr>
-                   <td></td>
-                   <td id="date-error" class="error" hidden>Please enter correct date</td>
-               </tr>
-            </c:if>
-            <tr>
-                <th>Contacts</th>
-                <c:if test="${isCompleted!=true}">
-                    <td><textarea name="contacts" rows="7">${task.contacts}</textarea></td>
-                </c:if>
-                <c:if test="${isCompleted==true}">
-                    <td><textarea name="contacts" rows="7" readonly>${task.contacts}</textarea></td>
-                </c:if>
+                <label for="taskid">ID</label>
+                <input id="taskid" type="text" value="${taskid}" readonly name="taskid"/>
 
-            </tr>
-            <tr>
-                <th>Priority</th>
-                <c:if test="${isCompleted==true}">
-                    <td>
-                        <c:if test="${task.priority == constants.LOW}">
-                            <input type="text" value="Low" readonly/>
-                        </c:if>
-                        <c:if test="${task.priority == constants.MEDIUM}">
-                            <input type="text" value="Medium" readonly/>
-                        </c:if>
-                        <c:if test="${task.priority == constants.HIGH}">
-                            <input type="text" value="High" readonly/>
-                        </c:if>
-                    </td>
-                </c:if>
-                <c:if test="${isCompleted!=true}">
-                    <td><select name="priority">
+                <label for="name">Name</label>
+                <c:choose>
+                   <c:when test="${emp.ID!=task.cr_id}">
+                       <input name="name" id="name" type="text" value="${task.name}" readonly/>
+                   </c:when>
+                    <c:otherwise>
+                        <input name="name" id="name" type="text" value="${task.name}"/>
+                        <label id="name-error" class="error" hidden >Name should not be empty</label>
+                    </c:otherwise>
+                </c:choose>
 
+
+                <label for="desc">Description</label>
+                <textarea name="desc" id="desc" rows="5">${task.description}</textarea>
+
+
+                <label for="tdate">Date</label>
+                <input name="date" type="text" class="date-cell"  id="tdate" value="${formattedDate}"/>
+                <label id="date-error" class="error" hidden>Please enter correct date</label>
+                <br/>
+                <label for="contacts">Contacts</label>
+                <textarea name="contacts" id="contacts" rows="5">${task.contacts}</textarea>
+
+                <label for="priority">Priority</label>
+                    <select name="priority" id="priority">
                         <c:if test="${task.priority == constants.LOW}">
                             <option value="${constants.LOW}" selected>Low</option>
                             <option value="${constants.MEDIUM}">Medium</option>
@@ -168,51 +170,41 @@
                             <option value="${constants.HIGH}" selected>High</option>
                         </c:if>
                     </select>
-                    </td>
-                </c:if>
-            </tr>
-            <tr>
-                <th>Status</th>
 
-                <c:if test="${emp.ID!=task.ex_id && isCompleted!=true}">
-                    <td><input name="status" type="text" value="${task.fullStatus}" readonly/></td>
+                <label for="status">Status</label>
+                <c:choose>
+                    <c:when test="${emp.ID!=task.ex_id}">
+                        <input id="status" name="status" type="text" value="${task.fullStatus}" readonly/>
+                    </c:when>
+                    <c:otherwise>
+                        <select name="status" id="status">
+                            <c:if test="${task.status == constants.NEW}">
+                                <option value="${constants.NEW}" selected>New</option>
+                                <option value="${constants.PERFORMING}">In progress</option>
+                            </c:if>
+                            <c:if test="${task.status == constants.PERFORMING}">
+                                <option value="${constants.NEW}">New</option>
+                                <option value="${constants.PERFORMING}" selected>In progress</option>
+                            </c:if>
+                        </select>
+                    </c:otherwise>
+                </c:choose>
+                <input type="submit" value="Save" name="update"/>
+                </form>
+                <c:if test="${emp.ID==task.ex_id}">
+                    <form action="completetask" method="post" class="last-cell">
+                        <input type="text" name="taskid" hidden readonly value="${taskid}"/>
+                        <input type="submit" value="Complete" name="update"/>
+                    </form>
                 </c:if>
-                <c:if test="${isCompleted==true}">
-                    <td><input name="status" type="text" value="${task.fullStatus}" readonly/></td>
+                <c:if test="${emp.ID==task.cr_id}">
+                    <form action="savetask" method="post">
+                        <input type="text" name="taskid" hidden readonly value="${taskid}"/>
+                        <input type="submit" value="Cancel" name="update"/>
+                    </form>
                 </c:if>
-                <c:if test="${isCompleted!=true && emp.ID==task.ex_id}">
-                    <td><select name="status">
-                        <c:if test="${task.status == constants.NEW}">
-                            <option value="${constants.NEW}" selected>New</option>
-                            <option value="${constants.PERFORMING}">In progress</option>
-                        </c:if>
-                        <c:if test="${task.status == constants.PERFORMING}">
-                            <option value="${constants.NEW}">New</option>
-                            <option value="${constants.PERFORMING}" selected>In progress</option>
-                        </c:if>
-                    </select>
-                    </td>
-               </c:if>
-            </tr>
-        </table>
-        <c:if test="${isCompleted!=true}">
-            <input type="submit" value="Save" name="update"/>
-        </c:if>
-    </form>
-    <c:if test="${isCompleted!=true}">
-        <c:if test="${emp.ID==task.ex_id}">
-            <form action="completetask" method="post">
-                <input type="text" name="taskid" hidden readonly value="${taskid}"/>
-                <input type="submit" value="Complete" name="update"/>
-            </form>
-        </c:if>
-        <c:if test="${emp.ID==task.cr_id}">
-            <form action="savetask" method="post">
-                <input type="text" name="taskid" hidden readonly value="${taskid}"/>
-                <input type="submit" value="Cancel" name="update"/>
-            </form>
-        </c:if>
-    </c:if>
+            </c:otherwise>
+        </c:choose>
 </div>
 <div id="menu-container">
         <div class="actions">
@@ -279,9 +271,6 @@
 
             </table>
         </div>
-</div>
-<div>
-
 </div>
 </body>
 </html>

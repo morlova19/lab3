@@ -535,15 +535,14 @@ public class TaskDAO {
            closeConnection(conn);
         }
     }
-   /* public static void delayTask(int empid,int taskid, java.util.Date date) {
+    public static void updateDate(int taskid, java.util.Date date) {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET TDATE=? WHERE EMPID = ? AND T_ID=?");
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET TDATE=? WHERE  T_ID=?");
             Timestamp timestamp = new Timestamp(date.getTime());
             stat.setTimestamp(1,timestamp);
-            stat.setInt(2,empid);
-            stat.setInt(3,taskid);
+            stat.setInt(2,taskid);
             stat.executeUpdate();
 
         } catch (SQLException e) {
@@ -552,7 +551,7 @@ public class TaskDAO {
         finally {
            closeConnection(conn);
         }
-    }*/
+    }
   /*  public static void delaySubtask(int taskid,int subtaskid, java.util.Date date) {
         Connection conn = null;
         try {
@@ -685,5 +684,22 @@ public class TaskDAO {
             addTask(t);
         }
 
+    }
+
+    public static void updateName(Integer taskid, String name) {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET NAME=? WHERE T_ID = ?");
+            stat.setString(1,name);
+            stat.setInt(2,taskid);
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
     }
 }

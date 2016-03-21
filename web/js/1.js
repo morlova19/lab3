@@ -13,6 +13,41 @@ $(document).ready(function(){
         $('label#message').show();
     }
 
+
+
+    $("#tasks td.cell-date").dblclick(function () {
+        var row = $.trim($(this).parent().find("td:nth-child(1)").text());
+        var OriginalContent = $(this).text();
+        $(this).addClass("cellEditing");
+        $(this).html('<input type="text" class="date-cell" value="'+OriginalContent+'" />');
+        $('.date-cell').inputmask('99.99.9999 99:99');
+        $(this).children().first().focus();
+        $(this).children().first().keypress(function (e) { if (e.which == 13) {
+
+          /*  var fullContent = $(this).val();
+            $(this).parent().html(fullContent);
+            $(this).parent().removeClass("cellEditing");*/
+            var URL = 'updatedate' ;
+            var newContent = $(this).val();
+
+            $.post(URL,{
+                id: row,
+                date: newContent
+            });
+            $(this).parent().text(newContent);
+            $(this).parent().removeClass("cellEditing");
+
+            /*var newContent = $(this).val();
+             $(this).parent().text(newContent);
+             $(this).parent().removeClass("cellEditing"); }*/
+        }
+        });
+        $(this).children().first().blur(function(){
+            $(this).parent().text(OriginalContent);
+            $(this).parent().removeClass("cellEditing");
+        });
+    });
+
     $('.date-cell').inputmask('99.99.9999 99:99');
 
    /* setCurrentDate();
