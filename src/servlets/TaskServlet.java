@@ -103,8 +103,11 @@ public class TaskServlet extends HttpServlet{
     }
 
     private void completeTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-      Integer taskid=Integer.parseInt(req.getParameter("taskid"));
+        String str = req.getParameter("taskid");
+        assert str!=null;
+      Integer taskid=Integer.parseInt(str);
         TaskDAO.completeTask(taskid);
+        resp.sendRedirect(req.getHeader("referer"));
 
     }
     private void newTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
