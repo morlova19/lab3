@@ -243,8 +243,9 @@
         </c:choose>
 </div>
 <div id="menu-container">
+    <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
         <div class="actions">
-            <c:if test="${isCompleted!=true}" >
+            <c:if test="${isCompleted!=true || b==true}" >
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
             </c:if>
             <br/>
@@ -253,7 +254,6 @@
 
         <div id="table-container">
 
-            <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
             <c:set var="tasks" value="${emp.journalManager.getSubtasks(taskid)}"/>
             <table id="tasks" class="tablesorter">
                 <thead>
