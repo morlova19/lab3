@@ -46,6 +46,12 @@
                 <c:when test="${type!='emp'}"><a href="?type=emp" class="menu" >TASKS OF EMPLOYEES</a></c:when>
             </c:choose>
         </li>
+        <li class="header-link">
+            <c:choose>
+                <c:when test="${type =='org'}"> <a href="?type=org" class="selected" >HIERARCHY OF EMPLOYEES</a></c:when>
+                <c:when test="${type!='org'}"><a href="?type=org" class="menu" >HIERARCHY OF EMPLOYEES</a></c:when>
+            </c:choose>
+        </li>
     </ul>
 
     <div id="menu-container">
