@@ -2,6 +2,7 @@ package DAO;
 
 import emp.EmpTransferObject;
 import emp.Employee;
+import utils.Constants;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -204,6 +205,7 @@ public class EmpDAO {
                 emp.setLname(rs.getString(3));
                 emp.setLogin(login);
                 emp.setJob(rs.getString(4));
+                emp.setDept(rs.getString(5));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -214,7 +216,60 @@ public class EmpDAO {
         }
         return emp;
     }
-
+    public static Employee getEmp(int id){
+        Connection conn = null;
+        ResultSet rs;
+        Employee emp = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("SELECT E.EMPID,E.FNAME,E.LNAME,E.JOB,DEPT.DNAME, M.FNAME||' '||M.LNAME FROM EMP E, EMP M,DEPT WHERE E.EMPID = ? AND E.DEPTID=DEPT.DEPTID AND E.MGR=M.EMPID");
+            stat.setInt(1,id);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                emp = new Employee(rs.getInt(1));
+                emp.setFname(rs.getString(2));
+                emp.setLname(rs.getString(3));
+                emp.setJob(rs.getString(4));
+                emp.setDept(rs.getString(5));
+                emp.setMgr(rs.getString(6));
+            }
+            stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ?");
+            stat.setInt(1,id);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                assert emp != null;
+                emp.setTask_count(rs.getInt(1));
+            }
+            stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ? AND STATUS IN (?,?)");
+            stat.setInt(1,id);
+            stat.setString(2, Constants.NEW);
+            stat.setString(3, Constants.PERFORMING);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                assert emp != null;
+                emp.setCurrent_tasks(rs.getInt(1));
+            }
+            stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ? AND STATUS =?");
+            stat.setInt(1,id);
+            stat.setString(2, Constants.COMPLETED);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                assert emp != null;
+                emp.setCompleted_tasks(rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return emp;
+        }
+        finally {
+            closeConnection(conn);
+        }
+        return emp;
+    }
     public static String getEmpName(int empid){
         Connection conn = null;
         ResultSet rs;

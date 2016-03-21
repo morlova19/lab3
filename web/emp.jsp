@@ -5,12 +5,12 @@
 <html>
 <head>
     <title>Employee</title>
+    <link rel="stylesheet" type="text/css" href="css/task_page.css">
 </head>
 <body>
 <div class="task-form">
     <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="e" value="${emp.getEmp(param.id)}"/>
-
 
         <label for="ename">Name</label>
         <input id="ename" name="ename" type="text" value="${e.name}" readonly/>
@@ -18,17 +18,17 @@
         <label for="job">Job</label>
         <input id="job" name="job" type="text" value="${e.job}" readonly/>
 
-        <th>Date</th>
-        <td><input name="date" type="text" class="date-cell"  value="${formattedDate}" readonly/></td>
+    <label for="mgr">Manager</label>
+    <input id="mgr" name="job" type="text" value="${e.mgr}" readonly/>
+    <label>Tasks statistics</label>
 
+    <label for="total">Total count</label>
+    <input id="total" name="job" type="text" value="${e.task_count}" readonly/>
 
-        <label>Contacts</label>
-        <td><textarea name="desc" rows="7" readonly>${task.contacts}</textarea></td>
-
-
-        <td colspan="2">
-            <input type="button" value="OK"/>
-        </td>
+    <label for="current">Current count</label>
+    <input id="current" name="job" type="text" value="${e.current_tasks}" readonly/>
+    <label for="completed">Completed count</label>
+    <input id="completed" name="job" type="text" value="${e.completed_tasks}" readonly/>
 
 </div>
 </body>

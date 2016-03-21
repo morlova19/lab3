@@ -16,15 +16,26 @@ public class Employee implements Serializable{
     private String fname;
     private String lname;
     private String job;
-    private int dept;
+    private String dept;
+    private String mgr;
+    private int task_count;
+    private int completed_tasks;
+    private int current_tasks;
     private JournalManager journalManager;
     private List<Employee> emps;
-    private Map<Integer,Employee> emps_map;
 
     public Employee(int id) {
         this.ID = id;
         journalManager = new JournalManager(ID);
         emps = EmpDAO.getEmps(ID);
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
     }
 
     public void setFname(String fname) {
@@ -48,24 +59,13 @@ public class Employee implements Serializable{
         return fname + " " + lname;
     }
 
-    public String getEmpName(int id)
-    {
-        if(emps != null && !emps.isEmpty())
-        {
-            emps.stream().filter(employee -> employee.getID()==id).findFirst().get().getName();
-        }
-        return null;
-    }
 
     public Integer getID() {
         return ID;
     }
     public Employee getEmp(int id){
-        if(emps != null && !emps.isEmpty())
-        {
-            return emps.stream().filter(employee -> employee.getID()==id).findFirst().get();
-        }
-        return null;
+
+        return EmpDAO.getEmp(id);
     }
 
     public void setEmps(List<Employee> emps) {
@@ -100,5 +100,37 @@ public class Employee implements Serializable{
         else {
             return EmpDAO.getEmpName(empid);
         }
+    }
+
+    public String getMgr() {
+        return mgr;
+    }
+
+    public void setMgr(String mgr) {
+        this.mgr = mgr;
+    }
+
+    public int getTask_count() {
+        return task_count;
+    }
+
+    public void setTask_count(int task_count) {
+        this.task_count = task_count;
+    }
+
+    public int getCompleted_tasks() {
+        return completed_tasks;
+    }
+
+    public void setCompleted_tasks(int completed_tasks) {
+        this.completed_tasks = completed_tasks;
+    }
+
+    public int getCurrent_tasks() {
+        return current_tasks;
+    }
+
+    public void setCurrent_tasks(int current_tasks) {
+        this.current_tasks = current_tasks;
     }
 }
