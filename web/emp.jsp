@@ -20,7 +20,6 @@
 
     <label for="mgr">Manager</label>
     <input id="mgr" name="job" type="text" value="${e.mgr}" readonly/>
-    <label>Tasks statistics</label>
 
     <label for="total">Total count</label>
     <input id="total" name="job" type="text" value="${e.task_count}" readonly/>
