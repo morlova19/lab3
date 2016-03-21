@@ -428,80 +428,7 @@ public class TaskDAO {
         }
         return tasks;
     }
-  /*  public static Task getLastTask(int emp_id){
-        Task task = null;
-        Connection conn = null;
-        ResultSet rs;
-        try {
-            conn = ds.getConnection();
-            String query = "select TASK_ID_SEQ.currval from DUAL";
-            PreparedStatement stat = conn.prepareStatement(query);
-            rs = stat.executeQuery();
-            rs.next();
-            int last_id = rs.getInt(1);
-            stat = conn.prepareStatement("SELECT T_ID,NAME,STATUS,TDESC,TDATE,CONTACTS FROM TASK " +
-                    "WHERE EMPID = ? AND T_ID = ?");
-            stat.setInt(1,emp_id);
-            stat.setInt(2,last_id);
-            rs = stat.executeQuery();
-            rs.next();
 
-                TransferObject to = new TransferObject();
-                to.setId(rs.getInt(1));
-                to.setName(rs.getString(2));
-            to.setStatus(rs.getString(3));
-
-                to.setDescription(rs.getString(4));
-                to.setDate(rs.getTimestamp(5));
-                to.setContacts(rs.getString(6));
-                task = new Task(to);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-           closeConnection(conn);
-        }
-        return task;
-    }
-    public static Task getLastSubtask(int t_id){
-        Task task = null;
-        Connection conn = null;
-        ResultSet rs;
-        try {
-            conn = ds.getConnection();
-            *//*PreparedStatement stat = conn.prepareStatement("SELECT ST_ID,NAME,STATUS,STDESC,STDATE,CONTACTS FROM TASK " +
-                    "WHERE T_ID = ? AND ST_ID = currval('subtask_id_seq')");*//*
-            String query = "select TASK_ID_SEQ.currval from DUAL";
-            PreparedStatement stat = conn.prepareStatement(query);
-            rs = stat.executeQuery();
-            rs.next();
-            int last_id = rs.getInt(1);
-            stat = conn.prepareStatement("SELECT ST_ID,NAME,STATUS,STDESC,STDATE,CONTACTS FROM TASK " +
-                    "WHERE T_ID = ? AND ST_ID = ?");
-            stat.setInt(1,t_id);
-            stat.setInt(2,last_id);
-            rs = stat.executeQuery();
-            rs.next();
-
-                TransferObject to = new TransferObject();
-                to.setId(rs.getInt(1));
-                to.setName(rs.getString(2));
-
-                to.setStatus(rs.getString(3));
-                to.setDescription(rs.getString(4));
-                to.setDate(rs.getTimestamp(5));
-                to.setContacts(rs.getString(6));
-                task = new Task(to);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-           closeConnection(conn);
-        }
-        return task;
-    }*/
     public static void completeTask(int taskid) {
         Connection conn = null;
         try {
@@ -674,9 +601,14 @@ public class TaskDAO {
             closeConnection(conn);
         }
     }
-    public static void copyTask(int id)
+    public static void copyTask(int id,int new_cr_id)
     {
         Task t = getTask(id);
+        t.setCr_id(new_cr_id);
+
+        t.setStatus(Constants.NEW);
+
+
         if(t.getPt_id()!=0)
         {
             addSubtask(t);

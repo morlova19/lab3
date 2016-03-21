@@ -92,97 +92,19 @@ public class TaskServlet extends HttpServlet{
 
     private void copy(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
-        TaskDAO.copyTask(taskid);
+        Employee emp = (Employee) req.getSession().getAttribute("emp");
+        assert emp!=null;
+        TaskDAO.copyTask(taskid,emp.getID());
         resp.sendRedirect(req.getHeader("referer"));
     }
 
     private void completeSubtask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Integer taskid = Integer.parseInt(req.getParameter("taskid"));
-        Integer subtaskid = Integer.parseInt(req.getParameter("subtaskid"));
-        String action = req.getParameter("action").toLowerCase();
-        if(action.equals("delay"))
-        {
-            String date = req.getParameter("newdate");
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            try {
-                Date parse_date = sdf.parse(date);
-               // TaskDAO.delaySubtask(taskid,subtaskid, parse_date);
 
-                if(req.getSession().getAttribute("emp") != null)
-                {
-                    Employee emp = (Employee) req.getSession().getAttribute("emp");
-                    assert emp!=null;
-                    JournalManager jm = emp.getJournalManager();
-                    jm.delaySubtask(taskid, subtaskid,parse_date);
-                    resp.sendRedirect("my/tasks.jsp?type=cur");
-                }
-                else {
-                    resp.sendRedirect("start.jsp");
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        else if(action.equals("finish"))
-        {
-            TaskDAO.completeSubtask(taskid,subtaskid);
-            if(req.getSession().getAttribute("emp") != null)
-            {
-                Employee emp = (Employee) req.getSession().getAttribute("emp");
-                assert emp!=null;
-                JournalManager jm = emp.getJournalManager();
-                jm.completeSubtask(taskid,subtaskid);
-                resp.sendRedirect("tasks.jsp?type=my");
-            }
-            else {
-                resp.sendRedirect("start.jsp");
-            }
-        }
     }
 
     private void completeTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Integer empid = Integer.parseInt(req.getParameter("empid"));
-        Integer taskid = Integer.parseInt(req.getParameter("taskid"));
-        String action = req.getParameter("action").toLowerCase();
-
-        if(action.equals("delay"))
-        {
-            String date = req.getParameter("newdate");
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            try {
-               // TaskDAO.updateDate(empid,taskid,sdf.parse(date));
-                if(req.getSession().getAttribute("emp") != null)
-                {
-                    Employee emp = (Employee) req.getSession().getAttribute("emp");
-                    assert emp!=null;
-                    JournalManager jm = emp.getJournalManager();
-                    jm.delay(taskid,sdf.parse(date));
-                    resp.sendRedirect("my/tasks.jsp?type=cur");
-                }
-                else {
-                    resp.sendRedirect("start.jsp");
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }
-        else if(action.equals("finish"))
-        {
-            TaskDAO.completeTask(taskid);
-            if(req.getSession().getAttribute("emp") != null)
-            {
-                Employee emp = (Employee) req.getSession().getAttribute("emp");
-                assert emp!=null;
-                JournalManager jm = emp.getJournalManager();
-                jm.complete(taskid);
-                resp.sendRedirect("tasks.jsp?type=my");
-            }
-            else {
-                resp.sendRedirect("start.jsp");
-            }
-        }
+      Integer taskid=Integer.parseInt(req.getParameter("taskid"));
+        TaskDAO.completeTask(taskid);
 
     }
     private void newTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {

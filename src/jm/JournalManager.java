@@ -140,4 +140,5 @@ public class JournalManager implements IJournalManager, Serializable {
     {
         return TaskDAO.getEmpsTasks(emp_id);
     }
+
 }
