@@ -16,18 +16,18 @@
         <input id="ename" name="ename" type="text" value="${e.name}" readonly/>
 
         <label for="job">Job</label>
-        <input id="job" name="job" type="text" value="${e.job}" readonly/>
+        <input id="job"  type="text" value="${e.job}" readonly/>
 
     <label for="mgr">Manager</label>
-    <input id="mgr" name="job" type="text" value="${e.mgr}" readonly/>
+    <input id="mgr"  type="text" value="${e.mgr}" readonly/>
 
     <label for="total">Total count</label>
-    <input id="total" name="job" type="text" value="${e.task_count}" readonly/>
+    <input id="total"  type="text" value="${e.task_count}" readonly/>
 
     <label for="current">Current count</label>
-    <input id="current" name="job" type="text" value="${e.current_tasks}" readonly/>
+    <input id="current"  type="text" value="${e.current_tasks}" readonly/>
     <label for="completed">Completed count</label>
-    <input id="completed" name="job" type="text" value="${e.completed_tasks}" readonly/>
+    <input id="completed"  type="text" value="${e.completed_tasks}" readonly/>
 
 </div>
 </body>
