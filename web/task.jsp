@@ -253,7 +253,12 @@
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
             </c:if>
             <br/>
-            <label id="message" hidden>You don't have subtasks.</label>
+            <c:if test="${emp.ID==task.ex_id}">
+                <label id="message" hidden>You don't have subtasks.</label>
+            </c:if>
+            <c:if test="${emp.ID!=task.ex_id}">
+                <label id="message" hidden>Employee doesn't have subtasks.</label>
+            </c:if>
         </div>
 
         <div id="table-container">
