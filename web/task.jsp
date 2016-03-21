@@ -24,7 +24,7 @@
 <div class="task-form">
     <c:set var="task" value="${emp.journalManager.get(taskid)}"/>
     <fmt:formatDate value="${task.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate"/>
-    <c:set var="isCompleted" value="${task.status==constants.COMPLETED || task.status==constants.CANCELLED}" scope="session"/>
+    <c:set var="isCompleted" value="${task.status==constants.COMPLETED}" scope="session"/>
     <c:set var="isEditable" value="${task.cr_id==emp.ID}" scope="page"/>
         <c:choose>
             <c:when test="${isCompleted==true}">
@@ -92,7 +92,7 @@
                 </c:if>
                 <label for="exec">Executor</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id}">
+                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
                         <c:if test="${emp.ID==task.ex_id}">
                             <input type="text" readonly value="Me" id="exec"/>
                         </c:if>
@@ -133,7 +133,7 @@
 
                 <label for="name">Name</label>
                 <c:choose>
-                   <c:when test="${emp.ID!=task.cr_id}">
+                   <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
                        <input name="name" id="name" type="text" value="${task.name}" readonly/>
                    </c:when>
                     <c:otherwise>
@@ -144,18 +144,17 @@
 
                 <label for="desc">Description</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id}">
+                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
                         <textarea name="desc" id="desc" rows="5" readonly>${task.description}</textarea>
                     </c:when>
                     <c:otherwise>
-
                         <textarea name="desc" id="desc" rows="5">${task.description}</textarea>
                     </c:otherwise>
                 </c:choose>
 
                 <label for="tdate">Date</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id}">
+                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
                         <input name="date" type="text" class="date-cell"  id="tdate" value="${formattedDate}" readonly/>
                     </c:when>
                     <c:otherwise>
@@ -166,7 +165,7 @@
                 <br/>
                 <label for="contacts">Contacts</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id}">
+                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
                         <textarea name="contacts" id="contacts" rows="5" readonly>${task.contacts}</textarea>
                     </c:when>
                     <c:otherwise>
@@ -176,7 +175,7 @@
 
                 <label for="priority">Priority</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id}">
+                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
                         <c:if test="${task.priority == constants.LOW}">
                             <input id="priority" type="text" value="Low" readonly/>
                         </c:if>
@@ -208,10 +207,9 @@
                     </c:otherwise>
                 </c:choose>
 
-
                 <label for="status">Status</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.ex_id}">
+                    <c:when test="${emp.ID!=task.ex_id || task.status==constants.CANCELLED}">
                         <input id="status" name="status" type="text" value="${task.fullStatus}" readonly/>
                     </c:when>
                     <c:otherwise>
@@ -227,22 +225,33 @@
                         </select>
                     </c:otherwise>
                 </c:choose>
-                <c:if test="${emp.ID==task.cr_id}">
+                <c:if test="${emp.ID==task.cr_id && task.status!=constants.CANCELLED}">
                 <input type="submit" value="Save" name="update"/>
                 </c:if>
                 </form>
-                <c:if test="${emp.ID==task.ex_id}">
-                    <form action="completetask" method="post" class="last-cell">
-                        <input type="text" name="taskid" hidden readonly value="${taskid}"/>
-                        <input type="submit" value="Complete" name="update"/>
-                    </form>
-                </c:if>
-                <c:if test="${emp.ID==task.cr_id}">
-                    <form action="savetask" method="post">
-                        <input type="text" name="taskid" hidden readonly value="${taskid}"/>
-                        <input type="submit" value="Cancel" name="update"/>
-                    </form>
-                </c:if>
+                <c:choose>
+                    <c:when test="${task.status==constants.CANCELLED}">
+                        <form action="activatetask" method="post" class="last-cell">
+                            <input type="text" name="taskid" hidden readonly value="${taskid}"/>
+                            <input type="submit" value="Activate" name="update"/>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="${emp.ID==task.ex_id}">
+                            <form action="completetask" method="post" class="last-cell">
+                                <input type="text" name="taskid" hidden readonly value="${taskid}"/>
+                                <input type="submit" value="Complete" name="update"/>
+                            </form>
+                        </c:if>
+                        <c:if test="${emp.ID==task.cr_id}">
+                            <form action="savetask" method="post">
+                                <input type="text" name="taskid" hidden readonly value="${taskid}"/>
+                                <input type="submit" value="Cancel" name="update"/>
+                            </form>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+
             </c:otherwise>
         </c:choose>
 </div>

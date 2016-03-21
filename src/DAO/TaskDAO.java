@@ -479,24 +479,7 @@ public class TaskDAO {
            closeConnection(conn);
         }
     }
-  /*  public static void delaySubtask(int taskid,int subtaskid, java.util.Date date) {
-        Connection conn = null;
-        try {
-            conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET STDATE=? WHERE ST_ID = ? AND T_ID=?");
-            Timestamp timestamp = new Timestamp(date.getTime());
-            stat.setTimestamp(1,timestamp);
-            stat.setInt(2,subtaskid);
-            stat.setInt(3,taskid);
-            stat.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-           closeConnection(conn);
-        }
-    }*/
     public String getTaskName(int empid, int taskid){
         String name = "";
         Connection conn = null;
@@ -591,6 +574,22 @@ public class TaskDAO {
             conn = ds.getConnection();
             PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET STATUS=? WHERE T_ID = ?");
             stat.setString(1,Constants.CANCELLED);
+            stat.setInt(2,id);
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
+    }
+    public static void activateTask(int id) {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET STATUS=? WHERE T_ID = ?");
+            stat.setString(1,Constants.NEW);
             stat.setInt(2,id);
             stat.executeUpdate();
 

@@ -24,7 +24,7 @@ import java.util.Date;
  */
 @WebServlet(urlPatterns = {"/newtask","/deletetask",
         "/newsubtask","/deletesubtask",
-        "/savetask","/savesubtask","/completetask","/completesubtask","/copytask","/updatedate","/updatename"})
+        "/savetask","/savesubtask","/completetask","/activatetask","/copytask","/updatedate","/updatename"})
 public class TaskServlet extends HttpServlet{
 
     @Override
@@ -52,8 +52,8 @@ public class TaskServlet extends HttpServlet{
             case "/completetask":
                 completeTask(req,resp);
                 break;
-            case "/completesubtask":
-                completeSubtask(req,resp);
+            case "/activatetask":
+                activateTask(req,resp);
                 break;
             case "/copytask":
                 copy(req,resp);
@@ -76,7 +76,6 @@ public class TaskServlet extends HttpServlet{
     }
 
     private void updatedate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println("qqqqqqq");
         Integer taskid = Integer.parseInt(req.getParameter("id"));
         String date = req.getParameter("date");
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
@@ -98,14 +97,18 @@ public class TaskServlet extends HttpServlet{
         resp.sendRedirect(req.getHeader("referer"));
     }
 
-    private void completeSubtask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+    private void activateTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String str = req.getParameter("taskid");
+        assert str!=null;
+        Integer taskid=Integer.parseInt(str);
+        TaskDAO.activateTask(taskid);
+        resp.sendRedirect(req.getHeader("referer"));
     }
 
     private void completeTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String str = req.getParameter("taskid");
         assert str!=null;
-      Integer taskid=Integer.parseInt(str);
+        Integer taskid=Integer.parseInt(str);
         TaskDAO.completeTask(taskid);
         resp.sendRedirect(req.getHeader("referer"));
 
