@@ -122,6 +122,7 @@
                     </c:when>
                     <c:when test="${type=='my'}">
                         <c:set var="tasks" value="${emp.journalManager.tasks}"/>
+                        <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                         <c:choose>
                             <c:when test="${empty tasks}">
                                 You don't have tasks.
@@ -147,15 +148,27 @@
                                             </td>
                                             <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                             <td>${t.fullStatus}</td>
-                                            <td class="last-cell">
-                                            <form action="deletetask" class="delete-form"  method="post">
 
-                                                    <button class="delete-button" type="submit" name="id" value="${t.ID}" ></button>
-                                            </form>
-                                                <form action="copytask" method="post">
-                                            <button class="copy-button" type="submit" name="id" value="${t.ID}"></button>
-                                            </form>
-                                            </td>
+
+                                            <c:if test="${b==true}">
+
+                                                <td class="last-cell">
+                                                    <form action="deletetask"  class="delete-form" method="post">
+                                                        <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
+                                                    </form>
+                                                    <form action="copytask" method="post">
+                                                        <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
+                                                    </form>
+                                                </td>
+
+                                            </c:if>
+                                            <c:if test="${b==false}">
+                                                <td class="last-cell">
+                                                    <form action="copytask" method="post">
+                                                        <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
+                                                    </form>
+                                                </td>
+                                            </c:if>
 
                                         </tr>
                                     </c:forEach>

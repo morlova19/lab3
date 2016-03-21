@@ -10,34 +10,26 @@
 <div class="task-form">
     <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="e" value="${emp.getEmp(param.id)}"/>
-    <table>
 
-        <tr>
-            <th>ID</th>
-            <td><input type="text" value="${param.id}" disabled name="stid" readonly/></td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td><input name="name" type="text" value="${e.name}" readonly/></td>
-        </tr>
-        <tr>
-            <th>Job</th>
-            <td><textarea name="desc" rows="7" readonly>${e.job}</textarea></td>
-        </tr>
-        <tr>
-            <th>Date</th>
-            <td><input name="date" type="text" class="date-cell"  value="${formattedDate}" readonly/></td>
-        </tr>
-        <tr>
-            <th>Contacts</th>
-            <td><textarea name="desc" rows="7" readonly>${task.contacts}</textarea></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="button" value="OK"/>
-            </td>
-        </tr>
-    </table>
+
+        <label for="ename">Name</label>
+        <input id="ename" name="ename" type="text" value="${e.name}" readonly/>
+
+        <label for="job">Job</label>
+        <input id="job" name="job" type="text" value="${e.job}" readonly/>
+
+        <th>Date</th>
+        <td><input name="date" type="text" class="date-cell"  value="${formattedDate}" readonly/></td>
+
+
+        <label>Contacts</label>
+        <td><textarea name="desc" rows="7" readonly>${task.contacts}</textarea></td>
+
+
+        <td colspan="2">
+            <input type="button" value="OK"/>
+        </td>
+
 </div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package emp;
 
 import DAO.EmpDAO;
+import DAO.TaskDAO;
 import jm.IJournalManager;
 import jm.JournalManager;
 
@@ -97,7 +98,7 @@ public class Employee implements Serializable{
             return "Me";
         }
         else {
-            return getEmp(empid).getName();
+            return EmpDAO.getEmpName(empid);
         }
     }
 }

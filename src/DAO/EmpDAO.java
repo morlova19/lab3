@@ -214,7 +214,8 @@ public class EmpDAO {
         }
         return emp;
     }
-    public String getEmpName(int empid){
+
+    public static String getEmpName(int empid){
         Connection conn = null;
         ResultSet rs;
         try {

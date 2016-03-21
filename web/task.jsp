@@ -140,36 +140,72 @@
                     </c:otherwise>
                 </c:choose>
 
-
                 <label for="desc">Description</label>
-                <textarea name="desc" id="desc" rows="5">${task.description}</textarea>
+                <c:choose>
+                    <c:when test="${emp.ID!=task.cr_id}">
+                        <textarea name="desc" id="desc" rows="5" readonly>${task.description}</textarea>
+                    </c:when>
+                    <c:otherwise>
 
+                        <textarea name="desc" id="desc" rows="5">${task.description}</textarea>
+                    </c:otherwise>
+                </c:choose>
 
                 <label for="tdate">Date</label>
-                <input name="date" type="text" class="date-cell"  id="tdate" value="${formattedDate}"/>
-                <label id="date-error" class="error" hidden>Please enter correct date</label>
+                <c:choose>
+                    <c:when test="${emp.ID!=task.cr_id}">
+                        <input name="date" type="text" class="date-cell"  id="tdate" value="${formattedDate}" readonly/>
+                    </c:when>
+                    <c:otherwise>
+                        <input name="date" type="text" class="date-cell"  id="tdate" value="${formattedDate}"/>
+                        <label id="date-error" class="error" hidden>Please enter correct date</label>
+                    </c:otherwise>
+                </c:choose>
                 <br/>
                 <label for="contacts">Contacts</label>
-                <textarea name="contacts" id="contacts" rows="5">${task.contacts}</textarea>
+                <c:choose>
+                    <c:when test="${emp.ID!=task.cr_id}">
+                        <textarea name="contacts" id="contacts" rows="5" readonly>${task.contacts}</textarea>
+                    </c:when>
+                    <c:otherwise>
+                        <textarea name="contacts" id="contacts" rows="5">${task.contacts}</textarea>
+                    </c:otherwise>
+                </c:choose>
 
                 <label for="priority">Priority</label>
-                    <select name="priority" id="priority">
+                <c:choose>
+                    <c:when test="${emp.ID!=task.cr_id}">
                         <c:if test="${task.priority == constants.LOW}">
-                            <option value="${constants.LOW}" selected>Low</option>
-                            <option value="${constants.MEDIUM}">Medium</option>
-                            <option value="${constants.HIGH}">High</option>
+                            <input id="priority" type="text" value="Low" readonly/>
                         </c:if>
                         <c:if test="${task.priority == constants.MEDIUM}">
-                            <option value="${constants.LOW}" >Low</option>
-                            <option value="${constants.MEDIUM}" selected>Medium</option>
-                            <option value="${constants.HIGH}">High</option>
+                            <input id="priority" type="text" value="Medium" readonly/>
                         </c:if>
                         <c:if test="${task.priority == constants.HIGH}">
-                            <option value="${constants.LOW}" >Low</option>
-                            <option value="${constants.MEDIUM}">Medium</option>
-                            <option value="${constants.HIGH}" selected>High</option>
+                            <input id="priority" type="text" value="High" readonly/>
                         </c:if>
-                    </select>
+                    </c:when>
+                    <c:otherwise>
+                        <select name="priority" id="priority">
+                            <c:if test="${task.priority == constants.LOW}">
+                                <option value="${constants.LOW}" selected>Low</option>
+                                <option value="${constants.MEDIUM}">Medium</option>
+                                <option value="${constants.HIGH}">High</option>
+                            </c:if>
+                            <c:if test="${task.priority == constants.MEDIUM}">
+                                <option value="${constants.LOW}" >Low</option>
+                                <option value="${constants.MEDIUM}" selected>Medium</option>
+                                <option value="${constants.HIGH}">High</option>
+                            </c:if>
+                            <c:if test="${task.priority == constants.HIGH}">
+                                <option value="${constants.LOW}" >Low</option>
+                                <option value="${constants.MEDIUM}">Medium</option>
+                                <option value="${constants.HIGH}" selected>High</option>
+                            </c:if>
+                        </select>
+                    </c:otherwise>
+                </c:choose>
+
 
                 <label for="status">Status</label>
                 <c:choose>
