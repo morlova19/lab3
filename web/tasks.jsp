@@ -56,7 +56,6 @@
 
     <div id="menu-container">
         <c:set var="search" value="${param.search}"/>
-
             <div id="table-container">
                 <c:choose>
                     <c:when test="${!empty search.trim()}">
@@ -140,7 +139,7 @@
                                     </thead>
                                     <tbody>
                                     <c:forEach var="t" items="${tasks}">
-                                        <c:set var="b" value="${username == t.ex_id}" scope="page"/>
+                                        <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                                         <tr>
                                             <td>${t.ID}</td>
                                             <td class="cell-date">

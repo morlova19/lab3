@@ -16,7 +16,7 @@
         <input id="ename" name="ename" type="text" value="${e.name}" readonly/>
 
         <label for="job">Job</label>
-        <input id="job"  type="text" value="${e.job}" readonly/>
+        <input id="job"   type="text" value="${e.job}" readonly/>
 
     <label for="mgr">Manager</label>
     <input id="mgr"  type="text" value="${e.mgr}" readonly/>
