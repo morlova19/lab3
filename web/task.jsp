@@ -21,6 +21,7 @@
 <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
 <jsp:useBean id="constants" class="utils.Constants"/>
 <c:set var="taskid" value="${param.taskid}"/>
+
 <div class="task-form">
     <c:set var="task" value="${emp.journalManager.get(taskid)}"/>
     <fmt:formatDate value="${task.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate"/>

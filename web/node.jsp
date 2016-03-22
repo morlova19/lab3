@@ -24,8 +24,6 @@
                 <li><a href="#">${node.name}</a> <jsp:include page="node.jsp"/></li>
             </c:if>
         </c:if>
-
-
     </c:forEach>
 </ul>
 

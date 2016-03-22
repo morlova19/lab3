@@ -15,7 +15,6 @@ import java.util.List;
 
 public class JournalManager implements IJournalManager, Serializable {
     private Integer emp_id;
-
     /**
      * Creates journal manager and fills fields.
      */
@@ -23,8 +22,6 @@ public class JournalManager implements IJournalManager, Serializable {
         this.emp_id = emp_id;
 
     }
-
-
     public  void add(Task task)  {
         if(task != null) {
             TaskDAO.addTask(task);
@@ -32,17 +29,14 @@ public class JournalManager implements IJournalManager, Serializable {
         }
     }
     public  void delete(int id)  {
-
         TaskDAO.deleteTask(id);
     }
-
     @Override
     public List getCurrentTasks() {
 
         return TaskDAO.getCurrentTasks(emp_id);
 
     }
-
     @Override
     public List getCompletedTasks() {
         return TaskDAO.getTasks(emp_id, Constants.COMPLETED);
@@ -75,28 +69,14 @@ public class JournalManager implements IJournalManager, Serializable {
         return TaskDAO.getSubtask(t_id,st_id);
     }
 
-    @Override
-    public void delaySubtask(int taskid, int stid, Date newDate) {
-       //TODO:
-    }
+
 
     @Override
-    public List getCurrentSubtasks(Integer t_id) {
+    public List getSubtasks(Integer t_id,String status) {
         return TaskDAO.getCurrentSubtasks(t_id);
     }
 
-    @Override
-    public List getCompletedSubtasks(Integer t_id) {
-        return TaskDAO.getCompletedSubtasks(t_id);
 
-    }
-
-
-    @Override
-    public void completeSubtask(Integer t_id, Integer st_id)  {
-
-        TaskDAO.completeSubtask(t_id,st_id);
-    }
 
     @Override
     public List getSubtasks(Integer t_id) {
@@ -125,11 +105,6 @@ public class JournalManager implements IJournalManager, Serializable {
         TaskDAO.updateTask(to);
     }
 
-    @Override
-    public void updateSubtask(int t_id, int st_id, TransferObject to) {
-
-        TaskDAO.updateTask(to);
-    }
 
     @Override
     public List searchTasks(String param) {

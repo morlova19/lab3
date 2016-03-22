@@ -36,7 +36,7 @@ self.addEventListener('push', function(event) {
                     data:data1
                 });
             });
-        }).catch(function(err) {
+        }).catch(function () {
             var title = 'An error occurred';
             var message = 'We were unable to get the information for this push message';
             var icon = 'images/icon.png';
@@ -48,8 +48,7 @@ self.addEventListener('push', function(event) {
     );
 });
 self.addEventListener('notificationclick', function(event) {
-    console.log("ffffff", event.notification);
-    console.log('Notification click: tag ', event.notification.tag);
+
     event.notification.close();
     var empid = event.notification.data.empid;
     var taskid = event.notification.data.taskid;
@@ -61,10 +60,10 @@ self.addEventListener('notificationclick', function(event) {
     }
     else {
         if (subtaskid == -1) {
-            url += 'complete_task.jsp?empid=' + empid + '&taskid=' + taskid;
+            url += 'start.jsp';
         }
         else {
-            url += 'complete_subtask.jsp?empid=' + empid + '&taskid=' + taskid + '&stid=' + subtaskid;
+            url += 'start.jsp';
         }
     }
     event.waitUntil(

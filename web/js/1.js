@@ -1,18 +1,18 @@
 $(document).ready(function(){
     var headers = {};
-    $(this).find('th.noSort').each(function(i,el){
+    $(this).find('th.noSort').each(function () {
         headers[$(this).index()] = { sorter: false };
     });
     $("#tasks").tablesorter({
         headers: headers
     });
 
-    var tbody = $("#tasks td");
+    var tbody = $("#tasks").find("td");
     if(tbody.length==0){
         $('#tasks').hide();
         $('label#message').show();
     }
-    $("#tasks td.cell-status").dblclick(function () {
+    $("#tasks").find("td.cell-status").dblclick(function () {
 
 
             var row = $.trim($(this).parent().find("td:nth-child(1)").text());
@@ -111,7 +111,7 @@ $(document).ready(function(){
 
 
     });
-    $("#tasks td.cell-date").dblclick(function () {
+    $("#tasks").find("td.cell-date").dblclick(function () {
         var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
 
         console.log(isCreator);
@@ -157,10 +157,10 @@ $(document).ready(function(){
     });
 
     $('.date-cell').inputmask('99.99.9999 99:99');
+
     $('.hide-child').click(function(){
         if( $(this).parent().children('ul').is(":visible"))
         {
-
             $(this).val('+');
             $(this).parent().children('ul').hide();
         }

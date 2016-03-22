@@ -23,8 +23,7 @@ import java.util.Date;
  * E.g., create new task, update existing task , delete task  etc.
  */
 @WebServlet(urlPatterns = {"/newtask","/deletetask",
-        "/newsubtask","/deletesubtask",
-        "/savetask","/savesubtask","/completetask","/activatetask","/copytask","/updatedate","/updatename","/updatestatus"})
+        "/savetask","/completetask","/activatetask","/copytask","/updatedate","/updatename","/updatestatus"})
 public class TaskServlet extends HttpServlet{
 
     @Override
@@ -32,37 +31,28 @@ public class TaskServlet extends HttpServlet{
         String path = req.getServletPath();
         switch (path){
             case "/deletetask":
-                deleteTask(req,resp);
+                delete(req,resp);
                 break;
             case "/newtask":
-                newTask(req,resp);
+                create(req,resp);
                 break;
             case "/savetask":
-                saveTask(req,resp);
-                break;
-            case "/deletesubtask":
-                deleteSubtask(req,resp);
-                break;
-            case "/newsubtask":
-                newSubtask(req,resp);
-                break;
-            case "/savesubtask":
-                saveSubtask(req,resp);
+                update(req,resp);
                 break;
             case "/completetask":
-                completeTask(req,resp);
+                complete(req,resp);
                 break;
             case "/activatetask":
-                activateTask(req,resp);
+                activate(req,resp);
                 break;
             case "/copytask":
                 copy(req,resp);
                 break;
             case "/updatedate":
-                updatedate(req,resp);
+                updateDate(req,resp);
                 break;
             case "/updatename":
-                updatename(req,resp);
+                updateName(req,resp);
                 break;
             case "/updatestatus":
                 updateStatus(req,resp);
@@ -70,22 +60,19 @@ public class TaskServlet extends HttpServlet{
         }
 
     }
-
     private void updateStatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
         String status = req.getParameter("status");
         TaskDAO.updateStatus(taskid,status);
         resp.sendRedirect(req.getHeader("referer"));
     }
-
-    private void updatename(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void updateName(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         TaskDAO.updateName(taskid,name);
         resp.sendRedirect(req.getHeader("referer"));
     }
-
-    private void updatedate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void updateDate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
         String date = req.getParameter("date");
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
@@ -95,10 +82,8 @@ public class TaskServlet extends HttpServlet{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         resp.sendRedirect(req.getHeader("referer"));
     }
-
     private void copy(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
         Employee emp = (Employee) req.getSession().getAttribute("emp");
@@ -107,7 +92,7 @@ public class TaskServlet extends HttpServlet{
         resp.sendRedirect(req.getHeader("referer"));
     }
 
-    private void activateTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void activate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String str = req.getParameter("taskid");
         assert str!=null;
         Integer taskid=Integer.parseInt(str);
@@ -115,7 +100,7 @@ public class TaskServlet extends HttpServlet{
         resp.sendRedirect(req.getHeader("referer"));
     }
 
-    private void completeTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void complete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String str = req.getParameter("taskid");
         assert str!=null;
         Integer taskid=Integer.parseInt(str);
@@ -123,7 +108,7 @@ public class TaskServlet extends HttpServlet{
         resp.sendRedirect(req.getHeader("referer"));
 
     }
-    private void newTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+    private void create(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
         assert emp!=null;
         JournalManager jm = emp.getJournalManager();
@@ -157,7 +142,7 @@ public class TaskServlet extends HttpServlet{
 
 
     }
-    private void saveTask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+    private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
         assert emp!=null;
         JournalManager jm = emp.getJournalManager();
@@ -198,51 +183,8 @@ public class TaskServlet extends HttpServlet{
         resp.sendRedirect(req.getHeader("referer"));
 
     }
-    private void saveSubtask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
-        Employee emp = (Employee) req.getSession().getAttribute("emp");
-        assert emp!=null;
-        JournalManager jm = emp.getJournalManager();
 
-        Integer st_id = Integer.parseInt(req.getParameter("stid"));
-        TransferObject to = new TransferObject();
-        to.setName(req.getParameter("name"));
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy hh:mm");
-        to.setDescription(req.getParameter("desc"));
-        try {
-            to.setDate(df.parse(req.getParameter("date")));
-        } catch (ParseException e) {
-            to.setDate(new Date());
-        }
-        to.setContacts(req.getParameter("contacts"));
-        int taskid = Integer.parseInt(req.getParameter("taskid"));
-        jm.updateSubtask(taskid,st_id,to);
-        resp.sendRedirect(req.getHeader("referer"));
-    }
-    private void newSubtask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Employee emp = (Employee) req.getSession().getAttribute("emp");
-        assert emp!=null;
-        JournalManager jm = emp.getJournalManager();
-
-        Integer t_id = Integer.parseInt(req.getParameter("taskid"));
-        TransferObject to = new TransferObject();
-        to.setName(req.getParameter("name"));
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy hh:mm");
-        to.setDescription(req.getParameter("desc"));
-        try {
-            to.setDate(df.parse(req.getParameter("date")));
-        } catch (ParseException e) {
-            to.setDate(new Date());
-        }
-//        to.setStatus(false);
-        to.setContacts(req.getParameter("contacts"));
-        jm.addSubtask(t_id,new Task(to));
-        Task t = jm.get(t_id);
-
-            resp.sendRedirect("task.jsp?taskid=" + t_id);
-
-
-    }
-    private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
         assert emp!=null;
         JournalManager jm = emp.getJournalManager();
@@ -254,19 +196,5 @@ public class TaskServlet extends HttpServlet{
         }
         resp.sendRedirect(req.getHeader("referer"));
     }
-    private void deleteSubtask(HttpServletRequest req,HttpServletResponse resp) throws IOException {
-        Employee emp = (Employee) req.getSession().getAttribute("emp");
-        assert emp!=null;
-        JournalManager jm = emp.getJournalManager();
 
-        String id = req.getParameter("taskid");
-        int t_id = Integer.parseInt(id);
-        String[] ids = req.getParameterValues("id");
-        for(String s: ids)
-        {
-            jm.deleteSubtask(t_id,Integer.parseInt(s));
-        }
-
-        resp.sendRedirect(req.getHeader("referer"));
-    }
 }

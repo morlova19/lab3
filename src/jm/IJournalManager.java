@@ -46,28 +46,23 @@ public interface IJournalManager extends Remote {
      */
     void complete(int id);
 
-    /**
-     * Delays task with specified id.
-     * @param id task's id.
-     * @param newDate new task's date.
-     */
-    void delay(int id, Date newDate);
-
     Task get(int id)throws RemoteException;
 
 
     void addSubtask(int t_id, Task stask);
-    void deleteSubtask(Integer t_id, Integer st_id);
-    Task getSubtask(Integer t_id,Integer st_id);
 
-    void delaySubtask(int taskid,int stid, Date newDate);
-    List getCurrentSubtasks(Integer t_id);
-    List getCompletedSubtasks(Integer t_id);
-    void completeSubtask(Integer t_id, Integer st_id);
-    List getSubtasks(Integer t_id);
-    List getTasks(String type);
+    void deleteSubtask(Integer t_id, Integer st_id);
+
+    Task getSubtask(Integer pt_id,Integer t_id);
+
+    List getSubtasks(Integer pt_id, String status);
+
+    List getSubtasks(Integer pt_id);
+
+    List getTasks(String status);
+
     void updateTask(int t_id, TransferObject to);
-    void updateSubtask(int t_id, int st_id, TransferObject to);
+
     List searchTasks(String param);
 
 }

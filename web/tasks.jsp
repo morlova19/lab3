@@ -113,7 +113,6 @@
                                        </tr>
                                    </c:forEach>
                                    </tbody>
-
                                 </table>
                             </c:when>
                         </c:choose>
@@ -253,9 +252,7 @@
                                 <c:if test="${emp.ID != boss.ID}">
                                     <li> <input type="button" value="-" class="hide-child"> <a href="#">${boss.name}</a>  <jsp:include page="node.jsp"/></li>
                                 </c:if>
-
                             </ul>
-
                         </c:if>
                     </c:when>
                 </c:choose>
