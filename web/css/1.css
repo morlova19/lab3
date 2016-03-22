@@ -4,5 +4,29 @@
 a{
     color: deepskyblue;
 }
+ul.tree{
+    list-style-type: none;
+    margin-left: 3%;
+}
+ ul.tree ul {
+    list-style-type: none;
+}
+ ul.tree ul li {
+    padding: 7px;
+}
+.hide-child{
+   border-radius: 5px 5px 5px 5px;
+    background: transparent;
+    border: 1px solid #cccccc;
+  margin-right: 3px;
+}
+li.current a {
+    color: red;
+}
+li.current ul li a{
+    color: deepskyblue;
+}
+
+
 
 

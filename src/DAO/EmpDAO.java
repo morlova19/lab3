@@ -306,4 +306,32 @@ public class EmpDAO {
         }
     }
 
+    public static Employee getBoss() {
+
+        Connection conn = null;
+        ResultSet rs;
+        Employee emp = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("SELECT EMPID,FNAME,LNAME,JOB FROM EMP WHERE MGR IS NULL");
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                emp = new Employee(rs.getInt(1));
+                emp.setFname(rs.getString(2));
+                emp.setLname(rs.getString(3));
+                emp.setJob(rs.getString(4));
+                emp.setDept("No department");
+                emp.setMgr("No manager");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return emp;
+        }
+        finally {
+            closeConnection(conn);
+        }
+        return emp;
+    }
 }

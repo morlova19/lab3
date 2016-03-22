@@ -29,7 +29,6 @@ public class Employee implements Serializable{
         journalManager = new JournalManager(ID);
         emps = EmpDAO.getEmps(ID);
     }
-
     public String getDept() {
         return dept;
     }
@@ -132,5 +131,10 @@ public class Employee implements Serializable{
 
     public void setCurrent_tasks(int current_tasks) {
         this.current_tasks = current_tasks;
+    }
+
+    public Employee getBoss()
+    {
+        return EmpDAO.getBoss();
     }
 }

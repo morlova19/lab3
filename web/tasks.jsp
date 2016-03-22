@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <script src="js/validation.js"></script>
     <script src="js/1.js"></script>
-
 </head>
 <body>
 <c:set var="username" value="${sessionScope.username}"/>
@@ -232,7 +231,6 @@
                                                            </form>
                                                        </td>
                                                    </c:if>
-
                                                </tr>
                                            </c:forEach>
                                            </tbody>
@@ -242,6 +240,23 @@
                                 </c:choose>
                             </c:when>
                         </c:choose>
+                    </c:when>
+                    <c:when test="${type=='org'}">
+
+                        <c:set var="boss" value="${emp.boss}"/>
+                        <c:if test="${!empty boss}">
+                            <c:set var="node" value="${emp.boss}" scope="request"/>
+                            <ul class="tree">
+                                <c:if test="${emp.ID == boss.ID}">
+                                    <li class="current"> ${boss.name} <jsp:include page="node.jsp"/></li>
+                                </c:if>
+                                <c:if test="${emp.ID != boss.ID}">
+                                    <li> <input type="button" value="-" class="hide-child"> <a href="#">${boss.name}</a>  <jsp:include page="node.jsp"/></li>
+                                </c:if>
+
+                            </ul>
+
+                        </c:if>
                     </c:when>
                 </c:choose>
             </div>

@@ -157,7 +157,19 @@ $(document).ready(function(){
     });
 
     $('.date-cell').inputmask('99.99.9999 99:99');
+    $('.hide-child').click(function(){
+        if( $(this).parent().children('ul').is(":visible"))
+        {
 
+            $(this).val('+');
+            $(this).parent().children('ul').hide();
+        }
+        else {
+            $(this).val('-');
+            $(this).parent().children('ul').show();
+        }
+
+    });
    /* setCurrentDate();
 
     function getIndex(text)
