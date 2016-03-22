@@ -24,7 +24,7 @@ import java.util.Date;
  */
 @WebServlet(urlPatterns = {"/newtask","/deletetask",
         "/newsubtask","/deletesubtask",
-        "/savetask","/savesubtask","/completetask","/activatetask","/copytask","/updatedate","/updatename"})
+        "/savetask","/savesubtask","/completetask","/activatetask","/copytask","/updatedate","/updatename","/updatestatus"})
 public class TaskServlet extends HttpServlet{
 
     @Override
@@ -64,8 +64,18 @@ public class TaskServlet extends HttpServlet{
             case "/updatename":
                 updatename(req,resp);
                 break;
+            case "/updatestatus":
+                updateStatus(req,resp);
+                break;
         }
 
+    }
+
+    private void updateStatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer taskid = Integer.parseInt(req.getParameter("id"));
+        String status = req.getParameter("status");
+        TaskDAO.updateStatus(taskid,status);
+        resp.sendRedirect(req.getHeader("referer"));
     }
 
     private void updatename(HttpServletRequest req, HttpServletResponse resp) throws IOException {

@@ -142,11 +142,11 @@
                                         <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                                         <tr>
                                             <td>${t.ID}</td>
-                                            <td class="cell-date">
+                                            <td >
                                                 <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
                                             </td>
                                             <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
-                                            <td>${t.fullStatus}</td>
+                                            <td class="cell-status">${t.fullStatus}</td>
 
 
                                             <c:if test="${b==true}">
@@ -168,7 +168,6 @@
                                                     </form>
                                                 </td>
                                             </c:if>
-
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -207,7 +206,7 @@
                                                    <td>
                                                        <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
                                                    </td>
-                                                   <td><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
+                                                   <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                                    <td>${t.fullStatus}</td>
                                                    <c:if test="${username != t.ex_id}">
                                                        <td>

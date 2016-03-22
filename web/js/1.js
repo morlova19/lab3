@@ -12,10 +12,116 @@ $(document).ready(function(){
         $('#tasks').hide();
         $('label#message').show();
     }
+    $("#tasks td.cell-status").dblclick(function () {
+
+
+            var row = $.trim($(this).parent().find("td:nth-child(1)").text());
+            var OriginalContent = $(this).text();
+        if(OriginalContent=='NEW')
+        {
+            $(this).addClass("cellEditing");
+            $(this).html('<select><option selected>NEW</option> <option>IN PROGRESS</option><option>COMPLETED</option></select>');
+            $(this).children().first().focus();
+            $(this).children().first().change(function () {  {
+
+                /*  var fullContent = $(this).val();
+                 $(this).parent().html(fullContent);
+                 $(this).parent().removeClass("cellEditing");*/
+                var URL = 'updatestatus' ;
+                var newContent = $(this).val();
+                var data = 'N';
+                if(newContent=='IN PROGRESS')
+                {
+                    data='P';
+                }
+                else if(newContent=='COMPLETED'){
+                    data='A';
+                }
+                $.post(URL,{
+                    id: row,
+                    status: data
+                });
+                $(this).parent().text(newContent);
+                $(this).parent().removeClass("cellEditing");
+
+                /*var newContent = $(this).val();
+                 $(this).parent().text(newContent);
+                 $(this).parent().removeClass("cellEditing"); }*/
+            }
+            });
+            $(this).children().first().blur(function(){
+                $(this).parent().text(OriginalContent);
+                $(this).parent().removeClass("cellEditing");
+            });
+        }
+        else if(OriginalContent=='IN PROGRESS')
+        {
+            $(this).addClass("cellEditing");
+            $(this).html('<select><option>NEW</option> <option selected>IN PROGRESS</option><option>COMPLETED</option></select>');
+            $(this).children().first().focus();
+            $(this).children().first().change(function () {  {
+
+                /*  var fullContent = $(this).val();
+                 $(this).parent().html(fullContent);
+                 $(this).parent().removeClass("cellEditing");*/
+                var URL = 'updatestatus' ;
+                var newContent = $(this).val();
+                var data = 'N';
+                if(newContent=='IN PROGRESS')
+                {
+                    data='P';
+                }
+                else if(newContent=='COMPLETED'){
+                    data='A';
+                }
+                $.post(URL,{
+                    id: row,
+                    status: data
+                });
+                $(this).parent().text(newContent);
+                $(this).parent().removeClass("cellEditing");
+
+                /*var newContent = $(this).val();
+                 $(this).parent().text(newContent);
+                 $(this).parent().removeClass("cellEditing"); }*/
+            }
+            });
+            $(this).children().first().blur(function(){
+                $(this).parent().text(OriginalContent);
+                $(this).parent().removeClass("cellEditing");
+            });
+        }else if(OriginalContent=="CANCELLED")
+        {
+            $(this).addClass("cellEditing");
+            $(this).html('<select><option>NEW</option><option>PERFORMING</option><option selected>CANCELLED</option></select>');
+            $(this).children().first().focus();
+            $(this).children().first().keypress(function (e) { if (e.which == 13) {
+
+                /*  var fullContent = $(this).val();
+                 $(this).parent().html(fullContent);
+                 $(this).parent().removeClass("cellEditing");*/
+            }
+            });
+            $(this).children().first().blur(function(){
+                $(this).parent().text(OriginalContent);
+                $(this).parent().removeClass("cellEditing");
+            });
+        }
 
 
 
+    });
     $("#tasks td.cell-date").dblclick(function () {
+        var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
+
+        console.log(isCreator);
+        if(isCreator==0)
+        {
+            return false;
+        }
+        else
+        {
+
         var row = $.trim($(this).parent().find("td:nth-child(1)").text());
         var OriginalContent = $(this).text();
         $(this).addClass("cellEditing");
@@ -46,6 +152,8 @@ $(document).ready(function(){
             $(this).parent().text(OriginalContent);
             $(this).parent().removeClass("cellEditing");
         });
+            return true;
+        }
     });
 
     $('.date-cell').inputmask('99.99.9999 99:99');

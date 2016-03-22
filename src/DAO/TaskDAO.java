@@ -633,4 +633,21 @@ public class TaskDAO {
             closeConnection(conn);
         }
     }
+
+    public static void updateStatus(Integer taskid, String status) {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET STATUS=? WHERE T_ID = ?");
+            stat.setString(1,status);
+            stat.setInt(2,taskid);
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
+    }
 }
