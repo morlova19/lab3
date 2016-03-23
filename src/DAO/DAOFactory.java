@@ -12,8 +12,8 @@ public class DAOFactory {
     static {
         try {
             InitialContext ic = new InitialContext();
-            ds = (DataSource) ic.lookup("jdbc/OraclePool");
-           // ds = (DataSource) ic.lookup("jdbc/PostgresqlPool");
+           // ds = (DataSource) ic.lookup("jdbc/OraclePool");
+            ds = (DataSource) ic.lookup("jdbc/PostgresqlPool");
         }  catch (NamingException e) {
             e.printStackTrace();
         }
