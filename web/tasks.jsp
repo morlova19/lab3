@@ -29,6 +29,9 @@
             <input type="submit" value="Search"/>
             <label>${emp.name} |</label>
             <a href="logout">Log out</a>
+            <a href="#">
+                <img src="images/ic_action_help.png" id="help" alt="Help" >
+            </a>
         </div>
     </form>
     <ul id="list">
@@ -101,6 +104,7 @@
                                                    <form action="copytask" method="post">
                                                        <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                    </form>
+                                                   <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
                                                </td>
 
                                            </c:if>
@@ -109,7 +113,6 @@
                                                    <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                </form></td>
                                            </c:if>
-
                                        </tr>
                                    </c:forEach>
                                    </tbody>
@@ -156,6 +159,7 @@
                                                     <form action="copytask" method="post">
                                                         <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                     </form>
+                                                    <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
                                                 </td>
 
                                             </c:if>
@@ -214,12 +218,14 @@
                                                    <c:if test="${b==true}">
 
                                                        <td class="last-cell">
+                                                           <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
                                                            <form action="deletetask"  class="delete-form" method="post">
                                                                <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
                                                            </form>
                                                            <form action="copytask" method="post">
                                                                <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                            </form>
+
                                                        </td>
 
                                                    </c:if>

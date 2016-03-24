@@ -30,10 +30,8 @@ public class LoginServlet extends HttpServlet{
         }
     }
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         req.getSession().setAttribute("emp",null);
         req.getSession().setAttribute("username",null);
-
         resp.sendRedirect(req.getContextPath() + "/start.jsp");
     }
 
@@ -51,8 +49,6 @@ public class LoginServlet extends HttpServlet{
 
                 resp.sendRedirect("tasks.jsp?type=my");
             } else {
-                Cookie username = new Cookie("username", "error");
-                resp.addCookie(username);
                 resp.sendRedirect("start.jsp");
             }
         }
@@ -66,16 +62,9 @@ public class LoginServlet extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
         switch (action){
-            case "/my/logout":
-                logout(req,resp);
-                break;
-            case "/emp/logout":
-                logout(req,resp);
-                break;
             case "/logout":
                 logout(req,resp);
                 break;
-
         }
     }
 }

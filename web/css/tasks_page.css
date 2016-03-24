@@ -120,6 +120,19 @@ div#table-container table td{
     background: url(../images/ic_action_copy.png) no-repeat;
     border: transparent;
 }
+.edit-exec{
+    width: 27px;
+    height: 27px;
+    background: url(../images/ic_action_edit_person.png) no-repeat;
+    border: transparent;
+}
 .last-cell form{
     display: inline;
+}
+a img#help{
+    border: 0;
+    height: 32px;
+    width: 32px;
+    margin: 3px;
+    padding-top: 5px;
 }

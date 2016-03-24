@@ -24,9 +24,6 @@ $(document).ready(function(){
             $(this).children().first().focus();
             $(this).children().first().change(function () {  {
 
-                /*  var fullContent = $(this).val();
-                 $(this).parent().html(fullContent);
-                 $(this).parent().removeClass("cellEditing");*/
                 var URL = 'updatestatus' ;
                 var newContent = $(this).val();
                 var data = 'N';
@@ -43,10 +40,6 @@ $(document).ready(function(){
                 });
                 $(this).parent().text(newContent);
                 $(this).parent().removeClass("cellEditing");
-
-                /*var newContent = $(this).val();
-                 $(this).parent().text(newContent);
-                 $(this).parent().removeClass("cellEditing"); }*/
             }
             });
             $(this).children().first().blur(function(){
@@ -61,9 +54,6 @@ $(document).ready(function(){
             $(this).children().first().focus();
             $(this).children().first().change(function () {  {
 
-                /*  var fullContent = $(this).val();
-                 $(this).parent().html(fullContent);
-                 $(this).parent().removeClass("cellEditing");*/
                 var URL = 'updatestatus' ;
                 var newContent = $(this).val();
                 var data = 'N';
@@ -81,9 +71,6 @@ $(document).ready(function(){
                 $(this).parent().text(newContent);
                 $(this).parent().removeClass("cellEditing");
 
-                /*var newContent = $(this).val();
-                 $(this).parent().text(newContent);
-                 $(this).parent().removeClass("cellEditing"); }*/
             }
             });
             $(this).children().first().blur(function(){
@@ -97,9 +84,6 @@ $(document).ready(function(){
             $(this).children().first().focus();
             $(this).children().first().keypress(function (e) { if (e.which == 13) {
 
-                /*  var fullContent = $(this).val();
-                 $(this).parent().html(fullContent);
-                 $(this).parent().removeClass("cellEditing");*/
             }
             });
             $(this).children().first().blur(function(){
@@ -114,14 +98,12 @@ $(document).ready(function(){
     $("#tasks").find("td.cell-date").dblclick(function () {
         var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
 
-        console.log(isCreator);
         if(isCreator==0)
         {
             return false;
         }
         else
         {
-
         var row = $.trim($(this).parent().find("td:nth-child(1)").text());
         var OriginalContent = $(this).text();
         $(this).addClass("cellEditing");
@@ -130,9 +112,6 @@ $(document).ready(function(){
         $(this).children().first().focus();
         $(this).children().first().keypress(function (e) { if (e.which == 13) {
 
-          /*  var fullContent = $(this).val();
-            $(this).parent().html(fullContent);
-            $(this).parent().removeClass("cellEditing");*/
             var URL = 'updatedate' ;
             var newContent = $(this).val();
 
@@ -143,9 +122,6 @@ $(document).ready(function(){
             $(this).parent().text(newContent);
             $(this).parent().removeClass("cellEditing");
 
-            /*var newContent = $(this).val();
-             $(this).parent().text(newContent);
-             $(this).parent().removeClass("cellEditing"); }*/
         }
         });
         $(this).children().first().blur(function(){
@@ -156,6 +132,13 @@ $(document).ready(function(){
         }
     });
 
+    $('.edit-exec').click( function() {
+        $(this).addClass("cellEditing");
+        $(this).html('<select><option>NEW</option> <option selected>IN PROGRESS</option><option>COMPLETED</option></select>');
+        $(this).children().first().blur(function(){
+            $(this).parent().removeClass("cellEditing");
+        });
+    });
     $('.date-cell').inputmask('99.99.9999 99:99');
 
     $('.hide-child').click(function(){

@@ -131,7 +131,7 @@ public class TaskDAO {
             }
         }
     }
-    public static List<Task> getTasks(int cr_id) {
+    public static List<Task> getTasks(int ex_id) {
         List<Task> tasks = new ArrayList<>();
         Connection conn = null;
         ResultSet rs;
@@ -140,7 +140,7 @@ public class TaskDAO {
 
             PreparedStatement stat = conn.prepareStatement("SELECT T_ID,NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE FROM TASK " +
                     "WHERE EX_ID = ? AND PT_ID IS NULL");
-            stat.setInt(1,cr_id);
+            stat.setInt(1,ex_id);
             rs = stat.executeQuery();
             tasks = createTasksFromResultSet(rs);
         } catch (SQLException e) {
@@ -466,15 +466,19 @@ public class TaskDAO {
         return tasks;
     }
 
-    public static List findTasks(String str) {
+    public static List findTasks(String str,int empid) {
         List<Task> tasks = new ArrayList<>();
         Connection conn = null;
         ResultSet rs;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("SELECT T_ID,NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE FROM TASK WHERE NAME LIKE ? AND PT_ID IS NULL");
+            PreparedStatement stat = conn.prepareStatement("SELECT T_ID,NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE " +
+                    "FROM TASK WHERE LOWER(NAME) LIKE ? AND EX_ID IN (SELECT EMPID FROM EMP WHERE MGR=? OR EMPID=?)");
             str = str.trim();
+            str = str.toLowerCase();
             stat.setString(1,"%"+ str+"%");
+            stat.setInt(2,empid);
+            stat.setInt(3,empid);
             rs = stat.executeQuery();
             tasks = createTasksFromResultSet(rs);
         } catch (SQLException e) {
