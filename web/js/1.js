@@ -132,13 +132,7 @@ $(document).ready(function(){
         }
     });
 
-    $('.edit-exec').click( function() {
-        $(this).addClass("cellEditing");
-        $(this).html('<select><option>NEW</option> <option selected>IN PROGRESS</option><option>COMPLETED</option></select>');
-        $(this).children().first().blur(function(){
-            $(this).parent().removeClass("cellEditing");
-        });
-    });
+
     $('.date-cell').inputmask('99.99.9999 99:99');
 
     $('.hide-child').click(function(){
@@ -151,6 +145,9 @@ $(document).ready(function(){
             $(this).val('-');
             $(this).parent().children('ul').show();
         }
+
+    });
+    $('.edit-exec').click(function(){
 
     });
    /* setCurrentDate();

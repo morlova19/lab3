@@ -96,7 +96,7 @@ public class JournalManager implements IJournalManager, Serializable {
 
     public List getTasks(String str)
     {
-        return TaskDAO.findTasks(str);
+        return TaskDAO.findTasks(str,emp_id);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class JournalManager implements IJournalManager, Serializable {
     @Override
     public List searchTasks(String param) {
 
-        return TaskDAO.findTasks(param);
+        return TaskDAO.findTasks(param,emp_id);
     }
     public List getEmpsTasks()
     {

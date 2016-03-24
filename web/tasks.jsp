@@ -121,6 +121,7 @@
                         </c:choose>
                     </c:when>
                     <c:when test="${type=='my'}">
+                        <div id="dialog" title="Dialog Title" style="display:none"> Some text</div>
                         <c:set var="tasks" value="${emp.journalManager.tasks}"/>
                         <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                         <c:choose>
@@ -148,20 +149,17 @@
                                             </td>
                                             <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                             <td class="cell-status">${t.fullStatus}</td>
-
-
                                             <c:if test="${b==true}">
-
                                                 <td class="last-cell">
+                                                    <button class="edit-exec" id="test" type="button" name="id" value="${t.ID}"></button>
                                                     <form action="deletetask"  class="delete-form" method="post">
                                                         <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
                                                     </form>
                                                     <form action="copytask" method="post">
                                                         <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                     </form>
-                                                    <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
-                                                </td>
 
+                                                </td>
                                             </c:if>
                                             <c:if test="${b==false}">
                                                 <td class="last-cell">
