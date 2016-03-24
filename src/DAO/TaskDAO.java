@@ -14,13 +14,17 @@ import java.util.Date;
 public class TaskDAO {
     private static DataSource ds = DAOFactory.getDataSource();
 
+
     public static void addTask(Task task) {
         Connection conn = null;
         try {
             conn = ds.getConnection();
 
+
+          /*  PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
+                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");*/
             PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
-                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");
+                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,CRDATE) VALUES (NEXTVAL('TASK_ID_SEQ'),?,?,?,?,?,?,?,?,current_timestamp)");
             stat.setString(1,task.getName());
             stat.setString(2,task.getStatus());
             stat.setString(3,task.getDescription());
@@ -56,8 +60,10 @@ public class TaskDAO {
         try {
             conn = ds.getConnection();
 
-            PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
-                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");
+          /*  PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
+                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");*/
+              PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
+                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE) VALUES (NEXTVAL('TASK_ID_SEQ'),?,?,?,?,?,?,?,?,?,current_timestamp)");
             stat.setString(1,task.getName());
             stat.setString(2,task.getStatus());
             stat.setString(3,task.getDescription());
@@ -372,38 +378,9 @@ public class TaskDAO {
     }
 
     public static void completeTask(int taskid) {
-        Connection conn = null;
-        try {
-            conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET STATUS=? WHERE  T_ID=?");
-            stat.setString(1,Constants.COMPLETED);
-            stat.setInt(2,taskid);
-            stat.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-           closeConnection(conn);
-        }
+       updateStatus(taskid,Constants.COMPLETED);
     }
-    public static void completeSubtask(int pt_id, int t_id) {
-        Connection conn = null;
-        try {
-            conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET STATUS=? WHERE T_ID = ? AND PT_ID=?");
-            stat.setString(1,Constants.COMPLETED);
-            stat.setInt(2,t_id);
-            stat.setInt(3,pt_id);
-            stat.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-           closeConnection(conn);
-        }
-    }
     public static void updateDate(int taskid, java.util.Date date) {
         Connection conn = null;
         try {
@@ -491,20 +468,7 @@ public class TaskDAO {
     }
 
     public static void cancelTask(int id) {
-        Connection conn = null;
-        try {
-            conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET STATUS=? WHERE T_ID = ?");
-            stat.setString(1,Constants.CANCELLED);
-            stat.setInt(2,id);
-            stat.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            closeConnection(conn);
-        }
+        updateStatus(id,Constants.CANCELLED);
     }
     public static void activateTask(int id) {
         Connection conn = null;

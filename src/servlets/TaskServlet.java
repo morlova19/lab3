@@ -163,11 +163,48 @@ public class TaskServlet extends HttpServlet{
                     to.setDate(new Date());
                 }
                 to.setContacts(req.getParameter("contacts"));
-                to.setPriority(Integer.parseInt(req.getParameter("priority")));
+                String priority = req.getParameter("priority");
+                if(priority.equalsIgnoreCase("low"))
+                {
+                    to.setPriority(Constants.LOW);
+                }
+                else if(priority.equalsIgnoreCase("medium"))
+                {
+                    to.setPriority(Constants.MEDIUM);
+                }
+                else if(priority.equalsIgnoreCase("high"))
+                {
+                    to.setPriority(Constants.HIGH);
+                }
+                else {
+                    to.setPriority(Integer.parseInt(priority));
+                }
+
 
                 to.setEx_id(Integer.parseInt(req.getParameter("ex_id")));
                 to.setCr_id(emp.getID());
-                to.setStatus(req.getParameter("status"));
+
+                String status = req.getParameter("status");
+
+                if(status.equalsIgnoreCase("new"))
+                {
+                    to.setStatus(Constants.NEW);
+                }
+                else if(status.equalsIgnoreCase("in progress"))
+                {
+                    to.setStatus(Constants.PERFORMING);
+                }
+                else if(status.equalsIgnoreCase("cancelled"))
+                {
+                    to.setStatus(Constants.CANCELLED);
+                }
+                else if(status.equalsIgnoreCase("completed"))
+                {
+                    to.setStatus(Constants.COMPLETED);
+                }
+                else {
+                    to.setStatus(status);
+                }
                 jm.updateTask(taskid,to);
                 break;
             case "complete":
