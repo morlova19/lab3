@@ -158,7 +158,6 @@
                                                     <form action="copytask" method="post">
                                                         <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                     </form>
-
                                                 </td>
                                             </c:if>
                                             <c:if test="${b==false}">
@@ -223,9 +222,7 @@
                                                            <form action="copytask" method="post">
                                                                <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                            </form>
-
                                                        </td>
-
                                                    </c:if>
                                                    <c:if test="${b==false}">
                                                        <td class="last-cell">
@@ -237,7 +234,6 @@
                                                </tr>
                                            </c:forEach>
                                            </tbody>
-
                                         </table>
                                     </c:when>
                                 </c:choose>
@@ -254,7 +250,7 @@
                                     <li class="current"> ${boss.name} <jsp:include page="node.jsp"/></li>
                                 </c:if>
                                 <c:if test="${emp.ID != boss.ID}">
-                                    <li> <input type="button" value="-" class="hide-child"> <a href="#">${boss.name}</a>  <jsp:include page="node.jsp"/></li>
+                                    <li> <input type="button" value="-" class="hide-child"> <a href="emp.jsp?id=${node.ID}">${boss.name}</a>  <jsp:include page="node.jsp"/></li>
                                 </c:if>
                             </ul>
                         </c:if>

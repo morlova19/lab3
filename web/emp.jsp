@@ -11,7 +11,6 @@
 <div class="task-form">
     <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="e" value="${emp.getEmp(param.id)}"/>
-
         <label for="ename">Name</label>
         <input id="ename" name="ename" type="text" value="${e.name}" readonly/>
 
@@ -20,7 +19,9 @@
 
     <label for="mgr">Manager</label>
     <input id="mgr"  type="text" value="${e.mgr}" readonly/>
+<c:if test="${param.id==emp.ID }">
 
+</c:if>
     <label for="total">Total count</label>
     <input id="total"  type="text" value="${e.task_count}" readonly/>
 

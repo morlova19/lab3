@@ -42,7 +42,7 @@ $(document).ready(function() {
             return true;
         }
         else {
-            alert('Please enter text for search tasks.');
+            alert('Please enter text for searching tasks');
             return false;
         }
     });
