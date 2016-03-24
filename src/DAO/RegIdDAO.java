@@ -21,8 +21,8 @@ public class RegIdDAO {
             stat.setString(1,regId);
             rs = stat.executeQuery();
             if(!rs.next()) {
-                stat = conn.prepareStatement("INSERT INTO registration_id(id,registration_id,empid) VALUES (nextval('reg_id_seq'),?,?)");
-              //  stat = conn.prepareStatement("INSERT INTO REGISTRATION_ID(ID,REGISTRATION_ID,EMPID) VALUES (REG_ID_SEQ.NEXTVAL,?,?)");
+                //stat = conn.prepareStatement("INSERT INTO registration_id(id,registration_id,empid) VALUES (nextval('reg_id_seq'),?,?)");
+                stat = conn.prepareStatement("INSERT INTO REGISTRATION_ID(ID,REGISTRATION_ID,EMPID) VALUES (REG_ID_SEQ.NEXTVAL,?,?)");
                 stat.setString(1, regId);
                 stat.setInt(2, emp_id);
                 stat.executeUpdate();

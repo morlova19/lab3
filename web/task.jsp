@@ -68,8 +68,8 @@
                     <c:if test="${task.priority == constants.LOW}">
                         <input id="priority" type="text" value="Low" readonly/>
                     </c:if>
-                    <c:if test="${task.priority == constants.MEDIUM}">
-                        <input id="priority" type="text" value="Medium" readonly/>
+                    <c:if test="${task.priority == constants.NORMAL}">
+                        <input id="priority" type="text" value="Normal" readonly/>
                     </c:if>
                     <c:if test="${task.priority == constants.HIGH}">
                         <input id="priority" type="text" value="High" readonly/>
@@ -180,8 +180,8 @@
                         <c:if test="${task.priority == constants.LOW}">
                             <input id="priority" type="text" value="Low" readonly/>
                         </c:if>
-                        <c:if test="${task.priority == constants.MEDIUM}">
-                            <input id="priority" type="text" value="Medium" readonly/>
+                        <c:if test="${task.priority == constants.NORMAL}">
+                            <input id="priority" type="text" value="Normal" readonly/>
                         </c:if>
                         <c:if test="${task.priority == constants.HIGH}">
                             <input id="priority" type="text" value="High" readonly/>
@@ -191,17 +191,17 @@
                         <select name="priority" id="priority">
                             <c:if test="${task.priority == constants.LOW}">
                                 <option value="${constants.LOW}" selected>Low</option>
-                                <option value="${constants.MEDIUM}">Medium</option>
+                                <option value="${constants.NORMAL}">Normal</option>
                                 <option value="${constants.HIGH}">High</option>
                             </c:if>
-                            <c:if test="${task.priority == constants.MEDIUM}">
+                            <c:if test="${task.priority == constants.NORMAL}">
                                 <option value="${constants.LOW}" >Low</option>
-                                <option value="${constants.MEDIUM}" selected>Medium</option>
+                                <option value="${constants.NORMAL}" selected>Normal</option>
                                 <option value="${constants.HIGH}">High</option>
                             </c:if>
                             <c:if test="${task.priority == constants.HIGH}">
                                 <option value="${constants.LOW}" >Low</option>
-                                <option value="${constants.MEDIUM}">Medium</option>
+                                <option value="${constants.NORMAL}">Normal</option>
                                 <option value="${constants.HIGH}" selected>High</option>
                             </c:if>
                         </select>
@@ -291,7 +291,7 @@
                        <td>${task.ID}</td>
                        <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}" target="_blank">${task.name}</a> </td>
                        <td>
-                           <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${task.date}"/>
+                           <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/>
                        </td>
                        <td>${task.fullStatus}</td>
                        <c:if test="${emp.ID != task.ex_id}">

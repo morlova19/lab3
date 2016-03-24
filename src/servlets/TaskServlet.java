@@ -168,9 +168,9 @@ public class TaskServlet extends HttpServlet{
                 {
                     to.setPriority(Constants.LOW);
                 }
-                else if(priority.equalsIgnoreCase("medium"))
+                else if(priority.equalsIgnoreCase("normal"))
                 {
-                    to.setPriority(Constants.MEDIUM);
+                    to.setPriority(Constants.NORMAL);
                 }
                 else if(priority.equalsIgnoreCase("high"))
                 {

@@ -21,10 +21,9 @@ public class TaskDAO {
             conn = ds.getConnection();
 
 
-          /*  PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
-                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");*/
             PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
-                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,CRDATE) VALUES (NEXTVAL('TASK_ID_SEQ'),?,?,?,?,?,?,?,?,current_timestamp)");
+                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");
+
             stat.setString(1,task.getName());
             stat.setString(2,task.getStatus());
             stat.setString(3,task.getDescription());
@@ -60,10 +59,9 @@ public class TaskDAO {
         try {
             conn = ds.getConnection();
 
-          /*  PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
-                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");*/
-              PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
-                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE) VALUES (NEXTVAL('TASK_ID_SEQ'),?,?,?,?,?,?,?,?,?,current_timestamp)");
+            PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
+                    "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");
+
             stat.setString(1,task.getName());
             stat.setString(2,task.getStatus());
             stat.setString(3,task.getDescription());

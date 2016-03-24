@@ -12,12 +12,9 @@ package utils;
     public static final String FULL_CANCELLED ="CANCELLED";
 
      public static final int LOW = 0;
-     public static final int MEDIUM = 1;
+     public static final int NORMAL = 1;
      public static final int HIGH = 2;
-     public static final String NEWTASK_ACTION="newtask";
-     public static final String NEWSUBTASK_ACTION="newsubtask";
-     public static final String DELETETASK_ACTION="deletetask";
-     public static final String DELETESUBTASK_ACTION="deletesubtask";
+
      public  String getCANCELLED() {
          return CANCELLED;
      }
@@ -38,8 +35,8 @@ package utils;
          return LOW;
      }
 
-     public  int getMEDIUM() {
-         return MEDIUM;
+     public  int getNORMAL() {
+         return NORMAL;
      }
 
      public  int getHIGH() {
