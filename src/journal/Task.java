@@ -197,24 +197,6 @@ public class Task implements Serializable {
 
     public String getFullStatus()
     {
-        if(date.getTime()-System.currentTimeMillis() <= 0)
-        {
-            if (status != null) {
-                switch (status) {
-                    case Constants.NEW:
-                        return Constants.FULL_FAILED;
-                    case Constants.CANCELLED:
-                        return Constants.FULL_CANCELLED;
-                    case Constants.PERFORMING:
-                        return Constants.FULL_FAILED;
-                    case Constants.COMPLETED:
-                        return Constants.FULL_COMPLETED;
-                    default:
-                        return Constants.FULL_FAILED;
-                }
-            }
-        }
-        else {
             if (status != null) {
                 switch (status) {
                     case Constants.NEW:
@@ -229,7 +211,6 @@ public class Task implements Serializable {
                         return Constants.FULL_NEW;
                 }
             }
-        }
         return Constants.FULL_NEW;
     }
 }

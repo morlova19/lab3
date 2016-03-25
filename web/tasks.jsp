@@ -291,7 +291,6 @@
                                            <td>${emp_comp} (${t})</td>
                                            <fmt:formatNumber value="${emp_failed/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
                                            <td>${emp_failed} (${t})</td>
-
                                            <fmt:formatNumber value="${emp_cancelled/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
                                            <td>${emp_cancelled} (${t})</td>
                                            <fmt:formatNumber value="1" type="percent" maxFractionDigits="2" var="t"/>

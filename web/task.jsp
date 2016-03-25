@@ -28,7 +28,7 @@
     <c:set var="isCompleted" value="${task.status==constants.COMPLETED}" scope="session"/>
     <c:set var="isEditable" value="${task.cr_id==emp.ID}" scope="page"/>
         <c:choose>
-            <c:when test="${isCompleted==true || task.fullStatus==constants.fullFailed}">
+            <c:when test="${isCompleted==true}">
                 <c:if test="${param.pt_id != null}">
                     <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
                     <label for="pt_id">Parent task</label>
@@ -229,6 +229,7 @@
                             <input type="submit" value="Activate" name="update"/>
                         </form>
                     </c:when>
+
                     <c:otherwise>
                         <c:if test="${emp.ID==task.ex_id}">
                             <form action="completetask" method="post" class="last-cell">
@@ -251,7 +252,7 @@
 <div id="menu-container">
     <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
         <div class="actions">
-            <c:if test="${isCompleted!=true && b==true && task.fullStatus!=constants.fullFailed}" >
+            <c:if test="${(task.status==constants.NEW || task.status==constants.PERFORMING) && b==true }" >
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
             </c:if>
             <br/>

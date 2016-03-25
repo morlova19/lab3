@@ -473,7 +473,6 @@ public class TaskDAO {
 
         t.setStatus(Constants.NEW);
 
-
         if(t.getPt_id()!=0)
         {
             addSubtask(t);
@@ -530,8 +529,6 @@ public class TaskDAO {
             {
                 return rs.getInt(1);
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
