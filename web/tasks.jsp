@@ -54,6 +54,12 @@
                 <c:when test="${type!='org'}"><a href="?type=org" class="menu" >HIERARCHY OF EMPLOYEES</a></c:when>
             </c:choose>
         </li>
+        <li class="header-link">
+            <c:choose>
+                <c:when test="${type =='stat'}"> <a href="?type=stat" class="selected" >STATISTICS</a></c:when>
+                <c:when test="${type!='stat'}"><a href="?type=stat" class="menu" >STATISTICS</a></c:when>
+            </c:choose>
+        </li>
     </ul>
 
     <div id="menu-container">
@@ -232,7 +238,6 @@
                         </c:choose>
                     </c:when>
                     <c:when test="${type=='org'}">
-
                         <c:set var="boss" value="${emp.boss}"/>
                         <c:if test="${!empty boss}">
                             <c:set var="node" value="${emp.boss}" scope="request"/>
@@ -245,6 +250,129 @@
                                 </c:if>
                             </ul>
                         </c:if>
+                    </c:when>
+                    <c:when test="${type=='stat'}">
+                        <c:set var="id" value="${emp.ID}"/>
+                        <c:set var="total" value="${emp.total_count(id)}"/>
+                        <c:set var="cur" value="${emp.cur_count(id)}"/>
+                        <c:set var="comp" value="${emp.comp_count(id)}"/>
+                        <c:set var="cancelled" value="${emp.cancelled_count(id)}"/>
+                        <c:set var="failed" value="${emp.failed_count(id)}"/>
+                            <table id="tasks">
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Current</th>
+                                    <th>Completed</th>
+                                    <th>Failed</th>
+                                    <th>Cancelled</th>
+                                    <th>Total</th>
+                                </tr>
+                                <tr>
+                                    <c:set var="emp_total" value="${emp.total_count(id)}"/>
+                                    <c:set var="emp_cur" value="${emp.cur_count(id)}"/>
+                                    <c:set var="emp_comp" value="${emp.comp_count(id)}"/>
+                                    <c:set var="emp_cancelled" value="${emp.cancelled_count(id)}"/>
+                                    <c:set var="emp_failed" value="${emp.failed_count(id)}"/>
+                                   <c:choose>
+                                       <c:when test="${emp_total==0}">
+                                           <fmt:formatNumber value="0" type="percent" maxFractionDigits="2" var="t"/>
+                                           <td><a href="emp.jsp?id=${emp.ID}">Me</a></td>
+                                           <td>${emp_cur} (${t})</td>
+                                           <td>${emp_comp} (${t})</td>
+                                           <td>${emp_failed} (${t})</td>
+                                           <td>${emp_cancelled} (${t})</td>
+                                           <td>${emp_total} (${t})</td>
+                                       </c:when>
+                                       <c:otherwise>
+                                           <fmt:formatNumber value="${emp_cur/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
+                                           <td><a href="emp.jsp?id=${emp.ID}">Me</a></td>
+                                           <td>${emp_cur} (${t})</td>
+                                           <fmt:formatNumber value="${emp_comp/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
+                                           <td>${emp_comp} (${t})</td>
+                                           <fmt:formatNumber value="${emp_failed/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
+                                           <td>${emp_failed} (${t})</td>
+
+                                           <fmt:formatNumber value="${emp_cancelled/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
+                                           <td>${emp_cancelled} (${t})</td>
+                                           <fmt:formatNumber value="1" type="percent" maxFractionDigits="2" var="t"/>
+                                           <td>${emp_total} (${t})</td>
+                                       </c:otherwise>
+                                   </c:choose>
+
+                                </tr>
+                                <c:forEach var="e"items="${emp.emps}">
+                                    <c:set var="eid" value="${e.ID}"/>
+                                    <c:set var="emp_total" value="${e.total_count(eid)}"/>
+
+                                    <c:choose>
+                                        <c:when test="${emp_total==0}">
+
+                                            <tr>
+                                                <td><a href="emp.jsp?id=${e.ID}">${e.name}</a></td>
+                                                <fmt:formatNumber value="0" type="percent" maxFractionDigits="2" var="t"/>
+                                                <td>0 (${t})</td>
+                                                <td>0 (${t})</td>
+                                                <td>0 (${t})</td>
+                                                <td>0 (${t})</td>
+                                                <fmt:formatNumber value="1" type="percent" maxFractionDigits="2" var="t"/>
+                                                <td>0 (${t})</td>
+                                            </tr>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:set var="emp_cur" value="${e.cur_count(eid)}"/>
+                                            <c:set var="emp_comp" value="${e.comp_count(eid)}"/>
+                                            <c:set var="emp_cancelled" value="${e.cancelled_count(eid)}"/>
+                                            <c:set var="emp_failed" value="${e.failed_count(eid)}"/>
+                                            <c:set var="total" value="${total+emp_total}"/>
+                                            <c:set var="cur" value="${cur+emp_cur}"/>
+                                            <c:set var="comp" value="${comp+emp_comp}"/>
+                                            <c:set var="cancelled" value="${cancelled+emp_cancelled}"/>
+                                            <c:set var="failed" value="${failed+emp_failed}"/>
+                                            <tr>
+                                                <td><a href="emp.jsp?id=${e.ID}">${e.name}</a></td>
+                                                <fmt:formatNumber value="${emp_cur/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
+                                                <td>${emp_cur} (${t})</td>
+                                                <fmt:formatNumber value="${emp_comp/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
+                                                <td>${emp_comp} (${t})</td>
+                                                <fmt:formatNumber value="${emp_failed/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
+                                                <td>${emp_failed} (${t})</td>
+                                                <fmt:formatNumber value="${emp_cancelled/emp_total}" type="percent" maxFractionDigits="2" var="t"/>
+                                                <td>${emp_cancelled} (${t})</td>
+                                                <fmt:formatNumber value="1" type="percent" maxFractionDigits="2" var="t"/>
+                                                <td>${emp_total} (${t})</td>
+                                            </tr>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </c:forEach>
+                                <tr>
+                                    <c:choose>
+                                        <c:when test="${total==0}">
+                                            <td>Total</td>
+                                            <fmt:formatNumber value="0" type="percent" maxFractionDigits="2" var="t"/>
+                                            <td>0 (${t})</td>
+                                            <td>0 (${t})</td>
+                                            <td>0 (${t})</td>
+                                            <td>0 (${t})</td>
+                                            <fmt:formatNumber value="1" type="percent" maxFractionDigits="2" var="t"/>
+                                            <td>${total} (${t})</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>Total</td>
+                                            <fmt:formatNumber value="${cur/total}" type="percent" maxFractionDigits="2" var="t"/>
+                                            <td>${cur} (${t})</td>
+                                            <fmt:formatNumber value="${comp/total}" type="percent" maxFractionDigits="2" var="t"/>
+                                            <td>${comp} (${t})</td>
+                                            <fmt:formatNumber value="${failed/total}" type="percent" maxFractionDigits="2" var="t"/>
+                                            <td>${failed} (${t})</td>
+                                            <fmt:formatNumber value="${cancelled/total}" type="percent" maxFractionDigits="2" var="t"/>
+                                            <td>${cancelled} (${t})</td>
+                                            <fmt:formatNumber value="1" type="percent" maxFractionDigits="2" var="t"/>
+                                            <td>${total} (${t})</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tr>
+                            </table>
                     </c:when>
                 </c:choose>
             </div>
