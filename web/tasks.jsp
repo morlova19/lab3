@@ -121,7 +121,6 @@
                         </c:choose>
                     </c:when>
                     <c:when test="${type=='my'}">
-                        <div id="dialog" title="Dialog Title" style="display:none"> Some text</div>
                         <c:set var="tasks" value="${emp.journalManager.tasks}"/>
                         <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                         <c:choose>
@@ -144,14 +143,14 @@
                                         <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                                         <tr>
                                             <td>${t.ID}</td>
-                                            <td >
+                                            <td>
                                                 <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
                                             </td>
                                             <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
-                                            <td class="cell-status">${t.fullStatus}</td>
+                                            <td>${t.fullStatus}</td>
                                             <c:if test="${b==true}">
                                                 <td class="last-cell">
-                                                    <button class="edit-exec" id="test" type="button" name="id" value="${t.ID}"></button>
+                                                    <button class="edit-exec" type="button" name="id" value="${t.ID}"></button>
                                                     <form action="deletetask"  class="delete-form" method="post">
                                                         <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
                                                     </form>
@@ -199,21 +198,13 @@
                                            <tbody>
                                            <c:forEach var="t" items="${tasks}">
                                                <c:set var="b" value="${username == t.cr_id}" scope="page"/>
-
                                                <tr>
                                                    <td>${t.ID}</td>
-                                                   <td>
-                                                       <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
-                                                   </td>
+                                                   <td><a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a></td>
                                                    <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                                    <td>${t.fullStatus}</td>
-                                                   <c:if test="${username != t.ex_id}">
-                                                       <td>
-                                                           <a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a>
-                                                       </td>
-                                                   </c:if>
+                                                   <c:if test="${username != t.ex_id}"><td><a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a></td></c:if>
                                                    <c:if test="${b==true}">
-
                                                        <td class="last-cell">
                                                            <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
                                                            <form action="deletetask"  class="delete-form" method="post">
@@ -258,7 +249,9 @@
                 </c:choose>
             </div>
     </div>
-
+<div id="test" hidden>
+    <input type="text" value="cccc"/>
+</div>
 </c:if>
 <c:if test="${empty username}">
     Please <a href="start.jsp">Sign in</a>

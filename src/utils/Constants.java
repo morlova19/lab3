@@ -10,6 +10,8 @@ package utils;
     public static final String FULL_PERFORMING ="IN PROGRESS";
     public static final String CANCELLED ="C";
     public static final String FULL_CANCELLED ="CANCELLED";
+     public static final String FAILED ="F";
+     public static final String FULL_FAILED ="FAILED";
 
      public static final int LOW = 0;
      public static final int NORMAL = 1;
@@ -41,5 +43,25 @@ package utils;
 
      public  int getHIGH() {
          return HIGH;
+     }
+
+     public  String getFullCompleted() {
+         return FULL_COMPLETED;
+     }
+
+     public  String getFullNew() {
+         return FULL_NEW;
+     }
+
+     public  String getFullPerforming() {
+         return FULL_PERFORMING;
+     }
+
+     public  String getFullCancelled() {
+         return FULL_CANCELLED;
+     }
+
+     public  String getFullFailed() {
+         return FULL_FAILED;
      }
  }

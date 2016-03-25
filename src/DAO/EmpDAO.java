@@ -222,7 +222,8 @@ public class EmpDAO {
         Employee emp = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("SELECT E.EMPID,E.FNAME,E.LNAME,E.JOB,DEPT.DNAME, M.FNAME||' '||M.LNAME FROM EMP E, EMP M,DEPT WHERE E.EMPID = ? AND E.DEPTID=DEPT.DEPTID AND E.MGR=M.EMPID");
+            PreparedStatement stat = conn.prepareStatement("SELECT E.EMPID,E.FNAME,E.LNAME,E.JOB,DEPT.DNAME, decode(E.MGR, NULL,'No manager',M.FNAME||' '||M.LNAME) " +
+                    "FROM EMP E, EMP M,DEPT WHERE E.EMPID = ? AND E.DEPTID=DEPT.DEPTID AND E.MGR=M.EMPID(+)");
             stat.setInt(1,id);
             rs = stat.executeQuery();
             if(rs.next())
@@ -233,33 +234,6 @@ public class EmpDAO {
                 emp.setJob(rs.getString(4));
                 emp.setDept(rs.getString(5));
                 emp.setMgr(rs.getString(6));
-            }
-            stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ?");
-            stat.setInt(1,id);
-            rs = stat.executeQuery();
-            if(rs.next())
-            {
-                assert emp != null;
-                emp.setTask_count(rs.getInt(1));
-            }
-            stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ? AND STATUS IN (?,?)");
-            stat.setInt(1,id);
-            stat.setString(2, Constants.NEW);
-            stat.setString(3, Constants.PERFORMING);
-            rs = stat.executeQuery();
-            if(rs.next())
-            {
-                assert emp != null;
-                emp.setCurrent_tasks(rs.getInt(1));
-            }
-            stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ? AND STATUS =?");
-            stat.setInt(1,id);
-            stat.setString(2, Constants.COMPLETED);
-            rs = stat.executeQuery();
-            if(rs.next())
-            {
-                assert emp != null;
-                emp.setCompleted_tasks(rs.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -334,4 +308,5 @@ public class EmpDAO {
         }
         return emp;
     }
+
 }

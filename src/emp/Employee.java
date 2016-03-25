@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Employee implements Serializable{
     private Integer ID;
@@ -18,9 +19,6 @@ public class Employee implements Serializable{
     private String job;
     private String dept;
     private String mgr;
-    private int task_count;
-    private int completed_tasks;
-    private int current_tasks;
     private JournalManager journalManager;
     private List<Employee> emps;
 
@@ -109,32 +107,43 @@ public class Employee implements Serializable{
         this.mgr = mgr;
     }
 
-    public int getTask_count() {
-        return task_count;
+    public int total_count(int id) {
+        return journalManager.total_count(id);
     }
 
-    public void setTask_count(int task_count) {
-        this.task_count = task_count;
+    public int comp_count(int id) {
+        return journalManager.comp_count(id);
     }
 
-    public int getCompleted_tasks() {
-        return completed_tasks;
+    public int cur_count(int id) {
+        return journalManager.cur_count(id);
     }
-
-    public void setCompleted_tasks(int completed_tasks) {
-        this.completed_tasks = completed_tasks;
+    public int failed_count(int id) {
+        return journalManager.failed_count(id);
     }
-
-    public int getCurrent_tasks() {
-        return current_tasks;
+    public int cancelled_count(int id) {
+        return journalManager.cancelled_count(id);
     }
-
-    public void setCurrent_tasks(int current_tasks) {
-        this.current_tasks = current_tasks;
-    }
-
     public Employee getBoss()
     {
         return EmpDAO.getBoss();
+    }
+
+    public boolean showStat(int id)
+    {
+        if(id==this.ID)
+        {
+            return true;
+        }
+        if(emps!=null)
+        {
+            if( !emps.isEmpty())
+            {
+                List<Integer> list = emps.stream().map(Employee::getID).collect(Collectors.toList());
+                return list.contains(id);
+            }
+        }
+
+        return false;
     }
 }

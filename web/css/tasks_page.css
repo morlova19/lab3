@@ -31,7 +31,6 @@ div#search-block input[type=submit]
     color: white;
     border: solid cornflowerblue;
     font-size: medium;
-
 }
 div#search-block input[type=submit]:active{
     color: gold;
@@ -138,11 +137,17 @@ div#table-container table td{
 .edit-exec{
     width: 27px;
     height: 27px;
-    background: url(../images/ic_action_edit_person.png) no-repeat;
+    background: url(../images/ic_action_edit.png) no-repeat;
     border: transparent;
 }
 .last-cell form{
     display: inline;
+}
+div#filter-container{
+    border-radius: 5px ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
 }
 
 

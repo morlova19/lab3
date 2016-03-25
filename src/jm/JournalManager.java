@@ -115,5 +115,29 @@ public class JournalManager implements IJournalManager, Serializable {
     {
         return TaskDAO.getEmpsTasks(emp_id);
     }
+    public int total_count(int id)
+    {
 
+        return TaskDAO.getTotalCount(id);
+    }
+    public int cur_count(int id)
+    {
+
+        return TaskDAO.getCurrentCount(id);
+    }
+    public int comp_count(int id)
+    {
+
+        return TaskDAO.getCompletedCount(id);
+    }
+    public int failed_count(int id)
+    {
+
+        return TaskDAO.getFailedCount(id);
+    }
+    public int cancelled_count(int id)
+    {
+
+        return TaskDAO.getCancelledCount(id);
+    }
 }

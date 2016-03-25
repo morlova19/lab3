@@ -6,10 +6,12 @@ import utils.Constants;
 import utils.TransferObject;
 
 
+import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+
 
 public class TaskDAO {
     private static DataSource ds = DAOFactory.getDataSource();
@@ -420,26 +422,6 @@ public class TaskDAO {
         return tasks;
     }
 
-    public static List getCompletedSubtasks(Integer pt_id) {
-        List<Task> tasks = new ArrayList<>();
-        Connection conn = null;
-        ResultSet rs;
-        try {
-            conn = ds.getConnection();
-
-            PreparedStatement stat = conn.prepareStatement("SELECT T_ID,NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE FROM TASK WHERE PT_ID = ? AND STATUS = ?");
-            stat.setInt(1,pt_id);
-            stat.setString(2, Constants.COMPLETED);
-            rs = stat.executeQuery();
-            tasks = createTasksFromResultSet(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            closeConnection(conn);
-        }
-        return tasks;
-    }
 
     public static List findTasks(String str,int empid) {
         List<Task> tasks = new ArrayList<>();
@@ -533,5 +515,129 @@ public class TaskDAO {
         finally {
             closeConnection(conn);
         }
+    }
+    public static int getTotalCount(int empid)
+    {
+
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            ResultSet rs;
+            PreparedStatement stat =  conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ?");
+            stat.setInt(1,empid);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                return rs.getInt(1);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
+       return 0;
+    }
+    public static int getCurrentCount(int empid)
+    {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            ResultSet rs;
+            PreparedStatement  stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ? AND STATUS IN (?,?) AND extract(second from tdate-(systimestamp )) * 1000 > 0");
+            stat.setInt(1,empid);
+            stat.setString(2,Constants.NEW);
+            stat.setString(3,Constants.PERFORMING);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                return rs.getInt(1);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
+        return 0;
+    }
+    public static int getCompletedCount(int empid)
+    {
+
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            ResultSet rs;
+            PreparedStatement    stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ? AND STATUS = ?");
+            stat.setInt(1,empid);
+            stat.setString(2,Constants.COMPLETED);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                return rs.getInt(1);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
+        return 0;
+    }
+    public static int getCancelledCount(int empid)
+    {
+
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            ResultSet rs;
+            PreparedStatement    stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ? AND STATUS = ?");
+            stat.setInt(1,empid);
+            stat.setString(2,Constants.CANCELLED);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                return rs.getInt(1);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
+        return 0;
+    }
+    public static int getFailedCount(int empid)
+    {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            ResultSet rs;
+            PreparedStatement    stat = conn.prepareStatement("SELECT COUNT(*) FROM TASK WHERE EX_ID = ? AND STATUS NOT IN (?,?) AND extract(second from tdate-(systimestamp )) * 1000 <=0");
+            stat.setInt(1,empid);
+            stat.setString(2,Constants.COMPLETED);
+            stat.setString(3,Constants.CANCELLED);
+            rs = stat.executeQuery();
+            if(rs.next())
+            {
+                return rs.getInt(1);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
+        return 0;
     }
 }

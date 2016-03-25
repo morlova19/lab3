@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Employee</title>
-    <link rel="stylesheet" type="text/css" href="css/task_page.css">
+    <link rel="stylesheet" type="text/css" href="css/emp.css">
 </head>
 <body>
 <div class="task-form">
@@ -19,17 +19,55 @@
 
     <label for="mgr">Manager</label>
     <input id="mgr"  type="text" value="${e.mgr}" readonly/>
-<c:if test="${param.id==emp.ID }">
-
-</c:if>
-    <label for="total">Total count</label>
-    <input id="total"  type="text" value="${e.task_count}" readonly/>
-
-    <label for="current">Current count</label>
-    <input id="current"  type="text" value="${e.current_tasks}" readonly/>
-    <label for="completed">Completed count</label>
-    <input id="completed"  type="text" value="${e.completed_tasks}" readonly/>
-
 </div>
+<c:if test="${emp.showStat(e.ID)==true}">
+    <table id="tasks-statistics">
+        <c:set var="total" value="${e.total_count(e.ID)}"/>
+        <tr>
+            <th>Tasks</th>
+            <th>Count</th>
+            <th>Percent</th>
+        </tr>
+        <tr>
+            <c:set var="cur" value="${e.cur_count(e.ID)}"/>
+            <c:set var="p" value="${cur/total}"/>
+            <td>Current</td>
+            <td>${cur}</td>
+            <fmt:formatNumber value="${p}" var="formatted_count" type="percent" maxFractionDigits="2"/>
+            <td>${formatted_count}</td>
+        </tr>
+        <tr>
+            <c:set var="comp" value="${e.comp_count(e.ID)}"/>
+            <c:set var="p" value="${comp/total}"/>
+            <td>Completed</td>
+            <td>${comp}</td>
+            <fmt:formatNumber maxFractionDigits="2" value="${p}" var="formatted_count" type="percent"/>
+            <td>${formatted_count}</td>
+        </tr>
+        <tr>
+            <c:set var="failed" value="${e.failed_count(e.ID)}"/>
+            <c:set var="p" value="${failed/total}"/>
+            <td>Failed</td>
+            <td>${failed}</td>
+            <fmt:formatNumber value="${p}" var="formatted_count" maxFractionDigits="2" type="percent"/>
+            <td> ${formatted_count}</td>
+        </tr>
+        <tr>
+            <c:set var="cancelled" value="${e.cancelled_count(e.ID)}"/>
+            <c:set var="p" value="${cancelled/total}"/>
+            <td>Cancelled</td>
+            <td>${cancelled}</td>
+            <fmt:formatNumber value="${p}" var="formatted_count" maxFractionDigits="2" type="percent"/>
+            <td> ${formatted_count}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td>${total}</td>
+            <fmt:formatNumber maxFractionDigits="2" value="1" var="formatted_count" type="percent"/>
+            <td> ${formatted_count}</td>
+        </tr>
+    </table>
+</c:if>
+
 </body>
 </html>

@@ -28,7 +28,7 @@
     <c:set var="isCompleted" value="${task.status==constants.COMPLETED}" scope="session"/>
     <c:set var="isEditable" value="${task.cr_id==emp.ID}" scope="page"/>
         <c:choose>
-            <c:when test="${isCompleted==true}">
+            <c:when test="${isCompleted==true || task.fullStatus==constants.fullFailed}">
                 <c:if test="${param.pt_id != null}">
                     <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
                     <label for="pt_id">Parent task</label>
@@ -62,8 +62,6 @@
 
                 <label for="contacts">Contacts</label>
                 <textarea name="contacts" id="contacts" rows="5" readonly>${task.contacts}</textarea>
-
-
                 <label for="priority">Priority</label>
                     <c:if test="${task.priority == constants.LOW}">
                         <input id="priority" type="text" value="Low" readonly/>
@@ -74,12 +72,9 @@
                     <c:if test="${task.priority == constants.HIGH}">
                         <input id="priority" type="text" value="High" readonly/>
                     </c:if>
-
                 <label for="status">Status</label>
                 <input id="status" name="status" type="text" value="${task.fullStatus}" readonly/>
-
             </c:when>
-
             <c:otherwise>
             <form method="post" action="savetask" id="update-task-form">
                 <c:if test="${param.pt_id != null}">
@@ -87,13 +82,12 @@
                     <label for="pt_id">Parent task</label>
                     <input id="pt_id" readonly value="${task.name}"/>
                     <input type="text" readonly value="${task.pt_id}" name="pt_id" hidden/>
-
                     <label for="task-date">Parent task date</label>
                     <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
                 </c:if>
                 <label for="exec">Executor</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
+                    <c:when test="${isEditable==false || task.status==constants.CANCELLED}">
                         <c:if test="${emp.ID==task.ex_id}">
                             <input type="text" readonly value="Me" id="exec"/>
                         </c:if>
@@ -114,7 +108,6 @@
                                 <option value="${emp.ID}" >Me</option>
                             </c:if>
                             <c:forEach items="${emp.emps}" var="e">
-
                                 <c:if test="${e.ID==task.ex_id}">
                                     <option value="${e.ID}" selected>${e.name}</option>
                                 </c:if>
@@ -129,12 +122,11 @@
                 <label for="creator">Creator</label>
                 <input type="text" id="creator" readonly value="${emp.getName(task.cr_id)}"/>
 
-                <label for="taskid">ID</label>
-                <input id="taskid" type="text" value="${taskid}" readonly name="taskid"/>
+                <input id="taskid" type="text" value="${taskid}" readonly name="taskid" hidden/>
 
                 <label for="name">Name</label>
                 <c:choose>
-                   <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
+                   <c:when test="${isEditable==false || task.status==constants.CANCELLED}">
                        <input name="name" id="name" type="text" value="${task.name}" readonly/>
                    </c:when>
                     <c:otherwise>
@@ -145,7 +137,7 @@
 
                 <label for="desc">Description</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
+                    <c:when test="${isEditable==false || task.status==constants.CANCELLED}">
                         <textarea name="desc" id="desc" rows="5" readonly>${task.description}</textarea>
                     </c:when>
                     <c:otherwise>
@@ -155,7 +147,7 @@
 
                 <label for="tdate">Date</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
+                    <c:when test="${isEditable==false || task.status==constants.CANCELLED}">
                         <input name="date" type="text" class="date-cell"  id="tdate" value="${formattedDate}" readonly/>
                     </c:when>
                     <c:otherwise>
@@ -166,7 +158,7 @@
                 <br/>
                 <label for="contacts">Contacts</label>
                 <c:choose>
-                    <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
+                    <c:when test="${isEditable==false || task.status==constants.CANCELLED}">
                         <textarea name="contacts" id="contacts" rows="5" readonly>${task.contacts}</textarea>
                     </c:when>
                     <c:otherwise>
@@ -259,7 +251,7 @@
 <div id="menu-container">
     <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
         <div class="actions">
-            <c:if test="${isCompleted!=true && b==true}" >
+            <c:if test="${isCompleted!=true && b==true && task.fullStatus!=constants.fullFailed}" >
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
             </c:if>
             <br/>
@@ -290,9 +282,7 @@
                    <tr>
                        <td>${task.ID}</td>
                        <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}" target="_blank">${task.name}</a> </td>
-                       <td>
-                           <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/>
-                       </td>
+                       <td><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/></td>
                        <td>${task.fullStatus}</td>
                        <c:if test="${emp.ID != task.ex_id}">
                            <td>

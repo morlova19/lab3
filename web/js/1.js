@@ -150,6 +150,7 @@ $(document).ready(function(){
     $('.edit-exec').click(function(){
 
     });
+
    /* setCurrentDate();
 
     function getIndex(text)
