@@ -205,20 +205,21 @@
                                 You don't have available employees.
                             </c:when>
                             <c:when test="${!empty emp.emps}">
-                                <div id="select-div">
-                                    <label>Status</label>
-                                    <select>
-                                        <option selected>All</option>
-                                        <option>${constants.fullNew}</option>
-                                        <option>${constants.fullPerforming}</option>
-                                        <option>${constants.fullCancelled}</option>
-                                        <option>${constants.fullCompleted}</option>
-                                    </select>
-                                </div>
+
                                 <c:set var="tasks" value="${emp.journalManager.empsTasks}"/>
                                 <c:choose>
                                     <c:when test="${empty tasks}"> Your employees don't have tasks.</c:when>
                                     <c:when test="${!empty tasks}">
+                                        <div id="select-div">
+                                            <label>Status</label>
+                                            <select>
+                                                <option selected>All</option>
+                                                <option>${constants.fullNew}</option>
+                                                <option>${constants.fullPerforming}</option>
+                                                <option>${constants.fullCancelled}</option>
+                                                <option>${constants.fullCompleted}</option>
+                                            </select>
+                                        </div>
                                         <table id="tasks" class="tablesorter">
                                             <thead>
                                             <tr>

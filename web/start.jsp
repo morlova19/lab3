@@ -11,7 +11,7 @@
     <script src="js/validation.js"></script>
 </head>
 <body>
-<form method="post"  action="login" id="auth-form">
+<form method="post" action="login" id="auth-form">
     <table>
         <tr>
             <td>Username:</td>
