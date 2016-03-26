@@ -17,7 +17,11 @@ table input[type=text],input[type=password]{
 input[type=submit]{
     width: 100%;
     border-radius: 5px 5px 5px 5px;
-    padding: 4px;
+    padding: 8px;
+    background-color: #0000cc;
+    color: white;
+    border: none;
+
 }
 a:active{
     background-color: gray;
