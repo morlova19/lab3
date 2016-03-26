@@ -11,9 +11,16 @@ table{
     margin: 1%;
     border-radius: 3% 3% 3% 3%;
 }
-table input[type=text],input[type=password]{
-    border-radius: 5px;
+table input[type=text],input[type=password] {
+    width: 100%;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
 }
+
+
 input[type=submit]{
     width: 100%;
     border-radius: 5px 5px 5px 5px;
