@@ -100,7 +100,7 @@ div#menu-container {
 div#table-container{
     margin-top: 5px;
 }
-div#table-container table{
+div#table-container table, div#select-div{
     border-collapse: collapse;
     width: 90%;
     margin-left: 2%;

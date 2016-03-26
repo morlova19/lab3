@@ -14,8 +14,11 @@ package utils;
      public static final String FULL_FAILED ="FAILED";
 
      public static final int LOW = 0;
+     public static final String FULL_LOW = "LOW";
      public static final int NORMAL = 1;
+     public static final String FULL_NORMAL = "NORMAL";
      public static final int HIGH = 2;
+     public static final String FULL_HIGH = "HIGH";
 
      public  String getCANCELLED() {
          return CANCELLED;
@@ -63,5 +66,17 @@ package utils;
 
      public  String getFullFailed() {
          return FULL_FAILED;
+     }
+
+     public  String getFullLow() {
+         return FULL_LOW;
+     }
+
+     public  String getFullNormal() {
+         return FULL_NORMAL;
+     }
+
+     public  String getFullHigh() {
+         return FULL_HIGH;
      }
  }

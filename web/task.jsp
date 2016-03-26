@@ -182,19 +182,19 @@
                     <c:otherwise>
                         <select name="priority" id="priority">
                             <c:if test="${task.priority == constants.LOW}">
-                                <option value="${constants.LOW}" selected>Low</option>
-                                <option value="${constants.NORMAL}">Normal</option>
-                                <option value="${constants.HIGH}">High</option>
+                                <option value="${constants.LOW}" selected>${constants.fullLow}</option>
+                                <option value="${constants.NORMAL}">${constants.fullNormal}</option>
+                                <option value="${constants.HIGH}">${constants.fullHigh}</option>
                             </c:if>
                             <c:if test="${task.priority == constants.NORMAL}">
-                                <option value="${constants.LOW}" >Low</option>
-                                <option value="${constants.NORMAL}" selected>Normal</option>
-                                <option value="${constants.HIGH}">High</option>
+                                <option value="${constants.LOW}" >${constants.fullLow}</option>
+                                <option value="${constants.NORMAL}" selected>${constants.fullNormal}</option>
+                                <option value="${constants.HIGH}">${constants.fullHigh}</option>
                             </c:if>
                             <c:if test="${task.priority == constants.HIGH}">
-                                <option value="${constants.LOW}" >Low</option>
-                                <option value="${constants.NORMAL}">Normal</option>
-                                <option value="${constants.HIGH}" selected>High</option>
+                                <option value="${constants.LOW}" >${constants.fullLow}</option>
+                                <option value="${constants.NORMAL}">${constants.fullNormal}</option>
+                                <option value="${constants.HIGH}" selected>${constants.fullHigh}</option>
                             </c:if>
                         </select>
                     </c:otherwise>
@@ -208,12 +208,12 @@
                     <c:otherwise>
                         <select name="status" id="status">
                             <c:if test="${task.status == constants.NEW}">
-                                <option value="${constants.NEW}" selected>New</option>
-                                <option value="${constants.PERFORMING}">In progress</option>
+                                <option value="${constants.NEW}" selected>${constants.fullNew}</option>
+                                <option value="${constants.PERFORMING}">${constants.fullPerforming}</option>
                             </c:if>
                             <c:if test="${task.status == constants.PERFORMING}">
-                                <option value="${constants.NEW}">New</option>
-                                <option value="${constants.PERFORMING}" selected>In progress</option>
+                                <option value="${constants.NEW}">${constants.fullNew}</option>
+                                <option value="${constants.PERFORMING}" selected>${constants.fullPerforming}</option>
                             </c:if>
                         </select>
                     </c:otherwise>
@@ -295,7 +295,7 @@
                        </c:if>
                        <c:if test="${b==true}">
                            <td class="last-cell">
-                               <form action="deletetask"  id="delete-form" method="post">
+                               <form action="deletetask"  class="delete-form" method="post">
                                    <button  class="delete-button" type="submit" name="id" value="${task.ID}"></button>
                                </form>
                                <form action="copytask" method="post">

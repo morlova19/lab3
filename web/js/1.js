@@ -150,7 +150,25 @@ $(document).ready(function(){
     $('.edit-exec').click(function(){
 
     });
-
+    $('#status').change(function(){
+       var rows = $('#tasks tbody').find('tr');
+        var cur_status = $(this).val().toUpperCase();
+        rows.each(function(){
+           var status = $.trim($(this).find('td:nth-child(4)').text());
+            if(cur_status=='ALL')
+            {
+                $(this).show();
+            }
+            else {
+                if (status == cur_status) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+            }
+        });
+    });
    /* setCurrentDate();
 
     function getIndex(text)

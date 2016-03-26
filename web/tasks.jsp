@@ -74,6 +74,16 @@
                                 Unfortunately, your search "${search}" did not match any tasks. Please try again.
                             </c:when>
                             <c:when test="${!empty tasks}">
+                                <div id="select-div">
+                                    <label>Status</label>
+                                    <select>
+                                        <option selected>All</option>
+                                        <option>${constants.fullNew}</option>
+                                        <option>${constants.fullPerforming}</option>
+                                        <option>${constants.fullCancelled}</option>
+                                        <option>${constants.fullCompleted}</option>
+                                    </select>
+                                </div>
                                 <table id="tasks" class="tablesorter">
                                     <thead>
                                     <tr>
@@ -99,9 +109,7 @@
                                                <td>Me</td>
                                            </c:if>
                                            <c:if test="${username != t.ex_id}">
-                                               <td>
-                                                   <a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a>
-                                               </td>
+                                               <td><a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a></td>
                                            </c:if>
                                            <c:if test="${b==true}">
                                                <td class="last-cell">
@@ -135,6 +143,16 @@
                                 You don't have tasks.
                             </c:when>
                             <c:when test="${!empty tasks}">
+                                <div id="select-div">
+                                    <label for="status">Status</label>
+                                    <select id="status">
+                                        <option selected>All</option>
+                                        <option>${constants.fullNew}</option>
+                                        <option>${constants.fullPerforming}</option>
+                                        <option>${constants.fullCancelled}</option>
+                                        <option>${constants.fullCompleted}</option>
+                                    </select>
+                                </div>
                                 <table id="tasks" class="tablesorter" >
                                     <thead>
                                     <tr>
@@ -187,6 +205,16 @@
                                 You don't have available employees.
                             </c:when>
                             <c:when test="${!empty emp.emps}">
+                                <div id="select-div">
+                                    <label>Status</label>
+                                    <select>
+                                        <option selected>All</option>
+                                        <option>${constants.fullNew}</option>
+                                        <option>${constants.fullPerforming}</option>
+                                        <option>${constants.fullCancelled}</option>
+                                        <option>${constants.fullCompleted}</option>
+                                    </select>
+                                </div>
                                 <c:set var="tasks" value="${emp.journalManager.empsTasks}"/>
                                 <c:choose>
                                     <c:when test="${empty tasks}"> Your employees don't have tasks.</c:when>
