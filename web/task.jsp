@@ -42,7 +42,7 @@
                 <c:if test="${emp.ID==task.ex_id}">
                     <input type="text" readonly value="Me" id="exec"/>
                 </c:if>
-                <c:forEach items="${emp.emps}" var="e">
+                <c:forEach items="${emp.emps_map.values()}" var="e">
                     <c:if test="${e.ID==task.ex_id}">
                         <input type="text" readonly value="${e.name}" id="exec" />
                     </c:if>
@@ -92,7 +92,7 @@
                             <input type="text" readonly value="Me" id="exec"/>
                         </c:if>
                         <c:if test="${emp.ID!=task.ex_id}">
-                            <c:forEach items="${emp.emps}" var="e">
+                            <c:forEach items="${emp.emps_map.values()}" var="e">
                                 <c:if test="${e.ID==task.ex_id}">
                                     <input type="text" readonly value="${e.name}" id="exec" />
                                 </c:if>
@@ -107,7 +107,7 @@
                             <c:if test="${emp.ID !=task.ex_id}">
                                 <option value="${emp.ID}" >Me</option>
                             </c:if>
-                            <c:forEach items="${emp.emps}" var="e">
+                            <c:forEach items="${emp.emps_map.values()}" var="e">
                                 <c:if test="${e.ID==task.ex_id}">
                                     <option value="${e.ID}" selected>${e.name}</option>
                                 </c:if>

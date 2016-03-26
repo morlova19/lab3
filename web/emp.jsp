@@ -21,7 +21,7 @@
     <label for="mgr">Manager</label>
     <input id="mgr"  type="text" value="${e.mgr}" readonly/>
 </div>
-<c:if test="${emp.showStat(e.ID)==true}">
+<c:if test="${emp.contains(e.ID)==true}">
     <table id="tasks-statistics">
         <c:set var="total" value="${e.total_count(e.ID)}"/>
         <tr>
@@ -58,7 +58,7 @@
                 <tr>
                     <td>Total</td>
                     <td>${total}</td>
-                    <fmt:formatNumber maxFractionDigits="2" value="1" var="formatted_count" type="percent"/>
+                    <fmt:formatNumber maxFractionDigits="2" value="0" var="formatted_count" type="percent"/>
                     <td> ${formatted_count}</td>
                 </tr>
             </c:when>

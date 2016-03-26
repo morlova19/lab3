@@ -10,7 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmpDAO {
     private static DataSource ds = DAOFactory.getDataSource();
@@ -48,17 +50,40 @@ public class EmpDAO {
        List<Employee> emps = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("SELECT EMPID,FNAME,LNAME FROM EMP WHERE MGR = ?");
+            PreparedStatement stat = conn.prepareStatement("SELECT EMPID FROM EMP WHERE MGR = ?");
             stat.setInt(1,mgr_id);
             rs = stat.executeQuery();
             emps = new ArrayList<>();
             while(rs.next())
             {
-                Employee emp = new Employee(rs.getInt(1));
-                emp.setFname(rs.getString(2));
-                emp.setLname(rs.getString(3));
+                Employee emp = getEmp(rs.getInt(1));
                 emps.add(emp);
-                //emp.setLogin(login);
+            }
+            return emps;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return emps;
+        }
+        finally {
+            closeConnection(conn);
+        }
+
+    }
+    public static Map<Integer,Employee> getEmpsMap(Integer mgr_id) {
+        Connection conn = null;
+        ResultSet rs;
+        Map<Integer,Employee> emps = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("SELECT EMPID FROM EMP WHERE MGR = ?");
+            stat.setInt(1,mgr_id);
+            rs = stat.executeQuery();
+            emps = new HashMap<>();
+            while(rs.next())
+            {
+                int id = rs.getInt(1);
+                Employee emp = getEmp(id);
+                emps.put(id,emp);
             }
             return emps;
         } catch (SQLException e) {
@@ -77,7 +102,7 @@ public class EmpDAO {
         try {
             conn = ds.getConnection();
 
-            PreparedStatement stat = conn.prepareStatement("SELECT dname FROM dept");
+            PreparedStatement stat = conn.prepareStatement("SELECT DISTINCT dname FROM dept");
             rs = stat.executeQuery();
             while (rs.next()){
                 list.add(rs.getString(1));

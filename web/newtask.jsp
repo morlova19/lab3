@@ -38,7 +38,7 @@
         <label for="executor">Executor</label>
         <select name="ex_id" id="executor">
             <option value="${emp.ID}" selected>Me</option>
-            <c:forEach items="${emp.emps}" var="e">
+            <c:forEach items="${emp.emps_map.values()}" var="e">
                 <option value="${e.ID}">${e.name}</option>
             </c:forEach>
         </select>

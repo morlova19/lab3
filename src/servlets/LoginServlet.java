@@ -45,9 +45,7 @@ public class LoginServlet extends HttpServlet{
             if (EmpDAO.login(login, encrypted_pass)) {
                 Employee emp = EmpDAO.getEmp(login);
                 req.getSession().setAttribute("emp", emp);
-
                 req.getSession().setAttribute("username", emp.getID());
-
                 resp.sendRedirect("tasks.jsp?type=my");
             } else {
                 resp.sendRedirect("start.jsp");

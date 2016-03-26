@@ -22,7 +22,6 @@ public class TaskDAO {
         try {
             conn = ds.getConnection();
 
-
             PreparedStatement stat = conn.prepareStatement("INSERT INTO TASK(T_ID," +
                     "NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,CRDATE) VALUES (TASK_ID_SEQ.NEXTVAL,?,?,?,?,?,?,?,?,SYSTIMESTAMP)");
 
@@ -45,16 +44,6 @@ public class TaskDAO {
         }
     }
 
-    private static void closeConnection(Connection conn) {
-        try {
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        }
-    }
 
     public static void addSubtask(Task task) {
         Connection conn = null;
@@ -636,5 +625,15 @@ public class TaskDAO {
             closeConnection(conn);
         }
         return 0;
+    }
+    private static void closeConnection(Connection conn) {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
     }
 }

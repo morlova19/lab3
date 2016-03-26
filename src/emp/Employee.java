@@ -1,12 +1,9 @@
 package emp;
 
 import DAO.EmpDAO;
-import DAO.TaskDAO;
-import jm.IJournalManager;
 import jm.JournalManager;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,13 +16,14 @@ public class Employee implements Serializable{
     private String job;
     private String dept;
     private String mgr;
+
     private JournalManager journalManager;
-    private List<Employee> emps;
+    private Map<Integer,Employee> emps_map;
 
     public Employee(int id) {
         this.ID = id;
         journalManager = new JournalManager(ID);
-        emps = EmpDAO.getEmps(ID);
+        emps_map = EmpDAO.getEmpsMap(ID);
     }
     public String getDept() {
         return dept;
@@ -47,9 +45,6 @@ public class Employee implements Serializable{
         return journalManager;
     }
 
-    public List<Employee> getEmps() {
-        return emps;
-    }
 
     public String getName()
     {
@@ -65,8 +60,12 @@ public class Employee implements Serializable{
         return EmpDAO.getEmp(id);
     }
 
-    public void setEmps(List<Employee> emps) {
-        this.emps = emps;
+    public Map<Integer, Employee> getEmps_map() {
+        return emps_map;
+    }
+
+    public void setEmps_map(Map<Integer, Employee> emps_map) {
+        this.emps_map = emps_map;
     }
 
     public void setID(Integer ID) {
@@ -95,7 +94,13 @@ public class Employee implements Serializable{
             return "Me";
         }
         else {
-            return EmpDAO.getEmpName(empid);
+            if(contains(empid))
+            {
+                return emps_map.get(empid).getName();
+            }
+            else {
+                return EmpDAO.getEmpName(empid);
+            }
         }
     }
 
@@ -118,29 +123,31 @@ public class Employee implements Serializable{
     public int cur_count(int id) {
         return journalManager.cur_count(id);
     }
+
     public int failed_count(int id) {
         return journalManager.failed_count(id);
     }
+
     public int cancelled_count(int id) {
         return journalManager.cancelled_count(id);
     }
+
     public Employee getBoss()
     {
         return EmpDAO.getBoss();
     }
 
-    public boolean showStat(int id)
+    public boolean contains(int id)
     {
         if(id==this.ID)
         {
             return true;
         }
-        if(emps!=null)
+        if(emps_map!=null)
         {
-            if( !emps.isEmpty())
+            if( !emps_map.isEmpty())
             {
-                List<Integer> list = emps.stream().map(Employee::getID).collect(Collectors.toList());
-                return list.contains(id);
+                return emps_map.containsKey(id);
             }
         }
 

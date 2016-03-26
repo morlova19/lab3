@@ -201,10 +201,10 @@
                     </c:when>
                     <c:when test="${type=='emp'}">
                         <c:choose>
-                            <c:when test="${empty emp.emps}">
+                            <c:when test="${empty emp.emps_map}">
                                 You don't have available employees.
                             </c:when>
-                            <c:when test="${!empty emp.emps}">
+                            <c:when test="${!empty emp.emps_map}">
 
                                 <c:set var="tasks" value="${emp.journalManager.empsTasks}"/>
                                 <c:choose>
@@ -329,7 +329,7 @@
                                    </c:choose>
 
                                 </tr>
-                                <c:forEach var="e" items="${emp.emps}">
+                                <c:forEach var="e" items="${emp.emps_map.values()}">
                                     <c:set var="eid" value="${e.ID}"/>
                                     <c:set var="emp_total" value="${e.total_count(eid)}"/>
 
