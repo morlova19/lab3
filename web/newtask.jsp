@@ -59,11 +59,10 @@
 
         <label for="priority">Priority</label>
         <select name="priority" id="priority">
-            <option value="${constants.LOW}" selected>Low</option>
-            <option value="${constants.NORMAL}">Normal</option>
-            <option value="${constants.HIGH}" selected>High</option>
+            <option value="${constants.LOW}" selected>${constants.fullLow}</option>
+            <option value="${constants.NORMAL}">${constants.fullNormal}</option>
+            <option value="${constants.HIGH}" selected>${constants.fullHigh}</option>
         </select>
-
         <input type="submit" value="OK"/>
     </form>
 </div>

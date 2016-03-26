@@ -335,7 +335,6 @@
 
                                     <c:choose>
                                         <c:when test="${emp_total==0}">
-
                                             <tr>
                                                 <td><a href="emp.jsp?id=${e.ID}">${e.name}</a></td>
                                                 <fmt:formatNumber value="0" type="percent" maxFractionDigits="2" var="t"/>
