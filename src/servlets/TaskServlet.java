@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,6 +69,7 @@ public class TaskServlet extends HttpServlet{
     }
     private void updateName(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
+        req.setCharacterEncoding("UTF-8");
         String name = req.getParameter("name");
         TaskDAO.updateName(taskid,name);
         resp.sendRedirect(req.getHeader("referer"));
@@ -111,12 +113,13 @@ public class TaskServlet extends HttpServlet{
     private void create(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
         assert emp!=null;
+        req.setCharacterEncoding("UTF-8");
         JournalManager jm = emp.getJournalManager();
         String pt_id = req.getParameter("pt_id");
 
         TransferObject to = new TransferObject();
         to.setName(req.getParameter("name"));
-        System.out.println("name =" +to.getName());
+        System.out.println("name =" + to.getName());
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         to.setDescription(req.getParameter("desc"));
         try {
@@ -147,7 +150,7 @@ public class TaskServlet extends HttpServlet{
         Employee emp = (Employee) req.getSession().getAttribute("emp");
         assert emp!=null;
         JournalManager jm = emp.getJournalManager();
-
+        req.setCharacterEncoding("UTF-8");
         String action = req.getParameter("update").toLowerCase();
         int taskid = Integer.parseInt(req.getParameter("taskid"));
         switch (action)
@@ -210,7 +213,6 @@ public class TaskServlet extends HttpServlet{
                 break;
             case "complete":
                jm.complete(taskid);
-
                 break;
             case "cancel":
                 jm.cancel(taskid);

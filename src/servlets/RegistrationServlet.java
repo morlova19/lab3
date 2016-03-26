@@ -18,6 +18,7 @@ import java.io.IOException;
 public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String fname = req.getParameter("fname").toUpperCase();
         String lname = req.getParameter("lname").toUpperCase();
         String dept = req.getParameter("dept");

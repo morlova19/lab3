@@ -37,6 +37,7 @@ public class LoginServlet extends HttpServlet{
 
     private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if(req.getSession().getAttribute("username")==null) {
+            req.setCharacterEncoding("UTF-8");
             String pass = req.getParameter("pass");
             String login = req.getParameter("username");
             String encrypted_pass = EncryptionUtil.encrypt(pass);

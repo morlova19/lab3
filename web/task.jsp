@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <script src="js/1.js"></script>
     <script src="js/validation.js"></script>
-
 </head>
 <body>
 <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
