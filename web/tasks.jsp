@@ -329,7 +329,7 @@
                                    </c:choose>
 
                                 </tr>
-                                <c:forEach var="e"items="${emp.emps}">
+                                <c:forEach var="e" items="${emp.emps}">
                                     <c:set var="eid" value="${e.ID}"/>
                                     <c:set var="emp_total" value="${e.total_count(eid)}"/>
 
@@ -343,7 +343,7 @@
                                                 <td>0 (${t})</td>
                                                 <td>0 (${t})</td>
                                                 <td>0 (${t})</td>
-                                                <fmt:formatNumber value="1" type="percent" maxFractionDigits="2" var="t"/>
+
                                                 <td>0 (${t})</td>
                                             </tr>
                                         </c:when>
@@ -383,7 +383,6 @@
                                             <td>0 (${t})</td>
                                             <td>0 (${t})</td>
                                             <td>0 (${t})</td>
-                                            <fmt:formatNumber value="1" type="percent" maxFractionDigits="2" var="t"/>
                                             <td>${total} (${t})</td>
                                         </c:when>
                                         <c:otherwise>
