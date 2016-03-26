@@ -3,6 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Task</title>
     <link rel="icon" href="images/icon.png" type="image/png">
     <link rel="stylesheet" type="text/css" href="css/task_page.css">
@@ -80,7 +81,7 @@
                 <c:if test="${param.pt_id != null}">
                     <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
                     <label for="pt_id">Parent task</label>
-                    <input id="pt_id" readonly value="${task.name}"/>
+                    <input type="text" id="pt_id" readonly value="${task.name}"/>
                     <input type="text" readonly value="${task.pt_id}" name="pt_id" hidden/>
                     <label for="task-date">Parent task date</label>
                     <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>

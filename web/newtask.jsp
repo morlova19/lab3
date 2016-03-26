@@ -21,7 +21,7 @@
 <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
 <jsp:useBean id="constants" class="utils.Constants"/>
 <div class="task-form">
-    <form method="post" action="newtask" id="newtask-form">
+    <form method="post" action="newtask" id="newtask-form" accept-charset="UTF-8">
 
         <c:if test="${!empty param.pt_id}">
             <c:set var="pt" value="${emp.journalManager.get(param.pt_id)}"/>
@@ -60,7 +60,7 @@
         <label for="priority">Priority</label>
         <select name="priority" id="priority">
             <option value="${constants.LOW}" selected>Low</option>
-            <option value="${constants.NORMAL}">Medium</option>
+            <option value="${constants.NORMAL}">Normal</option>
             <option value="${constants.HIGH}" selected>High</option>
         </select>
 

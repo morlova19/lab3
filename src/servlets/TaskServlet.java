@@ -116,6 +116,7 @@ public class TaskServlet extends HttpServlet{
 
         TransferObject to = new TransferObject();
         to.setName(req.getParameter("name"));
+        System.out.println("name =" +to.getName());
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         to.setDescription(req.getParameter("desc"));
         try {

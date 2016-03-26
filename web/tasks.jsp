@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <script src="js/validation.js"></script>
     <script src="js/1.js"></script>
+
 </head>
 <body>
 <c:set var="username" value="${sessionScope.username}"/>
