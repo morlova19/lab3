@@ -106,7 +106,7 @@
                                            <td><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                            <td>${t.fullStatus}</td>
                                            <c:if test="${username==t.ex_id}">
-                                               <td>Me</td>
+                                               <td><a href="emp.jsp?id=${t.ex_id}">Me</a></td>
                                            </c:if>
                                            <c:if test="${username != t.ex_id}">
                                                <td><a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a></td>
