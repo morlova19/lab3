@@ -26,7 +26,7 @@
         <tr>
             <c:if test="${!empty sessionScope.username  && sessionScope.username == 'error'}" scope="session" var="q">
                 <td class="error" colspan="2">
-                    <c:out value="Incorrect login or password"/>
+                    <label>Incorrect login or password</label>
                 </td>
             </c:if>
         </tr>

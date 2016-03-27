@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Servlet for authorization of employee.
  */
-@WebServlet(urlPatterns = {"/login","/my/logout","/emp/logout","/logout"})
+@WebServlet(urlPatterns = {"/login","/logout"})
 public class LoginServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet{
     }
 
     private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if(req.getSession().getAttribute("username")==null) {
+        if(req.getSession().getAttribute("username")==null || req.getSession().getAttribute("username").equals("error")) {
             req.setCharacterEncoding("UTF-8");
             String pass = req.getParameter("pass");
             String login = req.getParameter("username");
