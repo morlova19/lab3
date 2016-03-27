@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Servlet for registration identifier of browser and saving it to database.
  */
-@WebServlet(urlPatterns = {"/my/regId"})
+@WebServlet(urlPatterns = {"/regId"})
 public class RegIdServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

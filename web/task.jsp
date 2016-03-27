@@ -218,7 +218,7 @@
                         </select>
                     </c:otherwise>
                 </c:choose>
-                <c:if test="${emp.ID==task.cr_id && task.status!=constants.CANCELLED}">
+                <c:if test="${task.status!=constants.CANCELLED}">
                 <input type="submit" value="Save" name="update"/>
                 </c:if>
                 </form>
@@ -237,7 +237,7 @@
                                 <input type="submit" value="Complete" name="update"/>
                             </form>
                         </c:if>
-                        <c:if test="${emp.ID==task.cr_id}">
+                        <c:if test="${emp.ID==task.cr_id }">
                             <form action="savetask" method="post">
                                 <input type="text" name="taskid" hidden readonly value="${taskid}"/>
                                 <input type="submit" value="Cancel" name="update"/>

@@ -42,6 +42,7 @@ public class PushServlet extends HttpServlet{
         String endpoint = req.getParameter("endpoint");
 
         if(endpoint != null) {
+
             String[] a = endpoint.split("/");
             endpoint = a[a.length-1];
             System.out.println(endpoint);
@@ -81,6 +82,8 @@ public class PushServlet extends HttpServlet{
                         m.remove(m1);
                     }
                 }
+
+                resp.setCharacterEncoding("UTF-8");
                 PrintWriter pw = resp.getWriter();
                 pw.print(str);
                 pw.close();
@@ -99,6 +102,7 @@ public class PushServlet extends HttpServlet{
                         m.remove(m1);
                     }
                 }
+                resp.setCharacterEncoding("UTF-8");
                 PrintWriter pw = resp.getWriter();
                 pw.print(str);
                 pw.close();
@@ -124,7 +128,6 @@ public class PushServlet extends HttpServlet{
         Message content = null;
         Gson gson = new Gson();
 
-        System.out.println(enumeration.hasMoreElements());
         if (enumeration.hasMoreElements()){
 
             content = gson.fromJson(enumeration.nextElement(),Message.class);
@@ -135,6 +138,7 @@ public class PushServlet extends HttpServlet{
             }
             else {
                 List<Message> msg = new CopyOnWriteArrayList<>();
+                System.out.println(content.getTaskid());
                 msg.add(content);
                 map.put(content.getEmpid(), msg);
             }

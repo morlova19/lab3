@@ -95,6 +95,7 @@ $(document).ready(function(){
 
 
     });
+
     $("#tasks").find("td.cell-date").dblclick(function () {
         var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
 
@@ -147,19 +148,198 @@ $(document).ready(function(){
         }
 
     });
-    $('.edit-exec').click(function(){
+
+    $('.edit-exec').click(function() {
+        var row = $(this).parent().parent();
+        var id = $(this).val();
+        var _class = $(this).attr('class');
+        var cells = row.find('td').not(':last-child').not(':first-child');
+
+        if (_class == 'edit-exec') {
+
+            $(this).removeClass('edit-exec');
+            $(this).addClass('done');
+            row.find("td:last-child").find(".delete-button").hide();
+            row.find("td:last-child").find(".copy-button").hide();
+            cells.each(function(index){
+                var OriginalContent = $.trim( $(this).text());
+                if(index==0)
+                { var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
+                    if(isCreator==0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).addClass("cellEditing");
+                        $(this).html('<input id="name" type="text" name="name" value="'+OriginalContent+'" />');
+                        $(this).children().first().focus();
+                        return true;
+                    }
+                }else if(index==1)
+                {
+
+                }
+                else if(index==2)
+                {
+
+                } else if(index==3)
+                {
+                    var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
+                    if(isCreator==0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        $(this).addClass("cellEditing");
+                        $(this).html('<select><option selected>Me</option> <c:forEach var="e" items="${emp.emps_map.values()}"><option>${e.name}</option></c:forEach></select>');
+                        $(this).children().first().focus();
+                        return true;
+                    }
+                }
+            });
+        }
+        else  if (_class == 'done') {
+
+            var name;
+            cells.each(function(index){
+                if(index==0) {
+
+                    var URL = 'updatename';
+                    var newContent = $.trim($(this).find('input').val());
+                    if (newContent.length != 0) {
+                        $(this).removeClass('done');
+                        $(this).addClass('edit-exec');
+                        row.find("td:last-child").find(".delete-button").show()
+                        row.find("td:last-child").find(".copy-button").show();
+                        $(this).removeClass("cellEditing");
+                        $.post(URL, {
+                            id: id,
+                            name: newContent
+                        }, function (data) {
+                            location.reload();
+                        });
+                    }
+                    else {
+                       alert('Please enter correct name')
+                    }
+
+                }else if(index==1)
+                {
+
+                }
+                else if(index==2)
+                {
+
+                } else if(index==3)
+                {
+
+                }
+
+            });
+
+
+
+            //$('#update-from-table-form').submit();
+        }
+      /*  var row = $(this).parent().parent();
+        var id = $.trim(row.find('td:first-child').text());
+        var cells = row.find('td').not(':last-child').not(':first-child');
+        var _class = $(this).attr('class');
+        if (_class == 'edit-exec') {
+        $(this).removeClass('edit-exec');
+        $(this).addClass('done');
+            console.log(456)
+            cells.each(function(index){
+                if(index==0)
+                {
+                    $(this).dblclick(function(){
+                        handler($(this))
+                    });
+                }else if(index==1)
+                {
+                    $(this).dblclick(function(){
+                        handler($(this))
+                    });
+                }
+                $(this).text($.trim($(this).text()));
+            });
+        }
+        else  if (_class == 'done') {
+            $(this).removeClass('done');
+            $(this).addClass('edit-exec');
+
+            cells.each(function(index){
+                console.log(123)
+                if(index==0)
+                {
+                    var URL = 'updatename' ;
+                    var newContent = $.trim($(this).text());
+                    var string = '<a href="#" target="_blank">123</a>';
+
+                    console.log($(this));
+                   // $(this).html('<a href="#">' + $(this).html() + '</a>')
+                    $(this).html('<select><option>' + $(this).html() + '</option></select>')
+
+
+                    $.post(URL,{
+                        id: id,
+                        name: newContent
+                    });
+
+                }else if(index==1)
+                {
+
+                }
+                $(this).text($.trim($(this).text()));
+            });
+
+
+        }*/
 
     });
-    $('#status').change(function(){
-       var rows = $('#tasks tbody').find('tr');
+    function handler(cell){
+        var isCreator = cell.parent().find("td:last-child").find(".delete-button").length;
+        if(isCreator==0)
+        {
+            return false;
+        }
+        else
+        {
+            var OriginalContent = cell.text();
+            cell.addClass("cellEditing");
+            cell.html('<input type="text" class="date-cell" value="'+OriginalContent+'" />');
+            cell.children().first().focus();
+
+            cell.children().first().keypress(function (e) { if (e.which == 13) {
+                var newContent = $(this).val();
+                cell.text(newContent);
+                cell.removeClass("cellEditing");
+
+            }
+            });
+           cell.children().first().blur(function(){
+                cell.text(OriginalContent);
+                cell.removeClass("cellEditing");
+            });
+            return true;
+        }
+    }
+    $('select.status').change(function(){
+       var rows = $('#tasks').find('tbody').find('tr');
         var cur_status = $(this).val().toUpperCase();
+        console.log(rows)
         rows.each(function(){
            var status = $.trim($(this).find('td:nth-child(4)').text());
+            console.log(status)
             if(cur_status=='ALL')
             {
+                $('#tasks').show();
                 $(this).show();
             }
             else {
+                $('#tasks').show();
                 if (status == cur_status) {
                     $(this).show();
                 }
@@ -168,6 +348,15 @@ $(document).ready(function(){
                 }
             }
         });
+        var tbody = $("#tasks").find("td").is(':visible');
+        if(tbody==0){
+            $('#tasks').hide();
+            $('label.msg-no-status').show();
+        }
+        else {
+            $('#tasks').show();
+            $('label.msg-no-status').hide();
+        }
     });
    /* setCurrentDate();
 

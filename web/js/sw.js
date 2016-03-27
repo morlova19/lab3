@@ -2,6 +2,7 @@ console.log('Started', self);
 var SOME_API_ENDPOINT = 'http://localhost:8081/lab3_war_exploded/PushServlet?endpoint=';
 registration.pushManager.getSubscription()
     .then(function(subscription) {
+        console.log(subscription)
         SOME_API_ENDPOINT += subscription.endpoint;
     });
 self.addEventListener('push', function(event) {

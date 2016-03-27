@@ -5,7 +5,7 @@
             reg.pushManager.subscribe({
                 userVisibleOnly: true
             }).then(function (sub) {
-
+                console.log(sub.endpoint)
                 $.get("regId", {'endpoint': sub.endpoint});
             });
 

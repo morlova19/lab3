@@ -48,6 +48,7 @@ public class LoginServlet extends HttpServlet{
                 req.getSession().setAttribute("username", emp.getID());
                 resp.sendRedirect("tasks.jsp?type=my");
             } else {
+                req.getSession().setAttribute("username","error");
                 resp.sendRedirect("start.jsp");
             }
         }

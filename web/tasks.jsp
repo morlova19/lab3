@@ -1,9 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <html>
 <head>
     <title>Tasks</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="icon" href="images/icon.png" type="image/png">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" type="text/css" href="css/tasks_page.css">
@@ -16,7 +17,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <script src="js/validation.js"></script>
     <script src="js/1.js"></script>
-
+    <%request.setCharacterEncoding("utf-8");%>
 </head>
 <body>
 <c:set var="username" value="${sessionScope.username}"/>
@@ -24,7 +25,7 @@
 <c:if test="${!empty username}">
     <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="type" value="${param.type}"/>
-    <form id="search-form">
+    <form id="search-form" accept-charset="utf-8">
         <div id="search-block">
             <input type="text"  id='search-input' name="search" placeholder="Search tasks...">
             <input type="submit" value="Search"/>
@@ -76,13 +77,15 @@
                             <c:when test="${!empty tasks}">
                                 <div id="select-div">
                                     <label>Status</label>
-                                    <select>
+                                    <select class="status">
                                         <option selected>All</option>
                                         <option>${constants.fullNew}</option>
                                         <option>${constants.fullPerforming}</option>
                                         <option>${constants.fullCancelled}</option>
                                         <option>${constants.fullCompleted}</option>
                                     </select>
+
+                                    <label class="msg-no-status" hidden>Not found tasks with specified status.</label>
                                 </div>
                                 <table id="tasks" class="tablesorter">
                                     <thead>
@@ -91,7 +94,7 @@
                                         <th>Name</th>
                                         <th>Date</th>
                                         <th>Status</th>
-                                        <th>Employee</th>
+                                        <th>Executor</th>
                                         <th class="noSort">Action</th>
                                     </tr>
                                     </thead>
@@ -144,14 +147,15 @@
                             </c:when>
                             <c:when test="${!empty tasks}">
                                 <div id="select-div">
-                                    <label for="status">Status</label>
-                                    <select id="status">
+                                    <label>Status</label>
+                                    <select class="status">
                                         <option selected>All</option>
                                         <option>${constants.fullNew}</option>
                                         <option>${constants.fullPerforming}</option>
                                         <option>${constants.fullCancelled}</option>
                                         <option>${constants.fullCompleted}</option>
                                     </select>
+                                    <label class="msg-no-status" hidden>You don't have tasks with specified status.</label>
                                 </div>
                                 <table id="tasks" class="tablesorter" >
                                     <thead>
@@ -160,38 +164,41 @@
                                         <th>Name</th>
                                         <th>Date</th>
                                         <th>Status</th>
+                                        <th>Executor</th>
                                         <th class="noSort">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <c:forEach var="t" items="${tasks}">
                                         <c:set var="b" value="${username == t.cr_id}" scope="page"/>
-                                        <tr>
-                                            <td>${t.ID}</td>
-                                            <td>
-                                                <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
-                                            </td>
-                                            <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
-                                            <td>${t.fullStatus}</td>
-                                            <c:if test="${b==true}">
-                                                <td class="last-cell">
-                                                    <button class="edit-exec" type="button" name="id" value="${t.ID}"></button>
-                                                    <form action="deletetask"  class="delete-form" method="post">
-                                                        <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
-                                                    </form>
-                                                    <form action="copytask" method="post">
-                                                        <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
-                                                    </form>
+                                            <tr>
+
+                                                <td>${t.ID}</td>
+                                                <td>
+                                                    <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
                                                 </td>
-                                            </c:if>
-                                            <c:if test="${b==false}">
-                                                <td class="last-cell">
-                                                    <form action="copytask" method="post">
-                                                        <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
-                                                    </form>
-                                                </td>
-                                            </c:if>
-                                        </tr>
+                                                <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
+                                                <td>${t.fullStatus}</td>
+                                                <td><a href="emp.jsp?id=${emp.ID}">Me</a></td>
+                                                <c:if test="${b==true}">
+                                                    <td class="last-cell">
+                                                        <button class="edit-exec" type="button" name="id" value="${t.ID}"></button>
+                                                        <form action="deletetask"  class="delete-form" method="post">
+                                                            <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
+                                                        </form>
+                                                        <form action="copytask" method="post">
+                                                            <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
+                                                        </form>
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${b==false}">
+                                                    <td class="last-cell">
+                                                        <form action="copytask" method="post">
+                                                            <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
+                                                        </form>
+                                                    </td>
+                                                </c:if>
+                                            </tr>
                                     </c:forEach>
                                     </tbody>
 
@@ -205,20 +212,20 @@
                                 You don't have available employees.
                             </c:when>
                             <c:when test="${!empty emp.emps_map}">
-
                                 <c:set var="tasks" value="${emp.journalManager.empsTasks}"/>
                                 <c:choose>
                                     <c:when test="${empty tasks}"> Your employees don't have tasks.</c:when>
                                     <c:when test="${!empty tasks}">
                                         <div id="select-div">
                                             <label>Status</label>
-                                            <select>
+                                            <select class="status">
                                                 <option selected>All</option>
                                                 <option>${constants.fullNew}</option>
                                                 <option>${constants.fullPerforming}</option>
                                                 <option>${constants.fullCancelled}</option>
                                                 <option>${constants.fullCompleted}</option>
                                             </select>
+                                            <label class="msg-no-status" hidden>Employees don't have tasks with specified status.</label>
                                         </div>
                                         <table id="tasks" class="tablesorter">
                                             <thead>
@@ -227,7 +234,7 @@
                                                 <th>Name</th>
                                                 <th>Date</th>
                                                 <th>Status</th>
-                                                <th>Employee</th>
+                                                <th>Executor</th>
                                                 <th class="noSort">Action</th>
                                             </tr>
                                             </thead>

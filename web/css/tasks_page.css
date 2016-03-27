@@ -140,6 +140,12 @@ div#table-container table td{
     background: url(../images/ic_action_edit.png) no-repeat;
     border: transparent;
 }
+.done{
+    width: 27px;
+    height: 27px;
+    background: url(../images/ic_action_edit_person.png) no-repeat;
+    border: transparent;
+}
 .last-cell form{
     display: inline;
 }
@@ -149,5 +155,6 @@ div#filter-container{
     padding-bottom: 10px;
     padding-left: 10px;
 }
+
 
 
