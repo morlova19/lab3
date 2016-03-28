@@ -107,7 +107,7 @@
                                                <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
                                            </td>
                                            <td><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
-                                           <td>${t.fullStatus}</td>
+                                           <td class="cell-status">${t.fullStatus}</td>
                                            <c:if test="${username==t.ex_id}">
                                                <td><a href="emp.jsp?id=${t.ex_id}">Me</a></td>
                                            </c:if>
@@ -125,10 +125,7 @@
                                                    <form action="copytask" method="post">
                                                        <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                    </form>
-
-
                                                </td>
-
                                            </c:if>
                                            <c:if test="${b==false}">
                                                <td> <form action="copytask" method="post">
@@ -176,13 +173,12 @@
                                     <c:forEach var="t" items="${tasks}">
                                         <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                                             <tr>
-
                                                 <td>${t.ID}</td>
                                                 <td>
                                                     <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
                                                 </td>
                                                 <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
-                                                <td>${t.fullStatus}</td>
+                                                <td  class="cell-status">${t.fullStatus}</td>
                                                 <td><a href="emp.jsp?id=${emp.ID}">Me</a></td>
                                                 <c:if test="${b==true}">
                                                     <td class="last-cell">
@@ -251,7 +247,7 @@
                                                    <td>${t.ID}</td>
                                                    <td><a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a></td>
                                                    <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
-                                                   <td>${t.fullStatus}</td>
+                                                   <td  class="cell-status">${t.fullStatus}</td>
                                                    <c:if test="${username != t.ex_id}"><td><a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a></td></c:if>
                                                    <c:if test="${b==true}">
                                                        <td class="last-cell">
