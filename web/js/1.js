@@ -18,16 +18,53 @@ $(document).ready(function() {
     $tasks.find("td.cell-status").dblclick(function () {
         var id = $.trim($(this).parent().find("td:nth-child(1)").text());
         var isExecutor = ($.trim($(this).parent().find("td:nth-child(5)").text()) == 'Me');
+        var isCreator = ($.trim($(this).parent().find("td:last-child").find('button.delete-button').length) != 0);
         var OriginalContent = $(this).text();
-        if(OriginalContent=='ACCOMPLISHED' || OriginalContent=='CANCELLED')
+        var html = "<select>";
+        var new_option='<option>NEW</option>';
+        var cancel_option='<option>CANCELLED</option>';
+        var perform_option='<option>IN PROGRESS</option>';
+        var complete_option='<option>ACCOMPLISHED</option>';
+        var select_option='<option selected>Select status</option>';
+        if(OriginalContent=='ACCOMPLISHED')
         {
             return false;
         }
         else {
-            if(isExecutor==true)
+
+            if(isCreator==true)
             {
+                if(isExecutor==true)
+                {
+                    if(OriginalContent=='CANCELLED')
+                    {
+                        html += select_option+new_option +'</select>'
+                    }
+                    else {
+                        html += select_option+new_option+perform_option+complete_option+cancel_option+'</select>'
+                    }
+                }
+                else{
+                    if(OriginalContent=='CANCELLED')
+                    {
+                        html += select_option+new_option +'</select>'
+                    }
+                    else {
+                        html += select_option+cancel_option +'</select>'
+                    }
+                }
+            }
+            else{
+                if(isExecutor==true)
+                {
+                    html += select_option+new_option+perform_option+complete_option+'</select>'
+                }
+                else{
+                    return false;
+                }
+            }
                 $(this).addClass("cellEditing");
-                $(this).html('<select><option selected>Select status</option> <option>NEW</option><option>IN PROGRESS</option><option>COMPLETED</option></select>');
+                $(this).html(html);
                 $(this).children().first().focus();
                 $(this).children().first().change(function () {
                     {
@@ -38,32 +75,13 @@ $(document).ready(function() {
                         if (newContent == 'IN PROGRESS') {
                             data = 'P';
                         }
-                        else if (newContent == 'COMPLETED') {
+                        else if (newContent == 'ACCOMPLISHED') {
                             data = 'A';
                         }
                         else if (newContent == 'NEW') {
                             data = 'N';
                         }
-                        $.post(URL, {
-                            id: id,
-                            status: data
-                        });
-                        $(this).parent().text(newContent);
-                        $(this).parent().removeClass("cellEditing");
-                    }
-                });
-            }
-            else {
-                $(this).addClass("cellEditing");
-                $(this).html('<select><option selected>Select status</option><option>CANCELLED</option></select>');
-                $(this).children().first().focus();
-                $(this).children().first().change(function () {
-                    {
-
-                        var URL = 'updatestatus';
-                        var newContent = $(this).val();
-                        var data = 'C';
-                        if (newContent == 'CANCELLED') {
+                        else if (newContent == 'CANCELLED') {
                             data = 'C';
                         }
                         $.post(URL, {
@@ -74,7 +92,6 @@ $(document).ready(function() {
                         $(this).parent().removeClass("cellEditing");
                     }
                 });
-            }
             $(this).children().first().blur(function () {
                 $(this).parent().text(OriginalContent);
                 $(this).parent().removeClass("cellEditing");
