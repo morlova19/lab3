@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Servlet processes ajax request.
- */
-@WebServlet(urlPatterns = {"/jobs"})
+
+@WebServlet(urlPatterns = {"/jobs","/emps"})
 public class AjaxServlet extends HttpServlet{
 
     @Override
@@ -44,7 +44,14 @@ public class AjaxServlet extends HttpServlet{
     private void sendEmps(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Employee e = (Employee) req.getSession().getAttribute("emp");
         assert e!=null;
-        List<String> names = e.getEmps_map().values().stream().map(Employee::getName).collect(Collectors.toList());
+        resp.setContentType("application/json");
+        Collection<Employee> emps = e.getEmps_map().values();
+        List<String> names = new ArrayList<>();
+        for(Employee emp: emps)
+        {
+            names.add(emp.getName());
+        }
+       // List<String> names = e.getEmps_map().values().stream().map(Employee::getName).collect(Collectors.toList());
         Gson gson = new Gson();
         PrintWriter pw = resp.getWriter();
         pw.write(gson.toJson(names));

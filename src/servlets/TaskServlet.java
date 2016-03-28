@@ -24,7 +24,7 @@ import java.util.Date;
  * E.g., create new task, update existing task , delete task  etc.
  */
 @WebServlet(urlPatterns = {"/newtask","/deletetask",
-        "/savetask","/completetask","/activatetask","/copytask","/updatedate","/updatename","/updatestatus"})
+        "/savetask","/completetask","/activatetask","/copytask","/updatedate","/updatename","/updatestatus","/updateexec"})
 public class TaskServlet extends HttpServlet{
 
     @Override
@@ -58,9 +58,22 @@ public class TaskServlet extends HttpServlet{
             case "/updatestatus":
                 updateStatus(req,resp);
                 break;
+            case "/updateexec":
+                updateExecutor(req,resp);
+                break;
         }
 
     }
+
+    private void updateExecutor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer taskid = Integer.parseInt(req.getParameter("id"));
+        System.out.println("task = " + taskid);
+        System.out.println("task exec = " + req.getParameter("ex_id"));
+        Integer ex_id = Integer.parseInt(req.getParameter("ex_id"));
+        TaskDAO.updateExecutor(taskid,ex_id);
+        resp.sendRedirect(req.getHeader("referer"));
+    }
+
     private void updateStatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
         String status = req.getParameter("status");

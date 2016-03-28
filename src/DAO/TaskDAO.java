@@ -636,4 +636,21 @@ public class TaskDAO {
 
         }
     }
+
+    public static void updateExecutor(Integer taskid, Integer ex_id) {
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET EX_ID=? WHERE T_ID = ?");
+            stat.setInt(1,ex_id);
+            stat.setInt(2,taskid);
+            stat.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(conn);
+        }
+    }
 }

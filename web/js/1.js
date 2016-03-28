@@ -93,7 +93,10 @@ $(document).ready(function() {
 
 
     });
-
+    $('select#ex_id').change(function()
+    {
+        $('#update-exec-form').submit();
+    });
     $("#tasks").find("td.cell-date").dblclick(function () {
         var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
 
@@ -146,210 +149,19 @@ $(document).ready(function() {
     });
 
     $('.edit-exec').click(function () {
+
         var row = $(this).parent().parent();
         var id = $(this).val();
-        var _class = $(this).attr('class');
-        var cells = row.find('td').not(':last-child').not(':first-child');
+        var cell = row.find('td:nth-child(5)');
         var isCreator = (row.find("td:last-child").find(".delete-button").length)!=0;
-        var index = cells.length;
-        var isExecutor = (row.find("td:eq("+ index +")").text())=='Me';
-        var status_arr = ["NEW","IN PROGRESS","ACCOMPLISHED"];
-
-        if (_class == 'edit-exec') {
-            $(this).removeClass('edit-exec');
-            $(this).addClass('done');
-
-            row.find("td:last-child").find(".delete-button").hide();
-            row.find("td:last-child").find(".copy-button").hide();
-
-            var emps = [];
-            $.get({
-                url : "emps",
-                dataType : 'json',
-                error : function() {
-                    emps.push('Me');
-                },
-                success : function(data) {
-                    emps.push('Me');
-                    $.each(data.jsonArray, function(index) {
-                        $.each(data.jsonArray[index], function(key, value) {
-                            emps.push(value);
-                        });
-                    });
-
-                }
-            });
-            cells.each(function (index) {
-                var OriginalContent = $.trim($(this).text());
-                if (index == 0) {
-                    if (isCreator == false) {
-                        return false;
-                    }
-                    else {
-                        $(this).addClass("cellEditing");
-                        $(this).html('<input id="name" type="text" name="name" value="' + OriginalContent + '" />');
-                        $(this).children().first().focus();
-                        return true;
-                    }
-                } else if (index == 1) {
-                    if (isCreator ==false) {
-                        return false;
-                    }
-                    else {
-                        $(this).addClass("cellEditing");
-                        $(this).html('<input id="date" type="text" class="date-cell" name="date" value="' + OriginalContent + '" />');
-                        $(this).children().first().focus();
-                        return true;
-                    }
-                }
-                else if (index == 2) {
-                    if (isExecutor == false) {
-                        return false;
-                    }
-                    else{
-                        $(this).addClass("cellEditing");
-                        var s = "";
-                        if(OriginalContent!='ACCOMPLISHED'){
-                            s = $("<select></select>").attr("name","status");
-                            for (var i in status_arr) {
-                                var cur_val = status_arr[i];
-                                if(cur_val==OriginalContent)
-                                {
-                                    s.append("<option selected>" + cur_val + "</option>");
-                                    continue;
-                                }
-                                s.append("<option>" + cur_val + "</option>");
-                            }
-                        }
-                        else {
-                            s = '<input id="status" type="text" name="status" value="' + OriginalContent + '" readonly/>';
-                        }
-                        $(this).html(s);
-                        $(this).children().first().focus();
-                        return true;
-                    }
-                } else if (index == 3) {
-                    if (isCreator == 0) {
-                        return false;
-                    }
-                    else {
-                        $(this).addClass("cellEditing");
-                         s = "";
-                        if(OriginalContent!='ACCOMPLISHED'){
-                            s = $("<select></select>").attr("name","status");
-                            for (var e in emps) {
-                                var cur_emp = emps[e];
-                                if(cur_emp==OriginalContent)
-                                {
-                                    s.append("<option selected>" + cur_emp + "</option>");
-                                    continue;
-                                }
-                                s.append("<option>" + cur_emp + "</option>");
-                            }
-                        }
-                        else {
-                            s = '<input id="ex_id" type="text" name="ex_id" value="' + OriginalContent + '" readonly/>';
-                        }
-                        $(this).html(s);
-                        $(this).children().first().focus();
-
-                        return true;
-                    }
-                }
-            });
+        if(isCreator==false)
+        {
+            return false;
         }
-        else if (_class == 'done') {
-            var name;
-            cells.each(function (index) {
-                if (index == 0) {
-
-                    var URL = 'updatename';
-                    var newContent = $.trim($(this).find('input').val());
-                    if (newContent.length != 0) {
-                        $(this).removeClass('done');
-                        $(this).addClass('edit-exec');
-                        row.find("td:last-child").find(".delete-button").show()
-                        row.find("td:last-child").find(".copy-button").show();
-                        $(this).removeClass("cellEditing");
-                        $.post(URL, {
-                            id: id,
-                            name: newContent
-                        }, function (data) {
-                            location.reload();
-                        });
-                    }
-                    else {
-                        alert('Please enter correct name')
-                    }
-
-                } else if (index == 1) {
-
-                }
-                else if (index == 2) {
-
-                } else if (index == 3) {
-
-                }
-
-            });
-
-
-            //$('#update-from-table-form').submit();
+        else{
+            $(this).addClass("cellEditing");
+            cell.load('select.jsp?taskid=' + id);
         }
-        /*  var row = $(this).parent().parent();
-         var id = $.trim(row.find('td:first-child').text());
-         var cells = row.find('td').not(':last-child').not(':first-child');
-         var _class = $(this).attr('class');
-         if (_class == 'edit-exec') {
-         $(this).removeClass('edit-exec');
-         $(this).addClass('done');
-         console.log(456)
-         cells.each(function(index){
-         if(index==0)
-         {
-         $(this).dblclick(function(){
-         handler($(this))
-         });
-         }else if(index==1)
-         {
-         $(this).dblclick(function(){
-         handler($(this))
-         });
-         }
-         $(this).text($.trim($(this).text()));
-         });
-         }
-         else  if (_class == 'done') {
-         $(this).removeClass('done');
-         $(this).addClass('edit-exec');
-
-         cells.each(function(index){
-         console.log(123)
-         if(index==0)
-         {
-         var URL = 'updatename' ;
-         var newContent = $.trim($(this).text());
-         var string = '<a href="#" target="_blank">123</a>';
-
-         console.log($(this));
-         // $(this).html('<a href="#">' + $(this).html() + '</a>')
-         $(this).html('<select><option>' + $(this).html() + '</option></select>')
-
-
-         $.post(URL,{
-         id: id,
-         name: newContent
-         });
-
-         }else if(index==1)
-         {
-
-         }
-         $(this).text($.trim($(this).text()));
-         });
-
-
-         }*/
 
     });
     function handler(cell) {

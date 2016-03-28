@@ -116,13 +116,17 @@
                                            </c:if>
                                            <c:if test="${b==true}">
                                                <td class="last-cell">
+                                                   <c:if test="${t.status != constants.COMPLETED}">
+                                                       <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
+                                                   </c:if>
                                                    <form action="deletetask"  class="delete-form" method="post">
                                                        <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
                                                    </form>
                                                    <form action="copytask" method="post">
                                                        <button  class="copy-button" type="submit" name="id" value="${t.ID}"></button>
                                                    </form>
-                                                   <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
+
+
                                                </td>
 
                                            </c:if>
@@ -182,7 +186,9 @@
                                                 <td><a href="emp.jsp?id=${emp.ID}">Me</a></td>
                                                 <c:if test="${b==true}">
                                                     <td class="last-cell">
-                                                        <button class="edit-exec" type="button" name="id" value="${t.ID}"></button>
+                                                        <c:if test="${t.status != constants.COMPLETED}">
+                                                            <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
+                                                        </c:if>
                                                         <form action="deletetask"  class="delete-form" method="post">
                                                             <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
                                                         </form>
@@ -249,7 +255,9 @@
                                                    <c:if test="${username != t.ex_id}"><td><a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a></td></c:if>
                                                    <c:if test="${b==true}">
                                                        <td class="last-cell">
-                                                           <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
+                                                           <c:if test="${t.status != constants.COMPLETED}">
+                                                               <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
+                                                           </c:if>
                                                            <form action="deletetask"  class="delete-form" method="post">
                                                                <button  class="delete-button" type="submit" name="id" value="${t.ID}"></button>
                                                            </form>
@@ -411,9 +419,6 @@
                 </c:choose>
             </div>
     </div>
-<div id="test" hidden>
-    <input type="text" value="cccc"/>
-</div>
 </c:if>
 <c:if test="${empty username}">
     Please <a href="start.jsp">Sign in</a>
