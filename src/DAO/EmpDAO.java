@@ -29,10 +29,13 @@ public class EmpDAO {
             rs = stat.executeQuery();
 
             if(rs != null) {
-                rs.next();
-                String l = rs.getString(1);
-                String p = rs.getString(2);
-                b = l.equals(login) && p.equals(pass);
+                if(rs.next()) {
+                    String l = rs.getString(1);
+                    String p = rs.getString(2);
+                    b = l.equals(login) && p.equals(pass);
+                }else {
+                    b = false;
+                }
             }
             return b;
         } catch (SQLException e) {

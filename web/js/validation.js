@@ -1,14 +1,6 @@
 $(document).ready(function() {
 
 
-    var username = $('#username').val().length;
-    var pass = $('#pass').val().length;
-
-    if (username == 0 && pass == 0) {
-        console.log(123)
-        $('table tr td.error label').hide();
-    }
-
     $('#register-form').submit(function () {
 
         var dept = $('#dept').find('option:selected').text();

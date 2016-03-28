@@ -18,7 +18,7 @@
         </c:if>
         <c:if test="${sessionScope.emp.ID != node.ID}">
             <c:if test="${!empty node.emps_map}">
-                <li ><input type="button" value="-" class="hide-child"/> <a href="#">${node.name}</a><jsp:include page="node.jsp"/></li>
+                <li ><input type="button" value="-" class="hide-child"/> <a href="emp.jsp?id=${node.ID}">${node.name}</a><jsp:include page="node.jsp"/></li>
             </c:if>
             <c:if test="${empty node.emps_map}">
                 <li><a href="emp.jsp?id=${node.ID}">${node.name}</a> <jsp:include page="node.jsp"/></li>

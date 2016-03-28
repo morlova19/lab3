@@ -3,7 +3,7 @@ $(document).ready(function() {
     $('#dept').change(function() {
 
         $("#select-dept").remove();
-        $.post( "jobs", { dept: $('#dept option:selected').text()})
+        $.post( "jobs", { dept: $('#dept').find('option:selected').text()})
             .done(function( data ) {
                 var select = $("#job"), options = '';
                 select.empty();

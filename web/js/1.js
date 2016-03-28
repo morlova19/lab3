@@ -150,18 +150,39 @@ $(document).ready(function() {
         var id = $(this).val();
         var _class = $(this).attr('class');
         var cells = row.find('td').not(':last-child').not(':first-child');
+        var isCreator = (row.find("td:last-child").find(".delete-button").length)!=0;
+        var index = cells.length;
+        var isExecutor = (row.find("td:eq("+ index +")").text())=='Me';
+        var status_arr = ["NEW","IN PROGRESS","ACCOMPLISHED"];
 
         if (_class == 'edit-exec') {
-
             $(this).removeClass('edit-exec');
             $(this).addClass('done');
+
             row.find("td:last-child").find(".delete-button").hide();
             row.find("td:last-child").find(".copy-button").hide();
+
+            var emps = [];
+            $.get({
+                url : "emps",
+                dataType : 'json',
+                error : function() {
+                    emps.push('Me');
+                },
+                success : function(data) {
+                    emps.push('Me');
+                    $.each(data.jsonArray, function(index) {
+                        $.each(data.jsonArray[index], function(key, value) {
+                            emps.push(value);
+                        });
+                    });
+
+                }
+            });
             cells.each(function (index) {
                 var OriginalContent = $.trim($(this).text());
                 if (index == 0) {
-                    var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
-                    if (isCreator == 0) {
+                    if (isCreator == false) {
                         return false;
                     }
                     else {
@@ -171,26 +192,73 @@ $(document).ready(function() {
                         return true;
                     }
                 } else if (index == 1) {
-
+                    if (isCreator ==false) {
+                        return false;
+                    }
+                    else {
+                        $(this).addClass("cellEditing");
+                        $(this).html('<input id="date" type="text" class="date-cell" name="date" value="' + OriginalContent + '" />');
+                        $(this).children().first().focus();
+                        return true;
+                    }
                 }
                 else if (index == 2) {
-
+                    if (isExecutor == false) {
+                        return false;
+                    }
+                    else{
+                        $(this).addClass("cellEditing");
+                        var s = "";
+                        if(OriginalContent!='ACCOMPLISHED'){
+                            s = $("<select></select>").attr("name","status");
+                            for (var i in status_arr) {
+                                var cur_val = status_arr[i];
+                                if(cur_val==OriginalContent)
+                                {
+                                    s.append("<option selected>" + cur_val + "</option>");
+                                    continue;
+                                }
+                                s.append("<option>" + cur_val + "</option>");
+                            }
+                        }
+                        else {
+                            s = '<input id="status" type="text" name="status" value="' + OriginalContent + '" readonly/>';
+                        }
+                        $(this).html(s);
+                        $(this).children().first().focus();
+                        return true;
+                    }
                 } else if (index == 3) {
-                    var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
                     if (isCreator == 0) {
                         return false;
                     }
                     else {
                         $(this).addClass("cellEditing");
-                        $(this).html('<select><option selected>Me</option> <c:forEach var="e" items="${emp.emps_map.values()}"><option>${e.name}</option></c:forEach></select>');
+                         s = "";
+                        if(OriginalContent!='ACCOMPLISHED'){
+                            s = $("<select></select>").attr("name","status");
+                            for (var e in emps) {
+                                var cur_emp = emps[e];
+                                if(cur_emp==OriginalContent)
+                                {
+                                    s.append("<option selected>" + cur_emp + "</option>");
+                                    continue;
+                                }
+                                s.append("<option>" + cur_emp + "</option>");
+                            }
+                        }
+                        else {
+                            s = '<input id="ex_id" type="text" name="ex_id" value="' + OriginalContent + '" readonly/>';
+                        }
+                        $(this).html(s);
                         $(this).children().first().focus();
+
                         return true;
                     }
                 }
             });
         }
         else if (_class == 'done') {
-
             var name;
             cells.each(function (index) {
                 if (index == 0) {
