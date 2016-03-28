@@ -116,7 +116,7 @@
                                            </c:if>
                                            <c:if test="${b==true}">
                                                <td class="last-cell">
-                                                   <c:if test="${t.status != constants.COMPLETED}">
+                                                   <c:if test="${t.status != constants.COMPLETED && t.status!=constants.CANCELLED}">
                                                        <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
                                                    </c:if>
                                                    <form action="deletetask"  class="delete-form" method="post">
@@ -182,7 +182,7 @@
                                                 <td><a href="emp.jsp?id=${emp.ID}">Me</a></td>
                                                 <c:if test="${b==true}">
                                                     <td class="last-cell">
-                                                        <c:if test="${t.status != constants.COMPLETED}">
+                                                        <c:if test="${t.status != constants.COMPLETED && t.status!=constants.CANCELLED}">
                                                             <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
                                                         </c:if>
                                                         <form action="deletetask"  class="delete-form" method="post">
@@ -251,7 +251,7 @@
                                                    <c:if test="${username != t.ex_id}"><td><a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a></td></c:if>
                                                    <c:if test="${b==true}">
                                                        <td class="last-cell">
-                                                           <c:if test="${t.status != constants.COMPLETED}">
+                                                           <c:if test="${t.status != constants.COMPLETED && t.status!=constants.CANCELLED}">
                                                                <button  class="edit-exec" type="button" name="id" value="${t.ID}"></button>
                                                            </c:if>
                                                            <form action="deletetask"  class="delete-form" method="post">

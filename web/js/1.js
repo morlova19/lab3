@@ -31,7 +31,6 @@ $(document).ready(function() {
             return false;
         }
         else {
-
             if(isCreator==true)
             {
                 if(isExecutor==true)
@@ -99,7 +98,8 @@ $(document).ready(function() {
         }
 
     });
-    $('select#ex_id').change(function()
+    var $select = $('select#ex_id');
+    $select.change(function()
     {
         $('#update-exec-form').submit();
     });
