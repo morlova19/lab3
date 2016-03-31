@@ -199,7 +199,6 @@
                         </select>
                     </c:otherwise>
                 </c:choose>
-
                 <label for="status">Status</label>
                 <c:choose>
                     <c:when test="${emp.ID!=task.ex_id || task.status==constants.CANCELLED}">
@@ -228,7 +227,6 @@
                             <button type="submit" name="taskid" value="${taskid}">Actvate</button>
                         </form>
                     </c:when>
-
                     <c:otherwise>
                         <c:if test="${emp.ID==task.ex_id}">
                             <form action="completetask" method="post" class="last-cell">
@@ -242,7 +240,6 @@
                         </c:if>
                     </c:otherwise>
                 </c:choose>
-
             </c:otherwise>
         </c:choose>
 </div>
@@ -307,11 +304,9 @@
                                </form>
                            </td>
                        </c:if>
-
                    </tr>
                </c:forEach>
                </tbody>
-
             </table>
         </div>
 </div>

@@ -82,7 +82,16 @@ div.actions a:hover{
 form {
     display: inline;
 }
-input[type=submit] {
+
+input[type=submit],button {
     width: 31%;
     margin-right: 8px;
+    background-color: #0000cc;
+    color: white;
+    padding: 14px 20px;
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }

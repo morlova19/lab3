@@ -2,6 +2,16 @@ $(document).ready(function() {
 
     var $tasks = $("#tasks");
 
+    var rows = $tasks.find('tbody tr td:nth-child(3)');
+    rows.each(function(){
+        var delta = parseDate($.trim($(this).text())) - $.now();
+        if(delta<=0)
+        {
+            $(this).css('color','red');
+        }
+        console.log(delta)
+    });
+
     var headers = {};
     $tasks.find('th.noSort').each(function () {
         headers[$(this).index()] = {sorter: false};
@@ -67,7 +77,6 @@ $(document).ready(function() {
                 $(this).children().first().focus();
                 $(this).children().first().change(function () {
                     {
-
                         var URL = 'updatestatus';
                         var newContent = $(this).val();
                         var data = 'N';
@@ -151,7 +160,6 @@ $(document).ready(function() {
             $(this).val('-');
             $(this).parent().children('ul').show();
         }
-
     });
 
     $('.edit-exec').click(function () {
@@ -168,37 +176,9 @@ $(document).ready(function() {
             $(this).addClass("cellEditing");
             cell.load('select.jsp?taskid=' + id);
         }
-
     });
-    function handler(cell) {
-        var isCreator = cell.parent().find("td:last-child").find(".delete-button").length;
-        if (isCreator == 0) {
-            return false;
-        }
-        else {
-            var OriginalContent = cell.text();
-            cell.addClass("cellEditing");
-            cell.html('<input type="text" class="date-cell" value="' + OriginalContent + '" />');
-            cell.children().first().focus();
-
-            cell.children().first().keypress(function (e) {
-                if (e.which == 13) {
-                    var newContent = $(this).val();
-                    cell.text(newContent);
-                    cell.removeClass("cellEditing");
-
-                }
-            });
-            cell.children().first().blur(function () {
-                cell.text(OriginalContent);
-                cell.removeClass("cellEditing");
-            });
-            return true;
-        }
-    }
-
     $('select.status').change(function () {
-        var rows = $('#tasks').find('tbody').find('tr');
+        var rows = $tasks.find('tbody').find('tr');
         var cur_status = $(this).val().toUpperCase();
         console.log(rows);
         rows.each(function () {
@@ -218,7 +198,7 @@ $(document).ready(function() {
                 }
             }
         });
-        var tbody = $("#tasks").find("td").is(':visible');
+        var tbody = $tasks.find("td").is(':visible');
         if (tbody == 0) {
             $('#tasks').hide();
             $('label.msg-no-status').show();
@@ -258,7 +238,7 @@ $(document).ready(function() {
 
      var str = day + "." + month + "." + year+" "+ hours+":"+minutes;
      $('#tdate').val(str);
-     }
+     }*/
      function parseDate(date){
 
      var q = date.split(" ");
@@ -268,5 +248,5 @@ $(document).ready(function() {
      var t = q[1].split(":");
      var ddd = new Date(d[2],d[1]-1,d[0],t[0],t[1],0,0);
      return ddd.getTime();
-     }*/
+     }
 });
