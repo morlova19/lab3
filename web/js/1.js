@@ -147,7 +147,6 @@ $(document).ready(function() {
                             id: row,
                             date: newContent
                         });
-
                         $(this).css('border', '1px solid #ccc');
                         $(this).parent().text(newContent);
                         $(this).parent().removeClass("cellEditing");
@@ -156,9 +155,6 @@ $(document).ready(function() {
                         alert('Please enter correct date');
                         $(this).css('border', '1px solid red');
                     }
-
-
-
                 }
             });
             $(this).children().first().blur(function () {
