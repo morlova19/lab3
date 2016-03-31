@@ -119,7 +119,7 @@ public class TaskServlet extends HttpServlet{
         assert str!=null;
         Integer taskid=Integer.parseInt(str);
         TaskDAO.activateTask(taskid);
-        resp.sendRedirect(req.getHeader("referer"));
+        resp.sendRedirect("tasks.jsp?type=my");
     }
 
     private void complete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -127,8 +127,7 @@ public class TaskServlet extends HttpServlet{
         assert str!=null;
         Integer taskid=Integer.parseInt(str);
         TaskDAO.completeTask(taskid);
-        resp.sendRedirect(req.getHeader("referer"));
-
+        resp.sendRedirect("tasks.jsp?type=my");
     }
     private void create(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Employee emp = (Employee) req.getSession().getAttribute("emp");
