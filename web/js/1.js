@@ -3,13 +3,20 @@ $(document).ready(function() {
     var $tasks = $("#tasks");
 
     var dates = $tasks.find('tbody tr td:nth-child(3)');
-    dates.each(function(){
-        var delta = parseDate($.trim($(this).text())) - $.now();
-        if(delta<=0)
-        {
-            $(this).css('color','red');
-        }
-    });
+
+    function check_dates() {
+        dates.each(function () {
+            var delta = parseDate($.trim($(this).text())) - $.now();
+            if (delta <= 0) {
+                $(this).css('color', 'red');
+            }
+            else {
+                $(this).css('color', 'black');
+            }
+        });
+    }
+
+    check_dates();
 
     var headers = {};
     $tasks.find('th.noSort').each(function () {
@@ -24,6 +31,7 @@ $(document).ready(function() {
         $tasks.hide();
         $('label#message').show();
     }
+
     $tasks.find("td.cell-status").dblclick(function () {
         var id = $.trim($(this).parent().find("td:nth-child(1)").text());
         var isExecutor = ($.trim($(this).parent().find("td:nth-child(5)").text()) == 'Me');
@@ -107,6 +115,7 @@ $(document).ready(function() {
 
     });
     var $select = $('select#ex_id');
+
     $select.change(function()
     {
         $('#update-exec-form').submit();
@@ -122,7 +131,9 @@ $(document).ready(function() {
             var OriginalContent = $(this).text();
             $(this).addClass("cellEditing");
             $(this).html('<input type="text" class="date-cell" value="' + OriginalContent + '" />');
+
             $('.date-cell').inputmask('99.99.9999 99:99');
+
             $(this).children().first().focus();
             $(this).children().first().keypress(function (e) {
                 if (e.which == 13) {

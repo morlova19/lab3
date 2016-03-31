@@ -130,13 +130,7 @@ $(document).ready(function() {
     });
 
     $('.delete-form').submit(function () {
-        if (confirm('Are you sure?')) {
-            return true;
-        }
-        else {
-            return false;
-        }
-
+        return confirm('Are you sure?');
     });
 
 
@@ -162,7 +156,6 @@ $(document).ready(function() {
                 else {
                     $('#date-error').hide();
                 }
-
                 return false;
             }
         }
@@ -256,14 +249,7 @@ $(document).ready(function() {
 
         var delta1 = ddd.getTime() - max_stask_date;
         var r = delta > 0 && delta1 > 0;
-        if (r == true) {
-
-            return true;
-        }
-        else {
-
-            return false;
-        }
+        return r == true;
     }
 
     function maxSubtaskDate() {
@@ -276,8 +262,7 @@ $(document).ready(function() {
                 items.push(A);
             }
         });
-        var max = Math.max.apply(Math, items);
-        return max;
+        return Math.max.apply(Math, items);
     }
     function parseDate(date) {
 
