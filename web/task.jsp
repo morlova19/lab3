@@ -229,9 +229,12 @@
                 </form>
                 <c:choose>
                     <c:when test="${task.status==constants.CANCELLED}">
-                        <form action="activatetask" method="post" class="last-cell">
-                            <button type="submit" name="taskid" value="${taskid}">Activate</button>
-                        </form>
+                        <c:if test="${emp.ID==task.cr_id}">
+                            <form action="activatetask" method="post" class="last-cell">
+                                <button type="submit" name="taskid" value="${taskid}">Activate</button>
+                            </form>
+                        </c:if>
+
                     </c:when>
                     <c:otherwise>
                         <c:if test="${emp.ID==task.ex_id}">
