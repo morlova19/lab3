@@ -10,7 +10,6 @@ package utils;
     public static final String FULL_PERFORMING ="IN PROGRESS";
     public static final String CANCELLED ="C";
     public static final String FULL_CANCELLED ="CANCELLED";
-     public static final String FAILED ="F";
      public static final String FULL_FAILED ="FAILED";
 
      public static final int LOW = 0;

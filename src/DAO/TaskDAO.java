@@ -1,6 +1,7 @@
 package DAO;
 
 
+import com.google.gson.Gson;
 import journal.Task;
 import utils.Constants;
 import utils.TransferObject;
@@ -312,6 +313,7 @@ public class TaskDAO {
             stat.setInt(8,task.getPt_id());
             stat.setInt(9,task.getID());
 
+            System.out.println("qwerty");
             stat.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -320,25 +322,38 @@ public class TaskDAO {
             closeConnection(conn);
         }
     }
-    public static void updateTask(TransferObject task) {
+
+    public static void updateTask(int t_id, TransferObject task) {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET NAME = ?,TDESC = ?,TDATE = ?,CONTACTS = ?,STATUS = ?,PRIORITY=? ,EX_ID=? WHERE T_ID=? AND CR_ID=?");
+            PreparedStatement stat = conn.prepareStatement("UPDATE TASK SET NAME = ?,TDESC = ?,TDATE = ?,CONTACTS = ?,STATUS = ?,PRIORITY=? ,EX_ID=?,CR_ID=?,PT_ID=? WHERE T_ID=?");
             stat.setString(1,task.getName());
-
             stat.setString(2,task.getDescription());
             Timestamp timestamp = new Timestamp(task.getDate().getTime());
             stat.setTimestamp(3, timestamp);
             stat.setString(4,task.getContacts());
             stat.setString(5,task.getStatus());
             stat.setInt(6,task.getPriority());
+
             stat.setInt(7,task.getEx_id());
+            stat.setInt(8,task.getCr_id());
+            if(task.getPt_id()==0)
+            {
+                stat.setNull(9,Types.INTEGER);
+            }
+            else {
+                stat.setInt(9,task.getPt_id());
+            }
+            stat.setInt(10,t_id);
 
-            stat.setInt(8,task.getId());
-            stat.setInt(9,task.getCr_id());
+            Gson g = new Gson();
+            System.out.println(g.toJson(task));
+            //stat.setInt(9,task.getCr_id());
+            System.out.println("tas k id = " + t_id);
+           int a = stat.executeUpdate();
 
-            stat.executeUpdate();
+            System.out.println("rows updated = " + a);
         } catch (SQLException e) {
             e.printStackTrace();
         }

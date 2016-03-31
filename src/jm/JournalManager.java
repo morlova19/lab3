@@ -103,7 +103,7 @@ public class JournalManager implements IJournalManager, Serializable {
     @Override
     public void updateTask(int t_id,TransferObject to) {
 
-        TaskDAO.updateTask(to);
+        TaskDAO.updateTask(t_id, to);
     }
 
 

@@ -3,7 +3,9 @@ $(document).ready(function() {
     var $tasks = $("#tasks");
 
     var dates = $tasks.find('tbody tr td:nth-child(3)');
+    var $select_status = $('select.status');
 
+    var selected_status = $select_status.val().toUpperCase();
     function check_dates() {
         dates.each(function () {
             var delta = parseDate($.trim($(this).text())) - $.now();
@@ -105,6 +107,7 @@ $(document).ready(function() {
                         });
                         $(this).parent().text(newContent);
                         $(this).parent().removeClass("cellEditing");
+                        filter_by_status(selected_status)
                     }
                 });
             $(this).children().first().blur(function () {
@@ -180,9 +183,7 @@ $(document).ready(function() {
     });
     var rows = $tasks.find('tbody').find('tr').find('td:nth-child(4)');
 
-    var $select_status = $('select.status');
 
-    var selected_status = $select_status.val().toUpperCase();
     filter_by_status(selected_status);
 
 

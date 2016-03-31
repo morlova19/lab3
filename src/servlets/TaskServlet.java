@@ -139,7 +139,6 @@ public class TaskServlet extends HttpServlet{
 
         TransferObject to = new TransferObject();
         to.setName(req.getParameter("name"));
-        System.out.println("name =" + to.getName());
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         to.setDescription(req.getParameter("desc"));
         try {
@@ -187,47 +186,42 @@ public class TaskServlet extends HttpServlet{
                     to.setDate(new Date());
                 }
                 to.setContacts(req.getParameter("contacts"));
-                String priority = req.getParameter("priority");
-                if(priority.equalsIgnoreCase("low"))
-                {
-                    to.setPriority(Constants.LOW);
+                String priority = req.getParameter("priority").toUpperCase();
+                switch (priority) {
+                    case Constants.FULL_LOW:
+                        to.setPriority(Constants.LOW);
+                        break;
+                    case Constants.FULL_NORMAL:
+                        to.setPriority(Constants.NORMAL);
+                        break;
+                    case Constants.FULL_HIGH:
+                        to.setPriority(Constants.HIGH);
+                        break;
+                    default:
+                        to.setPriority(Integer.parseInt(priority));
+                        break;
                 }
-                else if(priority.equalsIgnoreCase("normal"))
-                {
-                    to.setPriority(Constants.NORMAL);
-                }
-                else if(priority.equalsIgnoreCase("high"))
-                {
-                    to.setPriority(Constants.HIGH);
-                }
-                else {
-                    to.setPriority(Integer.parseInt(priority));
-                }
-
 
                 to.setEx_id(Integer.parseInt(req.getParameter("ex_id")));
-                to.setCr_id(emp.getID());
+                to.setCr_id(Integer.parseInt(req.getParameter("cr_id")));
 
-                String status = req.getParameter("status");
-
-                if(status.equalsIgnoreCase("new"))
-                {
-                    to.setStatus(Constants.NEW);
-                }
-                else if(status.equalsIgnoreCase("in progress"))
-                {
-                    to.setStatus(Constants.PERFORMING);
-                }
-                else if(status.equalsIgnoreCase("cancelled"))
-                {
-                    to.setStatus(Constants.CANCELLED);
-                }
-                else if(status.equalsIgnoreCase("completed"))
-                {
-                    to.setStatus(Constants.COMPLETED);
-                }
-                else {
-                    to.setStatus(status);
+                String status = req.getParameter("status").toUpperCase();
+                switch (status) {
+                    case Constants.FULL_NEW:
+                        to.setStatus(Constants.NEW);
+                        break;
+                    case Constants.FULL_PERFORMING:
+                        to.setStatus(Constants.PERFORMING);
+                        break;
+                    case Constants.FULL_CANCELLED:
+                        to.setStatus(Constants.CANCELLED);
+                        break;
+                    case Constants.FULL_COMPLETED:
+                        to.setStatus(Constants.COMPLETED);
+                        break;
+                    default:
+                        to.setStatus(status);
+                        break;
                 }
                 jm.updateTask(taskid,to);
                 break;

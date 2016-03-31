@@ -78,8 +78,8 @@
                                 <div id="select-div">
                                     <label>Status</label>
                                     <select class="status">
-                                        <option>All</option>
-                                        <option selected>${constants.fullNew}</option>
+                                        <option selected>All</option>
+                                        <option>${constants.fullNew}</option>
                                         <option>${constants.fullPerforming}</option>
                                         <option>${constants.fullCancelled}</option>
                                         <option>${constants.fullCompleted}</option>
@@ -150,8 +150,8 @@
                                 <div id="select-div">
                                     <label>Status</label>
                                     <select class="status">
-                                        <option>All</option>
-                                        <option selected>${constants.fullNew}</option>
+                                        <option selected>All</option>
+                                        <option >${constants.fullNew}</option>
                                         <option>${constants.fullPerforming}</option>
                                         <option>${constants.fullCancelled}</option>
                                         <option>${constants.fullCompleted}</option>
@@ -221,8 +221,8 @@
                                         <div id="select-div">
                                             <label>Status</label>
                                             <select class="status">
-                                                <option>All</option>
-                                                <option selected>${constants.fullNew}</option>
+                                                <option selected>All</option>
+                                                <option>${constants.fullNew}</option>
                                                 <option>${constants.fullPerforming}</option>
                                                 <option>${constants.fullCancelled}</option>
                                                 <option>${constants.fullCompleted}</option>

@@ -211,6 +211,6 @@ public class Task implements Serializable {
                         return Constants.FULL_NEW;
                 }
             }
-        return Constants.FULL_NEW;
+        return Constants.FULL_COMPLETED;
     }
 }
