@@ -141,12 +141,23 @@ $(document).ready(function() {
                     var URL = 'updatedate';
                     var newContent = $(this).val();
 
-                    $.post(URL, {
-                        id: row,
-                        date: newContent
-                    });
-                    $(this).parent().text(newContent);
-                    $(this).parent().removeClass("cellEditing");
+                    if(validDate(newContent)==true)
+                    {
+                        $.post(URL, {
+                            id: row,
+                            date: newContent
+                        });
+
+                        $(this).css('border', '1px solid #ccc');
+                        $(this).parent().text(newContent);
+                        $(this).parent().removeClass("cellEditing");
+                    }
+                    else {
+                        alert('Please enter correct date');
+                        $(this).css('border', '1px solid red');
+                    }
+
+
 
                 }
             });
@@ -268,4 +279,29 @@ $(document).ready(function() {
      var ddd = new Date(d[2],d[1]-1,d[0],t[0],t[1],0,0);
      return ddd.getTime();
      }
+    function validDate(date) {
+        if (date.length == 0) {
+            return false;
+        }
+        var q = date.split(" ");
+        var d = q[0].split(".");
+        var t = q[1].split(":");
+
+        var ddd = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
+
+        if(t[0]>23 || t[1]>59 || d[0]>31 || d[1] > 13)
+        {
+            return false;
+        }
+        var delta = ddd.getTime() - Date.now();
+        if (delta <= 0) {
+
+            return false;
+        }
+        else if (delta > 0) {
+
+            return true;
+        }
+    }
+
 });

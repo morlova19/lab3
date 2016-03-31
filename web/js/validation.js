@@ -1,6 +1,4 @@
 $(document).ready(function() {
-
-
     $('#register-form').submit(function () {
 
         var dept = $('#dept').find('option:selected').text();
