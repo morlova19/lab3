@@ -382,7 +382,6 @@
                                             </tr>
                                         </c:otherwise>
                                     </c:choose>
-
                                 </c:forEach>
                                 <tr>
                                     <c:choose>

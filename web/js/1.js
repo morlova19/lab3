@@ -1,7 +1,11 @@
 $(document).ready(function() {
 
     var $tasks = $("#tasks");
-
+    var tbody = $tasks.find("td");
+    if (tbody.length == 0) {
+        $tasks.hide();
+        $('label#message').show();
+    }
     var dates = $tasks.find('tbody tr td:nth-child(3)');
     var $select_status = $('select.status');
 
@@ -28,11 +32,7 @@ $(document).ready(function() {
         headers: headers
     });
 
-    var tbody = $tasks.find("td");
-    if (tbody.length == 0) {
-        $tasks.hide();
-        $('label#message').show();
-    }
+
 
     $tasks.find("td.cell-status").dblclick(function () {
         var id = $.trim($(this).parent().find("td:nth-child(1)").text());

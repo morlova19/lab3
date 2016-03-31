@@ -252,68 +252,73 @@
     <div id="menu-container">
         <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
         <div class="actions">
-            <c:if test="${(task.status==constants.NEW || task.status==constants.PERFORMING) && b==true }" >
+            <c:if test="${(task.status==constants.NEW || task.status==constants.PERFORMING)}" >
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
             </c:if>
-            <br/>
-            <c:if test="${emp.ID==task.ex_id}">
-                <label id="message" hidden>You don't have subtasks.</label>
-            </c:if>
-            <c:if test="${emp.ID!=task.ex_id}">
-                <label id="message" hidden>Employee doesn't have subtasks.</label>
-            </c:if>
+
         </div>
-
         <div id="table-container">
-
             <c:set var="tasks" value="${emp.journalManager.getSubtasks(taskid)}"/>
-            <table id="tasks" class="tablesorter">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Executor</th>
-                    <th class="noSort">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="task" items="${tasks}">
-                    <tr>
-                        <td>${task.ID}</td>
-                        <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}" target="_blank">${task.name}</a> </td>
-                        <td><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/></td>
-                        <td>${task.fullStatus}</td>
-                        <c:if test="${emp.ID != task.ex_id}">
-                            <td>
-                                <a href="emp.jsp?id=${task.ex_id}">${emp.getEmp(task.ex_id).name}</a>
-                            </td>
-                        </c:if>
-                        <c:if test="${emp.ID == task.ex_id}">
-                            <td>Me</td>
-                        </c:if>
-                        <c:if test="${b==true}">
-                            <td class="last-cell">
-                                <form action="deletetask"  class="delete-form" method="post">
-                                    <button  class="delete-button" type="submit" name="id" value="${task.ID}"></button>
-                                </form>
-                                <form action="copytask" method="post">
-                                    <button  class="copy-button" type="submit" name="id" value="${task.ID}"></button>
-                                </form>
-                            </td>
-                        </c:if>
-                        <c:if test="${b==false}">
-                            <td class="last-cell">
-                                <form action="copytask" method="post">
-                                    <button  class="copy-button" type="submit" name="id" value="${task.ID}"></button>
-                                </form>
-                            </td>
-                        </c:if>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <c:choose>
+                <c:when test="${!empty tasks}">
+                    <table id="tasks" class="tablesorter">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Executor</th>
+                            <th class="noSort">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="task" items="${tasks}">
+                            <tr>
+                                <td>${task.ID}</td>
+                                <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}" target="_blank">${task.name}</a> </td>
+                                <td><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/></td>
+                                <td>${task.fullStatus}</td>
+                                <c:if test="${emp.ID != task.ex_id}">
+                                    <td>
+                                        <a href="emp.jsp?id=${task.ex_id}">${emp.getEmp(task.ex_id).name}</a>
+                                    </td>
+                                </c:if>
+                                <c:if test="${emp.ID == task.ex_id}">
+                                    <td>Me</td>
+                                </c:if>
+                                <c:if test="${b==true}">
+                                    <td class="last-cell">
+                                        <form action="deletetask"  class="delete-form" method="post">
+                                            <button  class="delete-button" type="submit" name="id" value="${task.ID}"></button>
+                                        </form>
+                                        <form action="copytask" method="post">
+                                            <button  class="copy-button" type="submit" name="id" value="${task.ID}"></button>
+                                        </form>
+                                    </td>
+                                </c:if>
+                                <c:if test="${b==false}">
+                                    <td class="last-cell">
+                                        <form action="copytask" method="post">
+                                            <button  class="copy-button" type="submit" name="id" value="${task.ID}"></button>
+                                        </form>
+                                    </td>
+                                </c:if>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${emp.ID==task.ex_id}">
+                        <label id="message" hidden>You don't have subtasks.</label>
+                    </c:if>
+                    <c:if test="${emp.ID!=task.ex_id}">
+                        <label id="message" hidden>Employee doesn't have subtasks.</label>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
+
         </div>
     </div>
 </c:if>
