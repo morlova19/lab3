@@ -24,7 +24,7 @@ import java.util.Date;
  * E.g., create new task, update existing task , delete task  etc.
  */
 @WebServlet(urlPatterns = {"/newtask","/deletetask",
-        "/savetask","/completetask","/activatetask","/copytask","/updatedate","/updatename","/updatestatus","/updateexec"})
+        "/savetask","/completetask","/activatetask","/copytask","/updatedate","/updatename","/updatestatus","/updateexec","/canceltask"})
 public class TaskServlet extends HttpServlet{
 
     @Override
@@ -42,6 +42,9 @@ public class TaskServlet extends HttpServlet{
                 break;
             case "/completetask":
                 complete(req,resp);
+                break;
+            case "/canceltask":
+                cancel(req,resp);
                 break;
             case "/activatetask":
                 activate(req,resp);
@@ -65,10 +68,14 @@ public class TaskServlet extends HttpServlet{
 
     }
 
+    private void cancel(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer taskid = Integer.parseInt(req.getParameter("taskid"));
+        TaskDAO.updateStatus(taskid,Constants.CANCELLED);
+        resp.sendRedirect(req.getHeader("referer"));
+    }
+
     private void updateExecutor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
-        System.out.println("task = " + taskid);
-        System.out.println("task exec = " + req.getParameter("ex_id"));
         Integer ex_id = Integer.parseInt(req.getParameter("ex_id"));
         TaskDAO.updateExecutor(taskid,ex_id);
         resp.sendRedirect(req.getHeader("referer"));

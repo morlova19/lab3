@@ -225,22 +225,19 @@
                 <c:choose>
                     <c:when test="${task.status==constants.CANCELLED}">
                         <form action="activatetask" method="post" class="last-cell">
-                            <input type="text" name="taskid" hidden readonly value="${taskid}"/>
-                            <input type="submit" value="Activate" name="update"/>
+                            <button type="submit" name="taskid" value="${taskid}">Actvate</button>
                         </form>
                     </c:when>
 
                     <c:otherwise>
                         <c:if test="${emp.ID==task.ex_id}">
                             <form action="completetask" method="post" class="last-cell">
-                                <input type="text" name="taskid" hidden readonly value="${taskid}"/>
-                                <input type="submit" value="Complete" name="update"/>
+                                <button type="submit" name="taskid"value="${taskid}">Complete</button>
                             </form>
                         </c:if>
                         <c:if test="${emp.ID==task.cr_id }">
-                            <form action="savetask" method="post">
-                                <input type="text" name="taskid" hidden readonly value="${taskid}"/>
-                                <input type="submit" value="Cancel" name="update"/>
+                            <form action="canceltask" method="post">
+                                <button type="submit" name="taskid" value="${taskid}">Cancel</button>
                             </form>
                         </c:if>
                     </c:otherwise>
