@@ -170,13 +170,13 @@
                 <c:choose>
                     <c:when test="${emp.ID!=task.cr_id || task.status==constants.CANCELLED}">
                         <c:if test="${task.priority == constants.LOW}">
-                            <input id="priority" type="text" value="Low" readonly/>
+                            <input id="priority" type="text" value="Low" readonly  name="priority"/>
                         </c:if>
                         <c:if test="${task.priority == constants.NORMAL}">
-                            <input id="priority" type="text" value="Normal" readonly/>
+                            <input id="priority" type="text" value="Normal" readonly  name="priority"/>
                         </c:if>
                         <c:if test="${task.priority == constants.HIGH}">
-                            <input id="priority" type="text" value="High" readonly/>
+                            <input id="priority" type="text" value="High" readonly name="priority" />
                         </c:if>
                     </c:when>
                     <c:otherwise>
