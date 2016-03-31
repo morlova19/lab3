@@ -2,14 +2,13 @@ $(document).ready(function() {
 
     var $tasks = $("#tasks");
 
-    var rows = $tasks.find('tbody tr td:nth-child(3)');
-    rows.each(function(){
+    var dates = $tasks.find('tbody tr td:nth-child(3)');
+    dates.each(function(){
         var delta = parseDate($.trim($(this).text())) - $.now();
         if(delta<=0)
         {
             $(this).css('color','red');
         }
-        console.log(delta)
     });
 
     var headers = {};
@@ -161,6 +160,16 @@ $(document).ready(function() {
             $(this).parent().children('ul').show();
         }
     });
+    var rows = $tasks.find('tbody').find('tr').find('td:nth-child(4)');
+
+
+
+    var $select_status = $('select.status');
+    var selected_status = $select_status.val().toUpperCase();
+    filter_by_status(selected_status);
+
+
+
 
     $('.edit-exec').click(function () {
 
@@ -177,26 +186,29 @@ $(document).ready(function() {
             cell.load('select.jsp?taskid=' + id);
         }
     });
-    $('select.status').change(function () {
-        var rows = $tasks.find('tbody').find('tr');
-        var cur_status = $(this).val().toUpperCase();
-        console.log(rows);
+
+
+    $select_status.change(function () {
+
+        filter_by_status($(this).val().toUpperCase());
+    });
+    function filter_by_status(status) {
         rows.each(function () {
-            var status = $.trim($(this).find('td:nth-child(4)').text());
-            console.log(status);
-            if (cur_status == 'ALL') {
-                $('#tasks').show();
-                $(this).show();
+            var cur_status = $.trim($(this).text());
+            if (status == 'ALL') {
+                $tasks.show();
+                $(this).parent().show();
             }
             else {
-                $('#tasks').show();
+                $tasks.show();
                 if (status == cur_status) {
-                    $(this).show();
+                    $(this).parent().show();
                 }
                 else {
-                    $(this).hide();
+                    $(this).parent().hide();
                 }
             }
+
         });
         var tbody = $tasks.find("td").is(':visible');
         if (tbody == 0) {
@@ -207,8 +219,7 @@ $(document).ready(function() {
             $('#tasks').show();
             $('label.msg-no-status').hide();
         }
-    });
-
+    }
     /* setCurrentDate();
 
      function getIndex(text)
