@@ -104,7 +104,7 @@
                                        <tr>
                                            <td>${t.ID}</td>
                                            <td>
-                                               <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
+                                               <a href="task.jsp?taskid=${t.ID}">${t.name}</a>
                                            </td>
                                            <td><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                            <td class="cell-status">${t.fullStatus}</td>
@@ -175,7 +175,7 @@
                                             <tr>
                                                 <td>${t.ID}</td>
                                                 <td>
-                                                    <a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a>
+                                                    <a href="task.jsp?taskid=${t.ID}">${t.name}</a>
                                                 </td>
                                                 <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                                 <td  class="cell-status">${t.fullStatus}</td>
@@ -245,7 +245,7 @@
                                                <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                                                <tr>
                                                    <td>${t.ID}</td>
-                                                   <td><a href="task.jsp?taskid=${t.ID}" target="_blank">${t.name}</a></td>
+                                                   <td><a href="task.jsp?taskid=${t.ID}">${t.name}</a></td>
                                                    <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                                    <td  class="cell-status">${t.fullStatus}</td>
                                                    <c:if test="${username != t.ex_id}"><td><a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a></td></c:if>
@@ -343,7 +343,6 @@
                                 <c:forEach var="e" items="${emp.emps_map.values()}">
                                     <c:set var="eid" value="${e.ID}"/>
                                     <c:set var="emp_total" value="${e.total_count(eid)}"/>
-
                                     <c:choose>
                                         <c:when test="${emp_total==0}">
                                             <tr>
@@ -353,7 +352,6 @@
                                                 <td>0 (${t})</td>
                                                 <td>0 (${t})</td>
                                                 <td>0 (${t})</td>
-
                                                 <td>0 (${t})</td>
                                             </tr>
                                         </c:when>

@@ -170,11 +170,8 @@ public class TaskServlet extends HttpServlet{
         assert emp!=null;
         JournalManager jm = emp.getJournalManager();
         req.setCharacterEncoding("UTF-8");
-        String action = req.getParameter("update").toLowerCase();
         int taskid = Integer.parseInt(req.getParameter("taskid"));
-        switch (action)
-        {
-            case "save":
+
                 TransferObject to = new TransferObject();
                 to.setId(taskid);
                 to.setName(req.getParameter("name"));
@@ -201,7 +198,6 @@ public class TaskServlet extends HttpServlet{
                         to.setPriority(Integer.parseInt(priority));
                         break;
                 }
-
                 to.setEx_id(Integer.parseInt(req.getParameter("ex_id")));
                 to.setCr_id(Integer.parseInt(req.getParameter("cr_id")));
                 String pt_id = req.getParameter("pt_id");
@@ -228,17 +224,14 @@ public class TaskServlet extends HttpServlet{
                         break;
                 }
                 jm.updateTask(taskid,to);
-                break;
-            case "complete":
-               jm.complete(taskid);
-                break;
-            case "cancel":
-                jm.cancel(taskid);
-                break;
+        if(emp.getID()==to.getEx_id())
+        {
+            resp.sendRedirect("tasks.jsp?type=my");
+        }
+        else {
+            resp.sendRedirect("tasks.jsp?type=emp");
         }
 
-
-        resp.sendRedirect(req.getHeader("referer"));
 
     }
 

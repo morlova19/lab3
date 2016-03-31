@@ -346,14 +346,7 @@ public class TaskDAO {
                 stat.setInt(9,task.getPt_id());
             }
             stat.setInt(10,t_id);
-
-            Gson g = new Gson();
-            System.out.println(g.toJson(task));
-            //stat.setInt(9,task.getCr_id());
-            System.out.println("tas k id = " + t_id);
-           int a = stat.executeUpdate();
-
-            System.out.println("rows updated = " + a);
+           stat.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
