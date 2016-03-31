@@ -230,7 +230,7 @@
                 <c:choose>
                     <c:when test="${task.status==constants.CANCELLED}">
                         <form action="activatetask" method="post" class="last-cell">
-                            <button type="submit" name="taskid" value="${taskid}">Actvate</button>
+                            <button type="submit" name="taskid" value="${taskid}">Activate</button>
                         </form>
                     </c:when>
                     <c:otherwise>

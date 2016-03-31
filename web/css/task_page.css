@@ -83,7 +83,7 @@ form {
 }
 
 input[type=submit],button {
-    width: 31%;
+    width: 30%;
     margin-right: 8px;
     background-color: #0000cc;
     color: white;
