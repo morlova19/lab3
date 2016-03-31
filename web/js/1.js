@@ -125,12 +125,14 @@ $(document).ready(function() {
     });
     $tasks.find("td.cell-date").dblclick(function () {
         var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
+        var status = $.trim($(this).parent().find("td:nth-child(3)").text());
 
-        if (isCreator == 0) {
+        if (isCreator == 0 || status=='ACCOMPLISHED') {
             return false;
         }
         else {
-            var row = $.trim($(this).parent().find("td:nth-child(1)").text());
+
+            var id = $.trim($(this).parent().find("td:nth-child(1)").text());
             var OriginalContent = $(this).text();
             $(this).addClass("cellEditing");
             $(this).html('<input type="text" class="date-cell" value="' + OriginalContent + '" />');
@@ -147,7 +149,7 @@ $(document).ready(function() {
                     if(validDate(newContent)==true)
                     {
                         $.post(URL, {
-                            id: row,
+                            id: id,
                             date: newContent
                         });
                         $(this).css('border', '1px solid #ccc');
