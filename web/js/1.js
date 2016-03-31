@@ -13,7 +13,8 @@ $(document).ready(function() {
     function check_dates() {
         dates.each(function () {
             var delta = parseDate($.trim($(this).text())) - $.now();
-            if (delta <= 0) {
+            var status = $(this).parent().find('td:nth-child(4)').text();
+            if (delta <= 0 && status!='CANCELLED' && status!='ACCOMPLISHED') {
                 $(this).css('color', 'red');
             }
             else {

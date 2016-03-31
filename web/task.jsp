@@ -234,11 +234,10 @@
                                 <button type="submit" name="taskid" value="${taskid}">Activate</button>
                             </form>
                         </c:if>
-
                     </c:when>
                     <c:otherwise>
                         <c:if test="${emp.ID==task.ex_id}">
-                            <form action="completetask" method="post" class="last-cell">
+                            <form action="completetask" method="post" class="last-cell" id="complete-form">
                                 <button type="submit" name="taskid"value="${taskid}">Complete</button>
                             </form>
                         </c:if>

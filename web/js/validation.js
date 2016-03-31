@@ -131,7 +131,11 @@ $(document).ready(function() {
         return confirm('Are you sure?');
     });
 
+    $("#complete-form").submit(function(){
+         var values = $('#tasks').find('tr:nth-child(4)').val();
 
+        return false;
+    });
     $('#update-task-form').submit(function () {
         var isSubtask = $('#pt_id').length;
 
