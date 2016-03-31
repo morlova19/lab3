@@ -162,13 +162,10 @@ $(document).ready(function() {
     });
     var rows = $tasks.find('tbody').find('tr').find('td:nth-child(4)');
 
-
-
     var $select_status = $('select.status');
+
     var selected_status = $select_status.val().toUpperCase();
     filter_by_status(selected_status);
-
-
 
 
     $('.edit-exec').click(function () {
