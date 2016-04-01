@@ -29,14 +29,22 @@
         <fmt:formatDate value="${task.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate"/>
         <c:set var="isCompleted" value="${task.status==constants.COMPLETED}" scope="session"/>
         <c:set var="isEditable" value="${task.cr_id==emp.ID}" scope="page"/>
-       <c:choose>
-           <c:when test="${task.ex_id==emp.ID}">
-               <a href="tasks.jsp?type=my" >< Back to all tasks</a>
-           </c:when>
-           <c:otherwise>
-               <a href="tasks.jsp?type=emp" >< Back to all tasks</a>
-           </c:otherwise>
-       </c:choose>
+
+        <c:choose>
+            <c:when test="${!empty param.pt_id}">
+                <a href="task.jsp?taskid="${param.pt_id}>< Back</a>
+            </c:when>
+            <c:otherwise>
+                <c:choose>
+                    <c:when test="${task.ex_id==emp.ID}">
+                        <a href="tasks.jsp?type=my" >< Back</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="tasks.jsp?type=emp" >< Back</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:otherwise>
+        </c:choose>
         <br/>
         <br/>
         <c:choose>
