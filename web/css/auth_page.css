@@ -2,14 +2,11 @@ body {
     margin: 0;
 }
 table,td,th{
-
     padding: 5px;
-    overflow: auto;
     text-align: center;
 }
 table{
     margin: 1%;
-    border-radius: 3% 3% 3% 3%;
 }
 table input[type=text],input[type=password] {
     width: 100%;
@@ -28,7 +25,6 @@ input[type=submit]{
     background-color: #0000cc;
     color: white;
     border: none;
-
 }
 a:active{
     background-color: gray;
