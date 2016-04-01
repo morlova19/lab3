@@ -119,7 +119,7 @@ public class TaskServlet extends HttpServlet{
         assert str!=null;
         Integer taskid=Integer.parseInt(str);
         TaskDAO.activateTask(taskid);
-        resp.sendRedirect("tasks.jsp?type=my");
+        resp.sendRedirect(req.getHeader("referer"));
     }
 
     private void complete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -223,13 +223,7 @@ public class TaskServlet extends HttpServlet{
                         break;
                 }
                 jm.updateTask(taskid,to);
-        if(emp.getID()==to.getEx_id())
-        {
-            resp.sendRedirect("tasks.jsp?type=my");
-        }
-        else {
-            resp.sendRedirect("tasks.jsp?type=emp");
-        }
+        resp.sendRedirect(req.getHeader("referer"));
 
 
     }

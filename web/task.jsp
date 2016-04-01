@@ -24,6 +24,9 @@
     <c:set var="taskid" value="${param.taskid}"/>
 
     <div class="task-form">
+        <a href="#" onclick="history.back();">< Back to all tasks</a>
+        <br/>
+        <br/>
         <c:set var="task" value="${emp.journalManager.get(taskid)}"/>
         <fmt:formatDate value="${task.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate"/>
         <c:set var="isCompleted" value="${task.status==constants.COMPLETED}" scope="session"/>
