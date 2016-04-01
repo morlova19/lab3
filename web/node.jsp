@@ -10,7 +10,7 @@
         <c:set var="node" value="${node}" scope="request"/>
         <c:if test="${sessionScope.emp.ID == node.ID}">
             <c:if test="${!empty node.emps_map}">
-                <li class="current" value="${node.ID}"><input type="button" value="-" class="hide-child"/><a href="#">Me</a>   <jsp:include page="node.jsp"/></li>
+                <li class="current" value="${node.ID}"><input type="button" value="-" class="hide-child"/><a href="emp.jsp?id=${node.ID}">Me</a>   <jsp:include page="node.jsp"/></li>
             </c:if>
             <c:if test="${empty node.emps_map}">
                 <li class="current" ><a href="emp.jsp?id=${node.ID}">Me</a><jsp:include page="node.jsp"/></li>
