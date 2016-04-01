@@ -24,13 +24,21 @@
     <c:set var="taskid" value="${param.taskid}"/>
 
     <div class="task-form">
-        <a href="#" onclick="history.back();">< Back to all tasks</a>
-        <br/>
-        <br/>
+
         <c:set var="task" value="${emp.journalManager.get(taskid)}"/>
         <fmt:formatDate value="${task.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate"/>
         <c:set var="isCompleted" value="${task.status==constants.COMPLETED}" scope="session"/>
         <c:set var="isEditable" value="${task.cr_id==emp.ID}" scope="page"/>
+       <c:choose>
+           <c:when test="${task.ex_id==emp.ID}">
+               <a href="tasks.jsp?type=my" >< Back to all tasks</a>
+           </c:when>
+           <c:otherwise>
+               <a href="tasks.jsp?type=emp" >< Back to all tasks</a>
+           </c:otherwise>
+       </c:choose>
+        <br/>
+        <br/>
         <c:choose>
             <c:when test="${isCompleted==true}">
                 <c:if test="${param.pt_id != null}">
