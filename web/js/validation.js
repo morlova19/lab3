@@ -128,7 +128,14 @@ $(document).ready(function() {
     });
 
     $('.delete-form').submit(function () {
-        return confirm('Are you sure?');
+        if(confirm('Are you sure?'))
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+
     });
 
     $("#complete-form").submit(function(){

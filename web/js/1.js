@@ -124,6 +124,7 @@ $(document).ready(function() {
     {
         $('#update-exec-form').submit();
     });
+
     $tasks.find("td.cell-date").dblclick(function () {
         var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
         var status = $.trim($(this).parent().find("td:nth-child(3)").text());
