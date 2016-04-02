@@ -104,7 +104,14 @@
                                        <tr>
                                            <td>${t.ID}</td>
                                            <td>
-                                               <a href="task.jsp?taskid=${t.ID}">${t.name}</a>
+                                               <c:choose>
+                                                   <c:when test="${t.pt_id==0}">
+                                                       <a href="task.jsp?taskid=${t.ID}">${t.name}</a>
+                                                   </c:when>
+                                                   <c:otherwise>
+                                                       <a href="task.jsp?taskid=${t.ID}&pt_id=${t.pt_id}">${t.name}</a>
+                                                   </c:otherwise>
+                                               </c:choose>
                                            </td>
                                            <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                            <td class="cell-status">${t.fullStatus}</td>
@@ -175,7 +182,14 @@
                                             <tr>
                                                 <td>${t.ID}</td>
                                                 <td>
-                                                    <a href="task.jsp?taskid=${t.ID}">${t.name}</a>
+                                                    <c:choose>
+                                                        <c:when test="${t.pt_id==0}">
+                                                            <a href="task.jsp?taskid=${t.ID}">${t.name}</a>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <a href="task.jsp?taskid=${t.ID}&pt_id=${t.pt_id}">${t.name}</a>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </td>
                                                 <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                                 <td  class="cell-status">${t.fullStatus}</td>
@@ -245,7 +259,14 @@
                                                <c:set var="b" value="${username == t.cr_id}" scope="page"/>
                                                <tr>
                                                    <td>${t.ID}</td>
-                                                   <td><a href="task.jsp?taskid=${t.ID}">${t.name}</a></td>
+                                                   <td> <c:choose>
+                                                       <c:when test="${t.pt_id==0}">
+                                                           <a href="task.jsp?taskid=${t.ID}">${t.name}</a>
+                                                       </c:when>
+                                                       <c:otherwise>
+                                                           <a href="task.jsp?taskid=${t.ID}&pt_id=${t.pt_id}">${t.name}</a>
+                                                       </c:otherwise>
+                                                   </c:choose></td>
                                                    <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                                    <td  class="cell-status">${t.fullStatus}</td>
                                                    <c:if test="${username != t.ex_id}"><td><a href="emp.jsp?id=${t.ex_id}">${emp.getEmp(t.ex_id).name}</a></td></c:if>
