@@ -6,11 +6,14 @@
 <head>
     <title>Employee</title>
     <link rel="stylesheet" type="text/css" href="css/emp.css">
+    <link rel="stylesheet" type="text/css" href="css/1.css">
     <link rel="icon" href="images/icon.png" type="image/png">
 </head>
 <body>
 <div class="task-form">
-    <a href="task.jsp?taskid="${param.pt_id}>< Back</a>
+    <a href="#" onclick="history.back();">< Back</a>
+    <br/>
+    <br/>
     <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="e" value="${emp.getEmp(param.id)}"/>
         <label for="ename">Name</label>
