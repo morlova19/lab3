@@ -49,10 +49,11 @@
         <c:choose>
             <c:when test="${isCompleted==true}">
                 <c:if test="${param.pt_id != null}">
-                    <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
+                    <c:set var="ptask" value="${emp.journalManager.get(param.pt_id)}"/>
+                    <fmt:formatDate value="${ptask.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
                     <label for="pt_id">Parent task</label>
-                    <input id="pt_id" readonly value="${task.name}"/>
-                    <input type="text" readonly value="${task.pt_id}" name="pt_id" hidden/>
+                    <input id="pt_id" readonly value="${ptask.name}"/>
+                    <input type="text" readonly value="${ptask.pt_id}" name="pt_id" hidden/>
 
                     <label for="task-date">Parent task date</label>
                     <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
@@ -99,10 +100,11 @@
             <c:otherwise>
                 <form method="post" action="savetask" id="update-task-form">
                     <c:if test="${param.pt_id != null}">
-                        <fmt:formatDate value="${emp.journalManager.get(param.pt_id).date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
+                        <c:set var="ptask" value="${emp.journalManager.get(param.pt_id)}"/>
+                        <fmt:formatDate value="${ptask.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
                         <label for="pt_id">Parent task</label>
-                        <input type="text" id="pt_id" readonly value="${task.name}"/>
-                        <input type="text" readonly value="${task.pt_id}" name="pt_id" hidden/>
+                        <input type="text" id="pt_id" readonly value="${ptask.name}"/>
+                        <input type="text" readonly value="${ptask.pt_id}" name="pt_id" hidden/>
                         <label for="task-date">Parent task date</label>
                         <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
                     </c:if>
