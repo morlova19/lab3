@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="task-form">
+    <a href="task.jsp?taskid="${param.pt_id}>< Back</a>
     <jsp:useBean id="emp" class="emp.Employee" scope="session"/>
     <c:set var="e" value="${emp.getEmp(param.id)}"/>
         <label for="ename">Name</label>

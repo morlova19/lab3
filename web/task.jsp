@@ -271,7 +271,7 @@
         </c:choose>
     </div>
     <div id="menu-container">
-        <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
+
         <div class="actions">
             <c:if test="${(task.status==constants.NEW || task.status==constants.PERFORMING)}" >
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
@@ -295,6 +295,7 @@
                         </thead>
                         <tbody>
                         <c:forEach var="task" items="${tasks}">
+                            <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
                             <tr>
                                 <td>${task.ID}</td>
                                 <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}" target="_blank">${task.name}</a> </td>
