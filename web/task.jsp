@@ -276,12 +276,23 @@
             <c:if test="${(task.status==constants.NEW || task.status==constants.PERFORMING)}" >
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
             </c:if>
-
         </div>
+
         <div id="table-container">
             <c:set var="tasks" value="${emp.journalManager.getSubtasks(taskid)}"/>
             <c:choose>
                 <c:when test="${!empty tasks}">
+                    <div id="select-div">
+                        <label>Status</label>
+                        <select class="status">
+                            <option selected>All</option>
+                            <option>${constants.fullNew}</option>
+                            <option>${constants.fullPerforming}</option>
+                            <option>${constants.fullCancelled}</option>
+                            <option>${constants.fullCompleted}</option>
+                        </select>
+                        <label class="msg-no-status" hidden>Not found subtasks with specified status.</label>
+                    </div>
                     <table id="tasks" class="tablesorter">
                         <thead>
                         <tr>
@@ -299,7 +310,7 @@
                             <tr>
                                 <td>${task.ID}</td>
                                 <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}" target="_blank">${task.name}</a> </td>
-                                <td><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/></td>
+                                <td class="subtask-date"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/></td>
                                 <td>${task.fullStatus}</td>
                                 <c:if test="${emp.ID != task.ex_id}">
                                     <td>
