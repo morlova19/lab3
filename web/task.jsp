@@ -29,7 +29,6 @@
         <fmt:formatDate value="${task.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate"/>
         <c:set var="isCompleted" value="${task.status==constants.COMPLETED}" scope="session"/>
         <c:set var="isEditable" value="${task.cr_id==emp.ID}" scope="page"/>
-
         <c:choose>
             <c:when test="${!empty param.pt_id}">
                 <a href="task.jsp?taskid="${param.pt_id}>< Back</a>
@@ -37,10 +36,10 @@
             <c:otherwise>
                 <c:choose>
                     <c:when test="${task.ex_id==emp.ID}">
-                        <a href="tasks.jsp?type=my" >< Back</a>
+                        <a href="tasks.jsp?type=my">< Back</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="tasks.jsp?type=emp" >< Back</a>
+                        <a href="tasks.jsp?type=emp">< Back</a>
                     </c:otherwise>
                 </c:choose>
             </c:otherwise>
@@ -310,8 +309,8 @@
                             <tr>
                                 <td>${task.ID}</td>
                                 <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}" target="_blank">${task.name}</a> </td>
-                                <td class="subtask-date"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/></td>
-                                <td>${task.fullStatus}</td>
+                                <td class="cell-date"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/></td>
+                                <td class="cell-status">${task.fullStatus}</td>
                                 <c:if test="${emp.ID != task.ex_id}">
                                     <td>
                                         <a href="emp.jsp?id=${task.ex_id}">${emp.getEmp(task.ex_id).name}</a>

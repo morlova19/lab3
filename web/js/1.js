@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    $('.date-cell').inputmask('99.99.9999 99:99');
     var $tasks = $("#tasks");
     var tbody = $tasks.find("td");
     if (tbody.length == 0) {
@@ -8,8 +8,14 @@ $(document).ready(function() {
     }
     var dates = $tasks.find('tbody tr td:nth-child(3)');
     var $select_status = $('select.status');
+    if($select_status.length !=0) {
+        var selected_status = $select_status.val().toUpperCase();
 
-    var selected_status = $select_status.val().toUpperCase();
+        var rows = $tasks.find('tbody').find('tr').find('td:nth-child(4)');
+
+        filter_by_status(selected_status);
+    }
+
     function check_dates() {
         dates.each(function () {
             var delta = parseDate($.trim($(this).text())) - $.now();
@@ -148,8 +154,10 @@ $(document).ready(function() {
                     var URL = 'updatedate';
                     var newContent = $(this).val();
 
-                    if(validDate(newContent)==true)
-                    {
+                    var task_date = $('#tdate');
+                    if (task_date.length == 0) {
+
+                    if (validDate(newContent) == true) {
                         $.post(URL, {
                             id: id,
                             date: newContent
@@ -161,6 +169,22 @@ $(document).ready(function() {
                     else {
                         alert('Please enter correct date');
                         $(this).css('border', '1px solid red');
+                     }
+                    }
+                    else {
+                        if (validSubtaskDate(newContent) == true) {
+                            $.post(URL, {
+                                id: id,
+                                date: newContent
+                            });
+                            $(this).css('border', '1px solid #ccc');
+                            $(this).parent().text(newContent);
+                            $(this).parent().removeClass("cellEditing");
+                        }
+                        else {
+                            alert('Please enter correct date');
+                            $(this).css('border', '1px solid red');
+                        }
                     }
                 }
             });
@@ -173,7 +197,7 @@ $(document).ready(function() {
     });
 
 
-    $('.date-cell').inputmask('99.99.9999 99:99');
+
 
     $('.hide-child').click(function () {
         if ($(this).parent().children('ul').is(":visible")) {
@@ -185,10 +209,6 @@ $(document).ready(function() {
             $(this).parent().children('ul').show();
         }
     });
-    var rows = $tasks.find('tbody').find('tr').find('td:nth-child(4)');
-
-
-    filter_by_status(selected_status);
 
 
     $('.edit-exec').click(function () {
@@ -300,6 +320,39 @@ $(document).ready(function() {
             return false;
         }
         else if (delta > 0) {
+
+            return true;
+        }
+    }
+    function validSubtaskDate(date) {
+        if (date.length == 0) {
+            return false;
+        }
+        var q = date.split(" ");
+        var d = q[0].split(".");
+        var t = q[1].split(":");
+
+        if(t[0]>23 || t[1]>59 || d[0]>31 || d[1] > 13)
+        {
+            return false;
+        }
+
+        var stask_date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
+
+        var tdate = $('#tdate').val();
+        var q1 = tdate.split(" ");
+        var d1 = q1[0].split(".");
+        var t1 = q1[1].split(":");
+
+        var task_date = new Date(d1[2], d1[1] - 1, d1[0], t1[0], t1[1], 0, 0);
+        var delta = task_date.getTime() - stask_date.getTime();
+        var delta1 = stask_date.getTime() - Date.now();
+
+        if (delta <= 0 && delta1 <= 0) {
+
+            return false;
+        }
+        else if (delta > 0 && delta1 > 0) {
 
             return true;
         }
