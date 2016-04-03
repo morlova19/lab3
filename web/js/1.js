@@ -125,12 +125,10 @@ $(document).ready(function() {
 
     });
     $('#complete-form').submit(function(){
-        var new_count = $('td:contains("NEW")').filter(function() {
-            return $(this).index() == 0;
-        }).length;
-        var perf_count = $('td:contains("IN PROGRESS")').filter(function() {
-            return $(this).index() == 0;
-        }).length;
+        var new_count = $tasks.find('tr td:nth-child(4)').filter(':contains("NEW")').length;
+
+        var perf_count =  $tasks.find('tr td:nth-child(4)').filter(':contains("IN PROGRESS")').length;
+
         if(new_count==0 && perf_count==0)
         {
             return true;
@@ -138,6 +136,7 @@ $(document).ready(function() {
         else {
             return confirm("Not all subtasks are completed. If you confirm, all subtasks will be completed. Are you sure?")
         }
+
     });
     var $select = $('select#ex_id');
     $select.change(function()
