@@ -84,9 +84,7 @@ public class JournalManager implements IJournalManager, Serializable {
         return TaskDAO.getSubtasks(t_id);
     }
 
-    public void delay(int id, Date newDate) {
-       //TODO
-    }
+
 
     public void complete(int id)  {
         TaskDAO.completeTask(id);
