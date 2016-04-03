@@ -32,6 +32,7 @@
         <c:choose>
             <c:when test="${!empty param.pt_id}">
                 <c:choose>
+
                     <c:when test="${emp.journalManager.get(param.pt_id).ex_id!=emp.ID}">
                         <a href="#" onclick="history.back();">< Back</a>
                     </c:when>
@@ -111,7 +112,7 @@
                         <fmt:formatDate value="${ptask.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
                         <label for="pt_id">Parent task</label>
                         <input type="text" id="pt_id" readonly value="${ptask.name}"/>
-                        <input type="text" readonly value="${ptask.pt_id}" name="pt_id" hidden/>
+                        <input type="text" readonly value="${param.pt_id}" name="pt_id" hidden/>
                         <label for="task-date">Parent task date</label>
                         <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
                     </c:if>
