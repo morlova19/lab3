@@ -40,7 +40,12 @@ $(document).ready(function() {
     });
 
 
+    var $select = $('select#ex_id');
 
+    $select.change(function()
+    {
+        $('#update-exec-form').submit();
+    });
     $tasks.find("td.cell-status").dblclick(function () {
         var id = $.trim($(this).parent().find("td:nth-child(1)").text());
         var isExecutor = ($.trim($(this).parent().find("td:nth-child(5)").text()) == 'Me');
@@ -52,7 +57,8 @@ $(document).ready(function() {
         var perform_option='<option>IN PROGRESS</option>';
         var complete_option='<option>ACCOMPLISHED</option>';
         var select_option='<option selected>Select status</option>';
-        if(OriginalContent=='ACCOMPLISHED')
+        console.log('length' + $select.length)
+        if(OriginalContent=='ACCOMPLISHED' || $('select#ex_id').length!=0)
         {
             return false;
         }
@@ -138,17 +144,13 @@ $(document).ready(function() {
         }
 
     });
-    var $select = $('select#ex_id');
-    $select.change(function()
-    {
-        $('#update-exec-form').submit();
-    });
+
 
     $tasks.find("td.cell-date").dblclick(function () {
         var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
         var status = $.trim($(this).parent().find("td:nth-child(3)").text());
 
-        if (isCreator == 0 || status=='ACCOMPLISHED') {
+        if (isCreator == 0 || status=='ACCOMPLISHED' || $('select#ex_id').length!=0) {
             return false;
         }
         else {
@@ -202,6 +204,7 @@ $(document).ready(function() {
                 }
             });
             $(this).children().first().blur(function () {
+                console.log(123)
                 $(this).parent().text(OriginalContent);
                 $(this).parent().removeClass("cellEditing");
             });

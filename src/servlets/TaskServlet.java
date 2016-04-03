@@ -77,6 +77,8 @@ public class TaskServlet extends HttpServlet{
     private void updateExecutor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer taskid = Integer.parseInt(req.getParameter("id"));
         Integer ex_id = Integer.parseInt(req.getParameter("ex_id"));
+        System.out.println("id = " + taskid);
+        System.out.println("ex id = " + ex_id);
         TaskDAO.updateExecutor(taskid,ex_id);
         resp.sendRedirect(req.getHeader("referer"));
     }
