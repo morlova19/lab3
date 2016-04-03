@@ -113,7 +113,7 @@
                                                    </c:otherwise>
                                                </c:choose>
                                            </td>
-                                           <td class="cell-date"><fmt:formatDate type="both" pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
+                                           <td class="cell-date"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${t.date}"/></td>
                                            <td class="cell-status">${t.fullStatus}</td>
                                            <c:if test="${username==t.ex_id}">
                                                <td><a href="emp.jsp?id=${t.ex_id}">Me</a></td>
