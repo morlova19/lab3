@@ -61,8 +61,6 @@
                     <fmt:formatDate value="${ptask.date}" pattern="dd.MM.yyyy HH:mm" var="formattedDate1"/>
                     <label for="pt_id">Parent task</label>
                     <input id="pt_id" readonly value="${ptask.name}"/>
-                    <input type="text" readonly value="${ptask.pt_id}" name="pt_id" hidden/>
-
                     <label for="task-date">Parent task date</label>
                     <input class="date-cell" type="text" id="task-date" readonly value="${formattedDate1}"/>
                 </c:if>
