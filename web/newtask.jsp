@@ -65,7 +65,7 @@
         </select>
         <input type="submit" value="OK"/>
     </form>
+    <input type="button" onclick="history.back();" value="Cancel"/>
 </div>
-
 </body>
 </html>

@@ -15,7 +15,7 @@
     <table>
         <tr>
             <td>Username:</td>
-            <td><input type="text" name="username" id="username"/></td>
+            <td><input type="text" name="username" id="username" maxlength="20"/></td>
             <td id="username-error" class="error" hidden>Please enter username</td>
         </tr>
         <tr>
