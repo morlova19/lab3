@@ -31,7 +31,14 @@
         <c:set var="isEditable" value="${task.cr_id==emp.ID}" scope="page"/>
         <c:choose>
             <c:when test="${!empty param.pt_id}">
-                <a href="task.jsp?taskid="${param.pt_id}>< Back</a>
+                <c:choose>
+                    <c:when test="${emp.journalManager.get(param.pt_id).ex_id!=emp.ID}">
+                        <a href="#" onclick="history.back();">< Back</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="task.jsp?taskid=${param.pt_id}">< Back</a>
+                    </c:otherwise>
+                </c:choose>
             </c:when>
             <c:otherwise>
                 <c:choose>
@@ -310,7 +317,7 @@
                             <c:set var="b" value="${emp.ID == task.cr_id}" scope="page"/>
                             <tr>
                                 <td>${task.ID}</td>
-                                <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}" target="_blank">${task.name}</a> </td>
+                                <td><a href="task.jsp?taskid=${task.ID}&pt_id=${taskid}">${task.name}</a> </td>
                                 <td class="cell-date"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.date}"/></td>
                                 <td class="cell-status">${task.fullStatus}</td>
                                 <c:if test="${emp.ID != task.ex_id}">
