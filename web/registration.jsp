@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <th>First Name:</th>
-            <td><input type="text" name="fname" id="fname"/></td>
+            <td><input type="text" name="fname" id="fname" maxlength="15"/></td>
             <td id="fname-error" class="error" hidden>Please enter correct first name</td>
             <c:choose>
                 <c:when test="${empty error}">
@@ -53,12 +53,12 @@
         </tr>
         <tr>
             <th>Last Name:</th>
-            <td><input type="text" name="lname" id="lname"/></td>
+            <td><input type="text" name="lname" id="lname" maxlength="15"/></td>
             <td id="lname-error" class="error" hidden>Please enter correct last name</td>
         </tr>
         <tr>
             <th>Username:</th>
-            <td><input type="text" name="login" id="username"/></td>
+            <td><input type="text" name="login" id="username" maxlength="20"/></td>
             <td id="username-error" class="error" hidden>Please enter username</td>
             <c:choose>
                 <c:when test="${empty error}">
@@ -71,7 +71,7 @@
         </tr>
         <tr>
             <th>Password:</th>
-            <td><input type="password" name="pass" id="pass" /></td>
+            <td><input type="password" name="pass" id="pass" maxlength="50"/></td>
             <td id="pass-error" class="error" hidden>Please enter password</td>
         </tr>
         <tr id="last">
