@@ -240,10 +240,7 @@ $(document).ready(function() {
             cell.load('select.jsp?taskid=' + id);
         }
     });
-
-
     $select_status.change(function () {
-
         filter_by_status($(this).val().toUpperCase());
     });
     function filter_by_status(status) {
@@ -266,44 +263,15 @@ $(document).ready(function() {
         });
         var tbody = $tasks.find("td").is(':visible');
         if (tbody == 0) {
-            $('#tasks').hide();
+            $tasks.hide();
             $('label.msg-no-status').show();
         }
         else {
-            $('#tasks').show();
+            $tasks.show();
             $('label.msg-no-status').hide();
         }
     }
-    /* setCurrentDate();
 
-     function getIndex(text)
-     {
-     var index = $('#tasks tr th').filter(
-     function(){
-     return $(this).text().toUpperCase() == text.toUpperCase();
-     }).index();
-
-     return index;
-     }
-     function setCurrentDate(){
-     var now = new Date();
-     var day = now.getDate();
-
-     var month = now.getMonth() + 1;
-
-     if (month < 10) month = "0" + month;
-     if (day < 10) day = "0" + day;
-
-     var year = now.getFullYear();
-     var hours = now.getHours();
-     var minutes = now.getMinutes();
-
-     if (hours < 10) hours = "0" + hours;
-     if (minutes < 10) minutes = "0" + minutes;
-
-     var str = day + "." + month + "." + year+" "+ hours+":"+minutes;
-     $('#tdate').val(str);
-     }*/
      function parseDate(date){
 
      var q = date.split(" ");
