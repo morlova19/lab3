@@ -128,13 +128,7 @@ $(document).ready(function() {
     });
 
     $('.delete-form').submit(function () {
-        if(confirm('Are you sure?'))
-        {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return confirm('Are you sure?');
 
     });
 

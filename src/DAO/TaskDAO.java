@@ -177,7 +177,7 @@ public class TaskDAO {
         try {
             conn = ds.getConnection();
 
-            PreparedStatement stat = conn.prepareStatement("SELECT T_ID,NAME,STATUS,TDESC,TDATE,CONTACTS,PRIORITY,CR_ID,EX_ID,PT_ID,CRDATE " +
+            PreparedStatement stat = conn.prepareStatement("SELECT t.T_ID,t.NAME,t.STATUS,t.TDESC,t.TDATE,t.CONTACTS,t.PRIORITY,t.CR_ID,t.EX_ID,t.PT_ID,t.CRDATE " +
                     "FROM task pt, task t WHERE pt.t_id(+)= t.pt_id AND t.ex_id  IN (SELECT  EMPID FROM EMP WHERE MGR=?) AND (pt.ex_id IS NULL OR pt.ex_id <> t.ex_id)");
 
             stat.setInt(1,mgr);
