@@ -63,9 +63,11 @@
             <option value="${constants.NORMAL}">${constants.fullNormal}</option>
             <option value="${constants.HIGH}" selected>${constants.fullHigh}</option>
         </select>
+        <input type="button" onclick="history.back();" value="Cancel"/>
         <input type="submit" value="OK"/>
+
     </form>
-    <input type="button" onclick="history.back();" value="Cancel"/>
+
 </div>
 </body>
 </html>

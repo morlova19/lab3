@@ -43,7 +43,7 @@ div.task-form textarea{
     resize: none;
     margin-bottom: 8px;
 }
-div.task-form form input[type=submit]
+div.task-form form input[type=submit],input[type=button]
 {
     float: right;
     background-color: #0000cc;
