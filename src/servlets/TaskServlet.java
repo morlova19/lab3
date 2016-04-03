@@ -199,7 +199,6 @@ public class TaskServlet extends HttpServlet{
                 to.setEx_id(Integer.parseInt(req.getParameter("ex_id")));
                 to.setCr_id(Integer.parseInt(req.getParameter("cr_id")));
                 String pt_id = req.getParameter("pt_id");
-        System.out.println("ptid = " + pt_id);
                 if(pt_id != null)
                 {
                     to.setPt_id(Integer.parseInt(pt_id));
