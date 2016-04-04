@@ -36,6 +36,7 @@ $(document).ready(function() {
         headers[$(this).index()] = {sorter: false};
     });
     $tasks.tablesorter({
+        dateFormat : "mmddyyyy",
         headers: headers
     });
 
@@ -106,12 +107,14 @@ $(document).ready(function() {
                             data = 'P';
                         }
                         else if (newContent == 'ACCOMPLISHED') {
+                            $(this).parent().find("td:last-child").find('button.delete-button').hide();
                             data = 'A';
                         }
                         else if (newContent == 'NEW') {
                             data = 'N';
                         }
                         else if (newContent == 'CANCELLED') {
+                            $(this).parent().find("td:last-child").find('button.delete-button').hide();
                             data = 'C';
                         }
                         $.post(URL, {
@@ -339,7 +342,4 @@ $(document).ready(function() {
         else if (delta > 0 && delta1 > 0) {
 
             return true;
-        }
-    }
-
-});
+       
