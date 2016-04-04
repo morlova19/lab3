@@ -8,7 +8,7 @@ $(document).ready(function() {
     }
     var dates = $tasks.find('tbody tr td:nth-child(3)');
     var $select_status = $('select.status');
-    if($select_status.length !=0) {
+    if ($select_status.length != 0) {
         var selected_status = $select_status.val().toUpperCase();
 
         var rows = $tasks.find('tbody').find('tr').find('td:nth-child(4)');
@@ -20,7 +20,7 @@ $(document).ready(function() {
         dates.each(function () {
             var delta = parseDate($.trim($(this).text())) - $.now();
             var status = $(this).parent().find('td:nth-child(4)').text();
-            if (delta <= 0 && status!='CANCELLED' && status!='ACCOMPLISHED') {
+            if (delta <= 0 && status != 'CANCELLED' && status != 'ACCOMPLISHED') {
                 $(this).css('color', 'red');
             }
             else {
@@ -36,15 +36,14 @@ $(document).ready(function() {
         headers[$(this).index()] = {sorter: false};
     });
     $tasks.tablesorter({
-        dateFormat : "mmddyyyy",
+        dateFormat: "mmddyyyy",
         headers: headers
     });
 
 
     var $select = $('select#ex_id');
 
-    $select.change(function()
-    {
+    $select.change(function () {
         $('#update-exec-form').submit();
     });
     $tasks.find("td.cell-status").dblclick(function () {
@@ -53,79 +52,74 @@ $(document).ready(function() {
         var isCreator = ($.trim($(this).parent().find("td:last-child").find('button.delete-button').length) != 0);
         var OriginalContent = $(this).text();
         var html = "<select>";
-        var new_option='<option>NEW</option>';
-        var cancel_option='<option>CANCELLED</option>';
-        var perform_option='<option>IN PROGRESS</option>';
-        var complete_option='<option>ACCOMPLISHED</option>';
-        var select_option='<option selected>Select status</option>';
+        var new_option = '<option>NEW</option>';
+        var cancel_option = '<option>CANCELLED</option>';
+        var perform_option = '<option>IN PROGRESS</option>';
+        var complete_option = '<option>ACCOMPLISHED</option>';
+        var select_option = '<option selected>Select status</option>';
         console.log('length' + $select.length)
-        if(OriginalContent=='ACCOMPLISHED' || $('select#ex_id').length!=0)
-        {
+        if (OriginalContent == 'ACCOMPLISHED' || $('select#ex_id').length != 0) {
             return false;
         }
         else {
-            if(isCreator==true)
-            {
-                if(isExecutor==true)
-                {
-                    if(OriginalContent=='CANCELLED')
-                    {
-                        html += select_option+new_option +'</select>'
+            if (isCreator == true) {
+                if (isExecutor == true) {
+                    if (OriginalContent == 'CANCELLED') {
+                        html += select_option + new_option + '</select>'
                     }
                     else {
-                        html += select_option+new_option+perform_option+complete_option+cancel_option+'</select>'
+                        html += select_option + new_option + perform_option + complete_option + cancel_option + '</select>'
                     }
                 }
-                else{
-                    if(OriginalContent=='CANCELLED')
-                    {
-                        html += select_option+new_option +'</select>'
+                else {
+                    if (OriginalContent == 'CANCELLED') {
+                        html += select_option + new_option + '</select>'
                     }
                     else {
-                        html += select_option+cancel_option +'</select>'
+                        html += select_option + cancel_option + '</select>'
                     }
                 }
             }
-            else{
-                if(isExecutor==true)
-                {
-                    html += select_option+new_option+perform_option+complete_option+'</select>'
+            else {
+                if (isExecutor == true) {
+                    html += select_option + new_option + perform_option + complete_option + '</select>'
                 }
-                else{
+                else {
                     return false;
                 }
             }
-                $(this).addClass("cellEditing");
-                $(this).html(html);
-                $(this).children().first().focus();
-                $(this).children().first().change(function () {
-                    {
-                        var URL = 'updatestatus';
-                        var newContent = $(this).val();
-                        var data = 'N';
-                        if (newContent == 'IN PROGRESS') {
-                            data = 'P';
-                        }
-                        else if (newContent == 'ACCOMPLISHED') {
-                            $(this).parent().find("td:last-child").find('button.delete-button').hide();
-                            data = 'A';
-                        }
-                        else if (newContent == 'NEW') {
-                            data = 'N';
-                        }
-                        else if (newContent == 'CANCELLED') {
-                            $(this).parent().find("td:last-child").find('button.delete-button').hide();
-                            data = 'C';
-                        }
-                        $.post(URL, {
-                            id: id,
-                            status: data
-                        });
-                        $(this).parent().text(newContent);
-                        $(this).parent().removeClass("cellEditing");
-                        filter_by_status(selected_status)
+            $(this).addClass("cellEditing");
+            $(this).html(html);
+            $(this).children().first().focus();
+            $(this).children().first().change(function () {
+                {
+                    var URL = 'updatestatus';
+                    var newContent = $(this).val();
+                    var data = 'N';
+                    if (newContent == 'IN PROGRESS') {
+                        data = 'P';
                     }
-                });
+                    else if (newContent == 'ACCOMPLISHED') {
+
+                        $(this).parent().parent().find("td:last-child").find('button.edit-exec').hide();
+                        data = 'A';
+                    }
+                    else if (newContent == 'NEW') {
+                        data = 'N';
+                    }
+                    else if (newContent == 'CANCELLED') {
+                        $(this).parent().parent().find("td:last-child").find('button.edit-exec').hide();
+                        data = 'C';
+                    }
+                    $.post(URL, {
+                        id: id,
+                        status: data
+                    });
+                    $(this).parent().text(newContent);
+                    $(this).parent().removeClass("cellEditing");
+                    filter_by_status(selected_status)
+                }
+            });
             $(this).children().first().blur(function () {
                 $(this).parent().text(OriginalContent);
                 $(this).parent().removeClass("cellEditing");
@@ -133,13 +127,12 @@ $(document).ready(function() {
         }
 
     });
-    $('#complete-form').submit(function(){
+    $('#complete-form').submit(function () {
         var new_count = $tasks.find('tr td:nth-child(4)').filter(':contains("NEW")').length;
 
-        var perf_count =  $tasks.find('tr td:nth-child(4)').filter(':contains("IN PROGRESS")').length;
+        var perf_count = $tasks.find('tr td:nth-child(4)').filter(':contains("IN PROGRESS")').length;
 
-        if(new_count==0 && perf_count==0)
-        {
+        if (new_count == 0 && perf_count == 0) {
             return true;
         }
         else {
@@ -153,7 +146,7 @@ $(document).ready(function() {
         var isCreator = $(this).parent().find("td:last-child").find(".delete-button").length;
         var status = $.trim($(this).parent().find("td:nth-child(3)").text());
 
-        if (isCreator == 0 || status=='ACCOMPLISHED' || $('select#ex_id').length!=0) {
+        if (isCreator == 0 || status == 'ACCOMPLISHED' || $('select#ex_id').length != 0) {
             return false;
         }
         else {
@@ -175,19 +168,19 @@ $(document).ready(function() {
                     var task_date = $('#tdate');
                     if (task_date.length == 0) {
 
-                    if (validDate(newContent) == true) {
-                        $.post(URL, {
-                            id: id,
-                            date: newContent
-                        });
-                        $(this).css('border', '1px solid #ccc');
-                        $(this).parent().text(newContent);
-                        $(this).parent().removeClass("cellEditing");
-                    }
-                    else {
-                        alert('Please enter correct date');
-                        $(this).css('border', '1px solid red');
-                     }
+                        if (validDate(newContent) == true) {
+                            $.post(URL, {
+                                id: id,
+                                date: newContent
+                            });
+                            $(this).css('border', '1px solid #ccc');
+                            $(this).parent().text(newContent);
+                            $(this).parent().removeClass("cellEditing");
+                        }
+                        else {
+                            alert('Please enter correct date');
+                            $(this).css('border', '1px solid red');
+                        }
                     }
                     else {
                         if (validSubtaskDate(newContent) == true) {
@@ -216,8 +209,6 @@ $(document).ready(function() {
     });
 
 
-
-
     $('.hide-child').click(function () {
         if ($(this).parent().children('ul').is(":visible")) {
             $(this).val('+');
@@ -235,12 +226,11 @@ $(document).ready(function() {
         var row = $(this).parent().parent();
         var id = $(this).val();
         var cell = row.find('td:nth-child(5)');
-        var isCreator = (row.find("td:last-child").find(".delete-button").length)!=0;
-        if(isCreator==false)
-        {
+        var isCreator = (row.find("td:last-child").find(".delete-button").length) != 0;
+        if (isCreator == false) {
             return false;
         }
-        else{
+        else {
             $(this).addClass("cellEditing");
             cell.load('select.jsp?taskid=' + id);
         }
@@ -277,16 +267,17 @@ $(document).ready(function() {
         }
     }
 
-     function parseDate(date){
+    function parseDate(date) {
 
-     var q = date.split(" ");
+        var q = date.split(" ");
 
-     var d = q[0].split(".");
+        var d = q[0].split(".");
 
-     var t = q[1].split(":");
-     var ddd = new Date(d[2],d[1]-1,d[0],t[0],t[1],0,0);
-     return ddd.getTime();
-     }
+        var t = q[1].split(":");
+        var ddd = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
+        return ddd.getTime();
+    }
+
     function validDate(date) {
         if (date.length == 0) {
             return false;
@@ -297,8 +288,7 @@ $(document).ready(function() {
 
         var ddd = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
 
-        if(t[0]>23 || t[1]>59 || d[0]>31 || d[1] > 13 ||  d[0]==0 || d[1]==0 || d[2]==0)
-        {
+        if (t[0] > 23 || t[1] > 59 || d[0] > 31 || d[1] > 13 || d[0] == 0 || d[1] == 0 || d[2] == 0) {
             return false;
         }
         var delta = ddd.getTime() - Date.now();
@@ -311,6 +301,7 @@ $(document).ready(function() {
             return true;
         }
     }
+
     function validSubtaskDate(date) {
         if (date.length == 0) {
             return false;
@@ -319,8 +310,7 @@ $(document).ready(function() {
         var d = q[0].split(".");
         var t = q[1].split(":");
 
-        if(t[0]>23 || t[1]>59 || d[0]>31 || d[1] > 13)
-        {
+        if (t[0] > 23 || t[1] > 59 || d[0] > 31 || d[1] > 13) {
             return false;
         }
 
@@ -342,4 +332,6 @@ $(document).ready(function() {
         else if (delta > 0 && delta1 > 0) {
 
             return true;
-       
+        }
+    }
+});
