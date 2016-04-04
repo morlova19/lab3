@@ -41,7 +41,14 @@
                 </c:choose>
             </c:when>
             <c:otherwise>
-                <a href="#" onclick="history.back();">< Back</a>
+                <c:choose>
+                    <c:when test="${task.ex_id==emp.ID}">
+                        <a href="tasks.jsp?type=my">< Back</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="tasks.jsp?type=emp">< Back</a>
+                    </c:otherwise>
+                </c:choose>
             </c:otherwise>
         </c:choose>
         <br/>
@@ -270,9 +277,8 @@
         </c:choose>
     </div>
     <div id="menu-container">
-
         <div class="actions">
-            <c:if test="${(task.status==constants.NEW || task.status==constants.PERFORMING)}" >
+            <c:if test="${(task.status==constants.NEW || task.status==constants.PERFORMING) && (task.cr_id==emp.ID||task.ex_id==emp.ID)}" >
                 <a href="newtask.jsp?pt_id=${taskid}">+ New subtask</a>
             </c:if>
         </div>
