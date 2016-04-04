@@ -48,14 +48,14 @@
         <label id="name-error" class="error" hidden >Name should not be empty</label>
         <br/>
         <label for="desc">Description</label>
-        <textarea name="desc" rows="5" id="desc" maxlength="100"></textarea>
+        <textarea name="desc" rows="5" id="desc" maxlength="400"></textarea>
 
         <label for="tdate">Date</label>
         <input name="date" type="text" class="date-cell" id="tdate">
         <label id="date-error" class="error" hidden>Please enter correct date</label>
         <br/>
         <label for="contacts">Contacts</label>
-        <textarea name="contacts" rows="5" id="contacts" maxlength="50"></textarea>
+        <textarea name="contacts" rows="5" id="contacts" maxlength="200"></textarea>
 
         <label for="priority">Priority</label>
         <select name="priority" id="priority">

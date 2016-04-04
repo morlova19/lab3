@@ -162,7 +162,7 @@
                             <input name="name" id="name" type="text" value="${task.name}" readonly/>
                         </c:when>
                         <c:otherwise>
-                            <input name="name" id="name" type="text" value="${task.name}"/>
+                            <input name="name" id="name" type="text" value="${task.name}" maxlength="50"/>
                             <label id="name-error" class="error" hidden >Name should not be empty</label>
                         </c:otherwise>
                     </c:choose>
@@ -173,7 +173,7 @@
                             <textarea name="desc" id="desc" rows="5" readonly>${task.description}</textarea>
                         </c:when>
                         <c:otherwise>
-                            <textarea name="desc" id="desc" rows="5">${task.description}</textarea>
+                            <textarea name="desc" id="desc" rows="5" maxlength="400">${task.description}</textarea>
                         </c:otherwise>
                     </c:choose>
 
@@ -194,7 +194,7 @@
                             <textarea name="contacts" id="contacts" rows="5" readonly>${task.contacts}</textarea>
                         </c:when>
                         <c:otherwise>
-                            <textarea name="contacts" id="contacts" rows="5">${task.contacts}</textarea>
+                            <textarea name="contacts" id="contacts" rows="5" maxlength="200">${task.contacts}</textarea>
                         </c:otherwise>
                     </c:choose>
 
