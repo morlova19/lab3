@@ -112,20 +112,19 @@ $(document).ready(function() {
                     }
                     else if (newContent == 'ACCOMPLISHED') {
 
-                        $(this).parent().parent().find("td:last-child").find('button.edit-exec').hide();
                         data = 'A';
                     }
                     else if (newContent == 'NEW') {
                         data = 'N';
                     }
                     else if (newContent == 'CANCELLED') {
-                        $(this).parent().parent().find("td:last-child").find('button.edit-exec').hide();
                         data = 'C';
                     }
                     $.post(URL, {
                         id: id,
                         status: data
-                    });
+                    }).done(function() { location.reload();});
+
                     $(this).parent().text(newContent);
                     $(this).parent().removeClass("cellEditing");
                     filter_by_status(selected_status)
@@ -183,7 +182,7 @@ $(document).ready(function() {
                             $.post(URL, {
                                 id: id,
                                 date: newContent
-                            });
+                            }).done(function() { location.reload();});
                             $(this).css('border', '1px solid #ccc');
                             $(this).parent().text(newContent);
                             $(this).parent().removeClass("cellEditing");
@@ -198,7 +197,7 @@ $(document).ready(function() {
                             $.post(URL, {
                                 id: id,
                                 date: newContent
-                            });
+                            }).done(function() { location.reload();});
                             $(this).css('border', '1px solid #ccc');
                             $(this).parent().text(newContent);
                             $(this).parent().removeClass("cellEditing");
