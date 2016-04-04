@@ -248,7 +248,7 @@
                             </select>
                         </c:otherwise>
                     </c:choose>
-                    <c:if test="${task.status!=constants.CANCELLED}">
+                    <c:if test="${task.status!=constants.CANCELLED && (task.cr_id==emp.ID||task.ex_id==emp.ID)}">
                         <input type="submit" value="Save" name="update"/>
                     </c:if>
                 </form>
