@@ -16,9 +16,10 @@ div#search-block {
 div#search-block input[type=text]{
     width: 50%;
     border-radius: 5px 5px 5px 5px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     vertical-align: middle;
+    border: 1px solid #ccc;
 }
 div#search-block input[type=submit]
 {
@@ -59,7 +60,6 @@ ul#list{
     height: 100%;
     background-color: #f1f1f1;
     float: left;
-
 }
 ul#list li{
     overflow: hidden;

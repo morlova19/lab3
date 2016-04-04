@@ -32,7 +32,6 @@
         <c:choose>
             <c:when test="${!empty param.pt_id}">
                 <c:choose>
-
                     <c:when test="${emp.journalManager.get(param.pt_id).ex_id!=emp.ID}">
                         <a href="#" onclick="history.back();">< Back</a>
                     </c:when>
@@ -42,14 +41,7 @@
                 </c:choose>
             </c:when>
             <c:otherwise>
-                <c:choose>
-                    <c:when test="${task.ex_id==emp.ID}">
-                        <a href="tasks.jsp?type=my">< Back</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="tasks.jsp?type=emp">< Back</a>
-                    </c:otherwise>
-                </c:choose>
+                <a href="#" onclick="history.back();">< Back</a>
             </c:otherwise>
         </c:choose>
         <br/>
