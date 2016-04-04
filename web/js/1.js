@@ -35,12 +35,24 @@ $(document).ready(function() {
     $tasks.find('th.noSort').each(function () {
         headers[$(this).index()] = {sorter: false};
     });
+
+    $.tablesorter.addParser({
+        id: "customDate",
+        is: function(s) {
+            return /\d{1,2}\.\d{1,2}\.\d{1,4} \d{1,2}:\d{1,2}/.test(s);
+        },
+        format: function(s) {
+            s = s.replace(/\-/g," ");
+            s = s.replace(/:/g," ");
+            s = s.replace(/\./g," ");
+            s = s.replace(/\//g," ");
+            s = s.split(" ");
+            return $.tablesorter.formatFloat(new Date(s[2], s[1]-1, s[0], s[3], s[4]).getTime());
+        },
+        type: "numeric"} );
     $tasks.tablesorter({
-        dateFormat: "mmddyyyy",
         headers: headers
     });
-
-
     var $select = $('select#ex_id');
 
     $select.change(function () {
